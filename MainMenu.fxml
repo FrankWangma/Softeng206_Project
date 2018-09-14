@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
+   <right>
+      <Pane prefHeight="400.0" prefWidth="227.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutY="100.0" mnemonicParsing="false" onAction="#micTestButton" prefHeight="38.0" prefWidth="199.0" text="Microphone Test" textFill="#2d971a">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button layoutY="200.0" mnemonicParsing="false" onAction="#practiceButton" prefHeight="38.0" prefWidth="199.0" text="Practice Recordings" textFill="#ee0606">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </right>
+   <top>
+      <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Name Sayer Practice" wrappingWidth="425.7294921875" BorderPane.alignment="TOP_CENTER">
+         <font>
+            <Font size="25.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets left="50.0" right="50.0" top="10.0" />
+         </BorderPane.margin>
+      </Text>
+   </top>
+</BorderPane>

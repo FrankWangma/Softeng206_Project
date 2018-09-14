@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
 
 
 
@@ -18,12 +17,13 @@ public class Main extends Application {
 	static Path relativePath = Paths.get("");
 	static String _workDir = relativePath.toAbsolutePath().toString();
 	
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			primaryStage.setTitle("Name Sayer");
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(this.getClass().getResource("Gui.fxml"));
+			loader.setLocation(this.getClass().getResource("MainMenu.fxml"));
 			Parent layout = loader.load();
 			Scene scene = new Scene(layout);
 			primaryStage.setScene(scene);
@@ -39,11 +39,20 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	@FXML
-	private Text text;
 	
 	@FXML 
+	/**
+	 * This method changes to the mic testing pane when the button is pressed
+	 */
 	private void micTestButton() {
-		text.setText("Mic test 1 2 3");
+		//Change to mic test pane
+	}
+	
+	@FXML
+	/**
+	 * This method changes to the practice recording screen when the button is pressed
+	 */
+	private void practiceButton() {
+		//Change to practice pane
 	}
 }
