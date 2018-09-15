@@ -1,5 +1,6 @@
 package application;
 	
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -16,18 +17,20 @@ import javafx.scene.Scene;
 public class Main extends Application {
 	static Path relativePath = Paths.get("");
 	static String _workDir = relativePath.toAbsolutePath().toString();
+	private Stage _primaryStage;
 	
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			primaryStage.setTitle("Name Sayer");
+			_primaryStage = primaryStage;
+			_primaryStage.setTitle("Name Sayer");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getResource("MainMenu.fxml"));
 			Parent layout = loader.load();
 			Scene scene = new Scene(layout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			_primaryStage.setScene(scene);
+			_primaryStage.show();
 		
 			
 		} catch(Exception e) {
@@ -40,19 +43,33 @@ public class Main extends Application {
 	}
 	
 	
-	@FXML 
+	
 	/**
 	 * This method changes to the mic testing pane when the button is pressed
 	 */
-	private void micTestButton() {
+	@FXML private void micTestButton() {
 		//Change to mic test pane
+		changeScene("MicTesting.fxml");
 	}
 	
-	@FXML
+
 	/**
 	 * This method changes to the practice recording screen when the button is pressed
 	 */
-	private void practiceButton() {
+	@FXML private void practiceButton() {
 		//Change to practice pane
+	}
+	
+	private void changeScene( String fxml) {
+			Parent pane;
+			try {
+				pane = FXMLLoader.load(getClass().getClassLoader().getResource(fxml));
+				Scene scene = new Scene(pane);
+				_primaryStage.setScene(scene);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 	}
 }

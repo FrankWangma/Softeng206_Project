@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../bin/application/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
    <right>
       <Pane prefHeight="400.0" prefWidth="227.0" stylesheets="@application.css" BorderPane.alignment="CENTER">
          <children>
@@ -44,17 +44,17 @@
       </Text>
    </top>
    <left>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-bright" text="This is a program in which you can practice your pronounciation of names, and compare them to the pre-recorded pronounciation" wrappingWidth="332.7294921875" BorderPane.alignment="CENTER">
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="This is a program in which you can practice your pronounciation of names, and compare them to the pre-recorded pronounciation" wrappingWidth="332.7294921875" BorderPane.alignment="CENTER">
          <font>
             <Font size="23.0" />
          </font>
          <BorderPane.margin>
             <Insets bottom="50.0" left="10.0" />
          </BorderPane.margin>
+         <styleClass>
+            <String fx:value="label-bright" />
+            <String fx:value="outline" />
+         </styleClass>
       </Text>
    </left>
-   <stylesheets>
-      <URL value="@../../bin/application/application.css" />
-      <URL value="@../../bin/application/application.css" />
-   </stylesheets>
 </BorderPane>
