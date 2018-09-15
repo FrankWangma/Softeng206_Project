@@ -1,5 +1,6 @@
 .background {
     -fx-background-color: #1d1d1d;
+    -fx-border-color: white;
 }
 
 .label {
@@ -22,6 +23,7 @@
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
+    -fx-border-color: white;
 }
 
 .table-view {

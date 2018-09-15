@@ -10,51 +10,49 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../bin/application/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
-   <right>
-      <Pane prefHeight="400.0" prefWidth="227.0" stylesheets="@application.css" BorderPane.alignment="CENTER">
-         <children>
-            <Button layoutY="100.0" mnemonicParsing="false" onAction="#micTestButton" prefHeight="38.0" prefWidth="199.0" text="Microphone Test" textFill="#2d971a">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-            <Button layoutY="200.0" mnemonicParsing="false" onAction="#practiceButton" prefHeight="38.0" prefWidth="199.0" text="Practice Recordings" textFill="#ee0606">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </Button>
-         </children>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Pane>
-   </right>
-   <top>
-      <Text fx:id="title" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-header" text="Welcome to Name Sayer Practice" wrappingWidth="425.7294921875" BorderPane.alignment="TOP_CENTER">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="703.0" styleClass="background" stylesheets="@application.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="701.0" minWidth="10.0" prefWidth="701.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="0.0" prefWidth="0.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="180.0" minHeight="10.0" prefHeight="180.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="177.0" minHeight="0.0" prefHeight="100.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="367.0" minHeight="10.0" prefHeight="221.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="179.0" text="Practice Names" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="10.0" top="40.0" />
+         </GridPane.margin>
+      </Button>
+      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="179.0" text="Test Microphone" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="100.0" left="10.0" />
+         </GridPane.margin>
+      </Button>
+      <Label prefHeight="141.0" prefWidth="701.0" styleClass="label-header" text="         Welcome to Name Sayer Practice">
+         <GridPane.margin>
+            <Insets bottom="100.0" />
+         </GridPane.margin>
+      </Label>
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You can practice the pronounciation of the names in the database, and use the pre-recorded pronounciations to help you" wrappingWidth="652.7294921875" GridPane.rowIndex="1">
          <font>
-            <Font size="25.0" />
+            <Font size="29.0" />
          </font>
-         <BorderPane.margin>
-            <Insets left="50.0" right="50.0" top="10.0" />
-         </BorderPane.margin>
+         <GridPane.margin>
+            <Insets bottom="50.0" left="30.0" />
+         </GridPane.margin>
       </Text>
-   </top>
-   <left>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="This is a program in which you can practice your pronounciation of names, and compare them to the pre-recorded pronounciation" wrappingWidth="332.7294921875" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="23.0" />
-         </font>
-         <BorderPane.margin>
-            <Insets bottom="50.0" left="10.0" />
-         </BorderPane.margin>
-         <styleClass>
-            <String fx:value="label-bright" />
-            <String fx:value="outline" />
-         </styleClass>
-      </Text>
-   </left>
-</BorderPane>
+      <Label prefHeight="55.0" prefWidth="477.0" styleClass="label-bright" text="Test if your microphone is working" textFill="WHITE" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="100.0" left="200.0" />
+         </GridPane.margin>
+      </Label>
+      <Label styleClass="label-bright" text="Start Practicing names" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="200.0" top="40.0" />
+         </GridPane.margin>
+      </Label>
+   </children>
+</GridPane>
