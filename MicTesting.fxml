@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MicTesting">
    <bottom>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -24,7 +24,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="256.0" text="Test Microphone" GridPane.rowIndex="5">
+            <Button mnemonicParsing="false" onAction="#testMic" prefHeight="54.0" prefWidth="256.0" text="Test Microphone" GridPane.rowIndex="5">
                <font>
                   <Font size="20.0" />
                </font>
@@ -32,7 +32,7 @@
                   <Insets left="50.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="256.0" text="Back to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#changeToMain" prefHeight="38.0" prefWidth="256.0" text="Back to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="20.0" />
                </font>

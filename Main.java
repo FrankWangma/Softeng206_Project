@@ -1,11 +1,9 @@
 package application;
 	
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -40,36 +38,5 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-	}
-	
-	
-	
-	/**
-	 * This method changes to the mic testing pane when the button is pressed
-	 */
-	@FXML private void micTestButton() {
-		//Change to mic test pane
-		changeScene("MicTesting.fxml");
-	}
-	
-
-	/**
-	 * This method changes to the practice recording screen when the button is pressed
-	 */
-	@FXML private void practiceButton() {
-		//Change to practice pane
-	}
-	
-	private void changeScene( String fxml) {
-			Parent pane;
-			try {
-				pane = FXMLLoader.load(getClass().getClassLoader().getResource(fxml));
-				Scene scene = new Scene(pane);
-				_primaryStage.setScene(scene);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 	}
 }

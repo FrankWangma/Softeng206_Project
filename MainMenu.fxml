@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="703.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="703.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainMenu">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="701.0" minWidth="10.0" prefWidth="701.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="0.0" prefWidth="0.0" />
@@ -21,12 +21,12 @@
     <RowConstraints maxHeight="367.0" minHeight="10.0" prefHeight="221.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="179.0" text="Practice Names" GridPane.rowIndex="2">
+      <Button mnemonicParsing="false" onAction="#practiceButton" prefHeight="60.0" prefWidth="179.0" text="Practice Names" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="10.0" top="40.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="179.0" text="Test Microphone" GridPane.rowIndex="2">
+      <Button mnemonicParsing="false" onAction="#micTestButton" prefHeight="60.0" prefWidth="179.0" text="Test Microphone" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="100.0" left="10.0" />
          </GridPane.margin>
