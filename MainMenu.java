@@ -37,7 +37,7 @@ public class MainMenu implements Initializable {
 		switchScenes("PlayRecordings.fxml"); //PLACEHOLDER; this should go to the pick recordings screen instead
 	}
 	
-	private void switchScenes(String fxml) throws IOException {
+	public void switchScenes(String fxml) throws IOException {
 		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
 		Scene scene = stage.getScene();
