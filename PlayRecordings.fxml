@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayRecordings">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayRecordings">
    <top>
-      <Label fx:id="currentName" text="Name" BorderPane.alignment="CENTER" />
+      <Label fx:id="currentName" styleClass="label-bright" text="Name" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
       <HBox spacing="20.0" BorderPane.alignment="CENTER">
@@ -35,7 +35,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="buttonNext" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleNext" text="Next" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Button fx:id="buttonNext" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleNext" text="Next" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>
@@ -47,9 +47,9 @@
    <center>
       <GridPane>
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="306.0" minWidth="10.0" prefWidth="306.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="247.0" minWidth="0.0" prefWidth="0.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="452.0" minWidth="10.0" prefWidth="452.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -57,7 +57,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <HBox prefHeight="131.0" prefWidth="388.0" spacing="10.0" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <children>
                   <Button fx:id="buttonPlay" mnemonicParsing="false" onAction="#handlePlay" text="Play" />
                   <Button fx:id="buttonRecord" mnemonicParsing="false" onAction="#handleRecord" text="Record" />
@@ -67,6 +67,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
+            <ListView prefHeight="511.0" prefWidth="306.0" styleClass="background" stylesheets="@application.css" GridPane.rowIndex="1" GridPane.rowSpan="3" />
          </children>
       </GridPane>
    </center>
