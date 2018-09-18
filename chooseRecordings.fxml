@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<HBox fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.chooseRecordings">
+   <children>
+      <VBox>
+         <children>
+            <Label prefHeight="82.0" prefWidth="285.0" text="Select the names that you'd like to practice">
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+            </Label>
+            <ListView fx:id="selectionListView" prefHeight="598.0" prefWidth="310.0" />
+         </children>
+      </VBox>
+      <VBox prefHeight="608.0" prefWidth="191.0">
+         <children>
+            <Button fx:id="selectButton" mnemonicParsing="false" onAction="#pressedSelectButton" prefHeight="38.0" prefWidth="196.0" text="&gt;&gt;">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="220.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="deselectButton" mnemonicParsing="false" onAction="#pressedDeSelectButton" prefHeight="38.0" prefWidth="196.0" text="&lt;&lt;">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#pressedNextButton" prefHeight="38.0" prefWidth="196.0" text="Next">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#changeToMain" prefHeight="38.0" prefWidth="198.0" text="Back">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <VBox>
+         <children>
+            <Label prefHeight="82.0" prefWidth="310.0" text="These are your selected names" />
+            <ListView fx:id="confirmListView" prefHeight="602.0" prefWidth="300.0" stylesheets="@application.css" />
+         </children>
+      </VBox>
+   </children>
+</HBox>
