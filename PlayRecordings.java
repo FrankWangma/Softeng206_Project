@@ -1,6 +1,8 @@
 package application;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -144,14 +145,45 @@ public class PlayRecordings {
 			toggleYes.setVisible(false);
 			toggleNo.setVisible(true);
 			_isBad = false;
+			File quality = new File(_filePath + 
+					System.getProperty("file.separator") + "info.txt");
+			quality.delete();
+			try {quality.createNewFile();}
+			catch (IOException e) {}
+			
 		} else {
 			toggleYes.setVisible(true);
 			toggleNo.setVisible(false);
 			_isBad = true;
+			saveQuality();
 		}
-		
-		// Save settings to file
-		
+	}
+	
+	/**
+	 * Writes a "1" to the text file, meaning the recording is 
+	 * tagged as bad quality
+	 */
+	protected void saveQuality() {
+		// Write settings to file
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+
+		try {
+			fw = new FileWriter(_filePath + System.getProperty("file.separator") + 
+					"info.txt", true);
+			bw = new BufferedWriter(fw);
+			bw.write("1");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bw != null) {bw.close();}
+				if (fw != null) {fw.close();}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 	
 	protected void goToView(String fxml) throws IOException {
@@ -167,7 +199,6 @@ public class PlayRecordings {
 	@FXML
 	public void initialize() {
 		nameList.getItems().addAll(chooseRecordings._selected);
-		nameList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		_index = 0;
 		String name = nameList.getItems().get(0); //get the first name
 		try {setName(name);} 
