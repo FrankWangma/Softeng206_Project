@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
@@ -16,7 +18,9 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class chooseRecordings implements Initializable{
+public class chooseRecordings implements Initializable {
+	static List<String> _selected = new ArrayList<String>();
+	
 	@FXML private Button nextButton;
 	@FXML private Button backButton;
 	@FXML private Button selectButton;
@@ -43,6 +47,7 @@ public class chooseRecordings implements Initializable{
 			//do nothing
 		} else {
 			for(String names : listOfSelectedItems) {
+				_selected.add(names);
 				confirmListView.getItems().addAll(names);
 				selectionListView.getItems().remove(names);
 			}
@@ -55,6 +60,7 @@ public class chooseRecordings implements Initializable{
 			//do nothing
 		} else {
 			for(String names : listOfSelectedItems) {
+				_selected.remove(names);
 				selectionListView.getItems().addAll(names);
 				confirmListView.getItems().remove(names);
 			}
@@ -74,9 +80,9 @@ public class chooseRecordings implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Add the files into the list view
-		selectionListView.getItems().addAll("This","Is","a","Test");
+		_selected.clear(); // clear any previous items
+		selectionListView.getItems().addAll(Main._names);
 		selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		
 		confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
 }
