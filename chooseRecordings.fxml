@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<HBox fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.chooseRecordings">
+<HBox fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.chooseRecordings">
    <children>
       <VBox>
          <children>
-            <Label prefHeight="82.0" prefWidth="285.0" text="Select the names that you'd like to practice">
+            <Label prefHeight="82.0" text="Select names to practice:">
                <VBox.margin>
                   <Insets left="15.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="selectionListView" prefHeight="598.0" prefWidth="310.0" styleClass="background" />
+            <ListView fx:id="selectionListView" prefHeight="590.0" prefWidth="280.0" styleClass="background" />
          </children>
       </VBox>
       <VBox prefHeight="608.0" prefWidth="191.0">
@@ -42,12 +42,18 @@
                </VBox.margin>
             </Button>
          </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
       </VBox>
       <VBox>
          <children>
-            <Label prefHeight="82.0" prefWidth="310.0" text="These are your selected names" />
-            <ListView fx:id="confirmListView" prefHeight="602.0" prefWidth="300.0" styleClass="background" stylesheets="@application.css" />
+            <Label prefHeight="82.0" text="Your selected names:" />
+            <ListView fx:id="confirmListView" minWidth="-Infinity" prefHeight="590.0" prefWidth="280.0" styleClass="background" stylesheets="@application.css" />
          </children>
       </VBox>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" />
+   </padding>
 </HBox>
