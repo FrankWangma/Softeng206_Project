@@ -1,15 +1,20 @@
 package application;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-public class PlayRecordings {
+public class PlayRecordings implements Initializable{
 	// FIELDS
 	Media databaseFile; //The current file in question. Currently a placeholder
 	boolean isBad; //is it marked as bad quality
@@ -22,6 +27,7 @@ public class PlayRecordings {
 	@FXML Button toggle;
 	@FXML Label toggleYes; //Bad quality
 	@FXML Label toggleNo; //Not bad quality (default)
+	@FXML ListView<String> listView;
 	
 	/**
 	 * Sets the name that is playing.
@@ -91,6 +97,13 @@ public class PlayRecordings {
 		}
 		
 		// Save settings to file
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		for(String name : ChooseRecordings._selectedNames) {
+			listView.getItems().addAll(name);
+		}
 	}
 	
 }
