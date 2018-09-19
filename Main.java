@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -89,6 +90,7 @@ public class Main extends Application {
 		}
 		_names.addAll(tempNamesList);
 		_names = removeRedundant(_names);
+		Collections.sort(_names, String.CASE_INSENSITIVE_ORDER);
 		writeNamesToFile();
 	}
 	
