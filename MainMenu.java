@@ -37,11 +37,18 @@ public class MainMenu implements Initializable {
 		switchScenes("chooseRecordings.fxml"); 
 	}
 	
+	/**
+	 * This method switches scenes, given an fxml file name
+	 * @param fxml the name of the fxml file
+	 * @throws IOException
+	 */
 	public void switchScenes(String fxml) throws IOException {
+		//use fxmlloader to change the fxml file
 		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
 		Scene scene = stage.getScene();
 		
+		//change and show the scene
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
