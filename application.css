@@ -71,14 +71,16 @@
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: -fx-focus-color;
+    -fx-background-color: #C16A6A;
     -fx-text-fill: white;
+     -fx-accent: #890000;
 }
 
 .list-cell { 
     -fx-background-color: transparent;
     -fx-text-fill: white;
 }
+
 
 .split-pane:horizontal > .split-pane-divider {
     -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
