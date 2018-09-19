@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -128,6 +129,7 @@ public class PlayRecordings {
 		_index++;
 		
 		try {
+			nameList.getSelectionModel().select(_index);
 			String name = nameList.getItems().get(_index);
 			// Set the next name
 			setName(name);
@@ -200,7 +202,8 @@ public class PlayRecordings {
 	public void initialize() {
 		nameList.getItems().addAll(chooseRecordings._selected);
 		_index = 0;
-		String name = nameList.getItems().get(0); //get the first name
+		nameList.getSelectionModel().select(_index);
+		String name = nameList.getItems().get(_index); //get the first name
 		try {setName(name);} 
 		catch (IOException e){}
 		nameList.setMouseTransparent(true); //makes the list unselectable
