@@ -39,7 +39,7 @@ public class PastRecordings {
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
 		Scene scene = stage.getScene();
 		
-        scene = new Scene(pane);
+        scene = new Scene(pane); 
         stage.setScene(scene);
         stage.show();
 	}

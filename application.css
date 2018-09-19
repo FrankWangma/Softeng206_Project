@@ -1,8 +1,10 @@
 .background {
     -fx-background-color: #1d1d1d;
-    -fx-border-color: white;
 }
 
+.background-list {
+    -fx-background-color: #890000;
+}
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
@@ -10,8 +12,16 @@
     -fx-opacity: 0.6;
 }
 
-.label-bright {
+.label-text {
     -fx-font-size: 20pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+    
+}
+
+.label-textsmall {
+    -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -23,7 +33,6 @@
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
-    -fx-border-color: white;
 }
 
 .table-view {
@@ -111,18 +120,17 @@
  */
 .button {
     -fx-padding: 5 22 5 22;   
-    -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
     -fx-background-radius: 0;
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #890000;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
     -fx-text-fill: #d8d8d8;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
 .button:hover {
-    -fx-background-color: #3a3a3a;
+    -fx-background-color: #622D2D;
 }
 
 .button:pressed, .button:default:hover:pressed {
@@ -130,13 +138,6 @@
   -fx-text-fill: #1d1d1d;
 }
 
-.button:focused {
-    -fx-border-color: white, white;
-    -fx-border-width: 1, 1;
-    -fx-border-style: solid, segments(1, 1);
-    -fx-border-radius: 0, 0;
-    -fx-border-insets: 1 1 1 1, 0;
-}
 
 .button:disabled, .button:default:disabled {
     -fx-opacity: 0.4;

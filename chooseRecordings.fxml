@@ -16,7 +16,7 @@
                   <Insets left="15.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="selectionListView" prefHeight="590.0" prefWidth="280.0" styleClass="background" />
+            <ListView fx:id="selectionListView" prefHeight="590.0" prefWidth="280.0" styleClass="background-list" />
          </children>
       </VBox>
       <VBox prefHeight="608.0" prefWidth="191.0">
@@ -49,7 +49,7 @@
       <VBox>
          <children>
             <Label prefHeight="82.0" text="Your selected names:" />
-            <ListView fx:id="confirmListView" minWidth="-Infinity" prefHeight="590.0" prefWidth="280.0" styleClass="background" stylesheets="@application.css" />
+            <ListView fx:id="confirmListView" minWidth="-Infinity" prefHeight="590.0" prefWidth="280.0" styleClass="background-list" stylesheets="@application.css" />
          </children>
       </VBox>
    </children>
