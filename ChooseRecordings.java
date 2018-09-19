@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
@@ -16,7 +18,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class chooseRecordings implements Initializable{
+public class ChooseRecordings implements Initializable{
 	@FXML private Button nextButton;
 	@FXML private Button backButton;
 	@FXML private Button selectButton;
@@ -24,6 +26,7 @@ public class chooseRecordings implements Initializable{
 	@FXML HBox _rootPane;
 	@FXML private ListView<String> selectionListView;
 	@FXML private ListView<String> confirmListView;
+	static List<String> _selectedNames = new ArrayList<String>();
 	
 	
 	@FXML public void changeToMain() throws IOException {
@@ -62,6 +65,7 @@ public class chooseRecordings implements Initializable{
 	}
 	
 	@FXML public void pressedNextButton() throws IOException {
+		_selectedNames = confirmListView.getItems();
 		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
 		Scene scene = stage.getScene();
@@ -74,8 +78,10 @@ public class chooseRecordings implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Add the files into the list view
-		selectionListView.getItems().addAll("This","Is","a","Test");
-		selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		for(String name : Main._names) {
+			selectionListView.getItems().addAll(name);
+			selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		}
 		
 		confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
