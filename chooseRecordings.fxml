@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<HBox fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.chooseRecordings">
+<HBox fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.chooseRecordings">
    <children>
       <VBox>
          <children>
@@ -16,7 +16,7 @@
                   <Insets left="15.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="selectionListView" prefHeight="598.0" prefWidth="310.0" />
+            <ListView fx:id="selectionListView" prefHeight="598.0" prefWidth="310.0" styleClass="background" />
          </children>
       </VBox>
       <VBox prefHeight="608.0" prefWidth="191.0">
@@ -46,7 +46,7 @@
       <VBox>
          <children>
             <Label prefHeight="82.0" prefWidth="310.0" text="These are your selected names" />
-            <ListView fx:id="confirmListView" prefHeight="602.0" prefWidth="300.0" stylesheets="@application.css" />
+            <ListView fx:id="confirmListView" prefHeight="602.0" prefWidth="300.0" styleClass="background" stylesheets="@application.css" />
          </children>
       </VBox>
    </children>
