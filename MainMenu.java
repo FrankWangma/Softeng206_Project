@@ -34,7 +34,7 @@ public class MainMenu implements Initializable {
 	 */
 	@FXML public void practiceButton() throws IOException {
 		//Change to practice pane
-		switchScenes("ChooseRecordings.fxml"); 
+		switchScenes("chooseRecordings.fxml"); 
 	}
 	
 	public void switchScenes(String fxml) throws IOException {

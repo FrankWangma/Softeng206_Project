@@ -55,7 +55,6 @@ public class Main extends Application {
 	 * appropriate name folder in name_database. Also adds the names
 	 * to the _names list.
 	 */
-	
 	public void makeDatabase() {
 		String sep = System.getProperty("file.separator");
 		File input = new File(_workDir + sep + "input");
@@ -96,7 +95,6 @@ public class Main extends Application {
 	/**
 	 * Removes redundant names in _names list.
 	 */
-	
 	public List<String> removeRedundant(List<String> list) {
 		List<String> newList = new ArrayList<String>(new HashSet<String>(list));
 		return newList;
@@ -106,7 +104,6 @@ public class Main extends Application {
 	 * Writes the names in _names, to a text file names.txt. This deletes the existing
 	 * text file and makes a new one!
 	 */
-	
 	public void writeNamesToFile() {
 		// Write name to file
 		BufferedWriter bw = null;
@@ -138,7 +135,6 @@ public class Main extends Application {
 	 * Reads the names from the names.txt file.
 	 * @return A string list of the existing names found in the names.txt file
 	 */
-	
 	public List<String> readNamesFromFile() {
 		List<String> existingNames = new ArrayList<String>();
 		// Read the file
@@ -160,6 +156,6 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-	} 
+	}
 	
-} 
+}

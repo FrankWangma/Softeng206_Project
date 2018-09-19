@@ -18,7 +18,9 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class ChooseRecordings implements Initializable{
+public class chooseRecordings implements Initializable {
+	static List<String> _selected = new ArrayList<String>();
+	
 	@FXML private Button nextButton;
 	@FXML private Button backButton;
 	@FXML private Button selectButton;
@@ -26,7 +28,6 @@ public class ChooseRecordings implements Initializable{
 	@FXML HBox _rootPane;
 	@FXML private ListView<String> selectionListView;
 	@FXML private ListView<String> confirmListView;
-	static List<String> _selectedNames = new ArrayList<String>();
 	
 	
 	@FXML public void changeToMain() throws IOException {
@@ -46,6 +47,7 @@ public class ChooseRecordings implements Initializable{
 			//do nothing
 		} else {
 			for(String names : listOfSelectedItems) {
+				_selected.add(names);
 				confirmListView.getItems().addAll(names);
 				selectionListView.getItems().remove(names);
 			}
@@ -58,6 +60,7 @@ public class ChooseRecordings implements Initializable{
 			//do nothing
 		} else {
 			for(String names : listOfSelectedItems) {
+				_selected.remove(names);
 				selectionListView.getItems().addAll(names);
 				confirmListView.getItems().remove(names);
 			}
@@ -65,7 +68,6 @@ public class ChooseRecordings implements Initializable{
 	}
 	
 	@FXML public void pressedNextButton() throws IOException {
-		_selectedNames = confirmListView.getItems();
 		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
 		Scene scene = stage.getScene();
@@ -78,11 +80,9 @@ public class ChooseRecordings implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Add the files into the list view
-		for(String name : Main._names) {
-			selectionListView.getItems().addAll(name);
-			selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		}
-		
+		_selected.clear(); // clear any previous items
+		selectionListView.getItems().addAll(Main._names);
+		selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
 }

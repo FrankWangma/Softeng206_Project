@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayRecordings">
+<BorderPane fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayRecordings">
    <top>
       <Label fx:id="currentName" styleClass="label-bright" text="Name" BorderPane.alignment="CENTER" />
    </top>
@@ -16,7 +16,7 @@
             <VBox alignment="TOP_CENTER" spacing="10.0">
                <children>
                   <Label fx:id="toggleNo" text="NOT marked as low quality." />
-                  <Label fx:id="toggleYes" disable="true" text="Marked as low quality." />
+                  <Label fx:id="toggleYes" text="Marked as low quality." visible="false" />
                   <Button fx:id="toggle" mnemonicParsing="false" onAction="#toggle" text="Toggle Quality" />
                </children>
                <padding>
@@ -68,7 +68,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <ListView fx:id="listView" prefHeight="511.0" prefWidth="306.0" styleClass="background" stylesheets="@application.css" GridPane.rowIndex="1" GridPane.rowSpan="3" />
+            <ListView fx:id="nameList" prefHeight="511.0" prefWidth="306.0" styleClass="background" stylesheets="@application.css" GridPane.rowIndex="1" GridPane.rowSpan="3" />
          </children>
       </GridPane>
    </center>

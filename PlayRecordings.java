@@ -1,40 +1,91 @@
 package application;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.collections.ObservableList;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.Arrays;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
-public class PlayRecordings implements Initializable{
+public class PlayRecordings {
 	// FIELDS
-	Media databaseFile; //The current file in question. Currently a placeholder
-	boolean isBad; //is it marked as bad quality
+	String _filePath;
+	Media _databaseFile; //The recording in question. 
+	boolean _isBad; // is it marked as bad quality
+	int _index; // index of the list we are on
 	
+	@FXML BorderPane _rootPane;
 	@FXML Label currentName;
 	@FXML Button buttonPlay;
 	@FXML Button buttonRecord;
 	@FXML Button buttonPastRecordings;
 	@FXML Button buttonNext;
 	@FXML Button toggle;
-	@FXML Label toggleYes; //Bad quality
-	@FXML Label toggleNo; //Not bad quality (default)
-	@FXML ListView<String> listView;
+	@FXML Label toggleYes; // Bad quality
+	@FXML Label toggleNo; // Not bad quality (default)
+	@FXML ListView<String> nameList;
 	
 	/**
 	 * Sets the name that is playing.
 	 * @param name
 	 */
-	public void setName(String name) {
-		currentName.setText(name);
+	public void setName(String name) throws IOException {
+		currentName.setText(name); //set the title
+		_filePath = Main._workDir + System.getProperty("file.separator") + 
+				"name_database" + System.getProperty("file.separator") + name;
+		
+		// Getting saved file quality
+		File quality = new File(_filePath + System.getProperty("file.separator") + "info.txt");
+		quality.createNewFile(); // create info file if doesn't exist
+		if (quality.length() == 0) {
+			_isBad = false;
+			toggleYes.setVisible(false);
+			toggleNo.setVisible(true);
+		} else {
+			_isBad = true;
+			toggleYes.setVisible(true);
+			toggleNo.setVisible(false);
+		}
+		
+		_databaseFile = new Media(getRecording().toURI().toString());
+	}
+	
+	/**
+	 * Looks at the available wav files and returns the latest as
+	 * the database recording.
+	 * @return the database .wav file
+	 */
+	public File getRecording() {
+		File nameDir = new File(_filePath);
+		FilenameFilter filter = new FilenameFilter() {
+			   
+			@Override
+			public boolean accept(File dir, String name) {
+               if(name.lastIndexOf('.')>0) {
+                  int lastIndex = name.lastIndexOf('.');
+                  String str = name.substring(lastIndex); //get extension
+                  if(str.equals(".wav")) {
+                     return true;
+                  }
+               }
+               return false;
+            }
+         };
+         
+		File[] files = nameDir.listFiles(filter);
+		Arrays.sort(files);
+		return files[files.length-1];
 	}
 	
 	@FXML protected void handlePlay(ActionEvent event) {
@@ -46,10 +97,7 @@ public class PlayRecordings implements Initializable{
 		toggle.setDisable(true);
 		
 		// Play the thing
-		File file = new File(Main._workDir + System.getProperty("file.separator") + 
-				"test.wav"); //TESTING ONLY
-		databaseFile = new Media(file.toURI().toString()); //TESTING ONLY
-		MediaPlayer player = new MediaPlayer(databaseFile);
+		MediaPlayer player = new MediaPlayer(_databaseFile);
 		player.play();
 		
 		// Once done, set all buttons to enabled
@@ -64,46 +112,68 @@ public class PlayRecordings implements Initializable{
 		});
 	}
 	
-	@FXML protected void handleRecord(ActionEvent event) {
+	@FXML protected void handleRecord(ActionEvent event) throws IOException {
         // GO TO RECORD VIEW
+		goToView("MainMenu.fxml"); //PLACEHOLDER
 	}
 	
-	@FXML protected void handlePast(ActionEvent event) {
+	@FXML protected void handlePast(ActionEvent event) throws IOException {
         // GO TO PAST RECORDING VIEW
+		goToView("PastRecordings.fxml");
 	}
 	
-	@FXML protected void handleNext(ActionEvent event) {
+	@FXML protected void handleNext(ActionEvent event) throws IOException {
         // Get the next name in the list
+		_index++;
 		
-		// Set the label to this next name
-		setName("placeholder");
-		
-		// Set the media file to this new name (change null)
-		databaseFile = new Media("placeholder");
-		
-		// Otherwise, go back to the main menu
+		try {
+			String name = nameList.getItems().get(_index);
+			// Set the next name
+			setName(name);
+		}
+		catch (IndexOutOfBoundsException e) {
+			// Otherwise, go back to the main menu
+			nameList.getItems().clear();
+			goToView("MainMenu.fxml");
+		}
 	}
 	
 	@FXML protected void toggle(ActionEvent event) {
-		// Toggle enable/disable [doesn't work properly]
-		if (isBad) {
-			toggleYes.setDisable(false);
-			toggleNo.setDisable(true);
-			isBad = false;
+		// Toggle visible/invisible
+		if (_isBad) {
+			toggleYes.setVisible(false);
+			toggleNo.setVisible(true);
+			_isBad = false;
 		} else {
-			toggleYes.setDisable(true);
-			toggleNo.setDisable(false);
-			isBad = true;
+			toggleYes.setVisible(true);
+			toggleNo.setVisible(false);
+			_isBad = true;
 		}
 		
 		// Save settings to file
+		
+	}
+	
+	protected void goToView(String fxml) throws IOException {
+		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+		Stage stage = (Stage) _rootPane.getScene().getWindow();
+		Scene scene = stage.getScene();
+		
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		for(String name : ChooseRecordings._selectedNames) {
-			listView.getItems().addAll(name);
-		}
+	@FXML
+	public void initialize() {
+		nameList.getItems().addAll(chooseRecordings._selected);
+		nameList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		_index = 0;
+		String name = nameList.getItems().get(0); //get the first name
+		try {setName(name);} 
+		catch (IOException e){}
+		nameList.setMouseTransparent(true); //makes the list unselectable
+		nameList.setFocusTraversable(false);
 	}
 	
 }
