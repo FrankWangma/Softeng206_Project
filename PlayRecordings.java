@@ -73,22 +73,7 @@ public class PlayRecordings {
 	 */
 	public File getRecording() {
 		File nameDir = new File(_filePath);
-		FilenameFilter filter = new FilenameFilter() {
-			   
-			@Override
-			public boolean accept(File dir, String name) {
-               if(name.lastIndexOf('.')>0) {
-                  int lastIndex = name.lastIndexOf('.');
-                  String str = name.substring(lastIndex); //get extension
-                  if(str.equals(".wav")) {
-                     return true;
-                  }
-               }
-               return false;
-            }
-         };
-         
-		File[] files = nameDir.listFiles(filter);
+		File[] files = nameDir.listFiles(Main._filter);
 		Arrays.sort(files);
 		return files[files.length-1];
 	}

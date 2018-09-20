@@ -6,15 +6,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PastRecordings">
-   <left>
-      <ListView fx:id="viewPastRecordings" BorderPane.alignment="CENTER" />
-   </left>
+<BorderPane fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PastRecordings">
    <center>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="334.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="400.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="buttonPlaySelected" mnemonicParsing="false" onAction="#handlePlaySelected" text="Play Selected" textAlignment="CENTER" />
-            <Button fx:id="buttonPlayDatabase" mnemonicParsing="false" onAction="#handlePlayDatabase" text="Play Database" />
+            <Button fx:id="buttonPlayDatabase" mnemonicParsing="false" onAction="#handlePlayDatabase" text="Play From Database" />
             <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#handleBack" text="Back" />
          </children>
          <padding>
@@ -22,4 +19,34 @@
          </padding>
       </VBox>
    </center>
+   <top>
+      <Label styleClass="label-text" text="Past Recordings" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </Label>
+   </top>
+   <padding>
+      <Insets bottom="20.0" />
+   </padding>
+   <left>
+      <VBox spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <ListView fx:id="viewPastRecordings" prefWidth="282.0" styleClass="background-list">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ListView>
+            <HBox prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="toggleDatabase" mnemonicParsing="false" onAction="#handleToggleDatabase" text="View Database" />
+                  <Button fx:id="toggleUser" mnemonicParsing="false" onAction="#handleToggleUser" text="View User" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </VBox>
+   </left>
 </BorderPane>
