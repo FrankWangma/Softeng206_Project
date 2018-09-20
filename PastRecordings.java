@@ -35,7 +35,8 @@ public class PastRecordings {
 			// Set all buttons to disabled
 			disableButtons();
 			// Play the database file
-			String cmd = "ffplay -nodisp -autoexit " +PlayRecordings._filePath + "/" + viewPastRecordings.getSelectionModel().getSelectedItem() +" &> pastrecord.txt";
+			String cmd = "ffplay -nodisp -autoexit " +PlayRecordings._filePath + "/" + 
+			viewPastRecordings.getSelectionModel().getSelectedItem() +" &> pastrecord.txt";
 			Background background = new Background();
 			background.setcmd(cmd);
 			Thread thread = new Thread(background);

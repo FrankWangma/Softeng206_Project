@@ -3,7 +3,9 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
@@ -12,9 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -78,6 +83,14 @@ public class chooseRecordings implements Initializable {
 	 * @throws IOException
 	 */
 	@FXML public void pressedNextButton() throws IOException {
+		// Confirmation: "Would you like to randomize recordings?"
+		Alert randomizeConfirm = new Alert(AlertType.CONFIRMATION, 
+				"Would you like to randomize recordings?");
+		Optional<ButtonType> result = randomizeConfirm.showAndWait();
+		
+		if (result.isPresent() && result.get() == ButtonType.OK) {
+			Collections.shuffle(_selected);
+		}
 		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
 		Scene scene = stage.getScene();
