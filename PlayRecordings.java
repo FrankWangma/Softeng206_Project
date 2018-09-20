@@ -73,7 +73,7 @@ public class PlayRecordings {
 	 * the database recording.
 	 * @return the database .wav file
 	 */
-	public File getRecording() {
+	public static File getRecording() {
 		File nameDir = new File(_filePath);
 		File[] files = nameDir.listFiles(Main._filter);
 		Arrays.sort(files);
@@ -84,7 +84,7 @@ public class PlayRecordings {
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the audio
-		String cmd = "ffplay -nodisp -autoexit " + getRecording().toURI().toString() +" &> listenfile";
+		String cmd = "ffplay -nodisp -autoexit " + getRecording().toURI().toString() +" &> /dev/null";
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);

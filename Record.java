@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,10 +62,46 @@ public class Record {
 		disableButtons();
 				
 		// Play the database file
-				
-		// Once done, set all buttons to enabled
-		//#TODO
-		enableButtons();
+		Task<Void> recordTask = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				bash("ffplay -nodisp -autoexit " + PlayRecordings.getRecording().toURI().toString() +" &> /dev/null");
+				return null;
+			}
+			
+			@Override
+			protected void done() {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						enableButtons();
+					}
+					
+				});
+			}
+			
+			/**
+			 * Process builder method to call a bash function
+			 * @param cmd the command that needs to be input
+			 */
+			public void bash(String cmd) {
+				ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+				try {
+					Process process = builder.start();
+					
+					//Wait for a process to finish before exiting
+					int exitStatus = process.waitFor();
+					if(exitStatus!=0) {
+						return;
+					}
+				} catch (IOException e) {
+					System.out.println("Error: Invalid command");
+				} catch (InterruptedException e) {
+					System.out.println("Error: Interrupted");
+				}
+			}
+		};
+		new Thread(recordTask).start();
 	}
 	
 	@FXML protected void handleRecordPlay(ActionEvent event) throws IOException {
