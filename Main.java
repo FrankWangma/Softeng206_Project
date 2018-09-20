@@ -79,8 +79,11 @@ public class Main extends Application {
 			        	String name = fileName.substring(cut,fileName.length()-4);
 			        	tempNamesList.add(name);
 			        	
+			        	// Make the name folder
 			        	File nameFolder = new File(destination + sep + name);
+			        	File userFolder = new File(nameFolder + sep + "user");
 					    nameFolder.mkdirs();
+					    userFolder.mkdirs();
 					    listOfFiles[file].renameTo(new File(nameFolder + sep + fileName));
 					    
 			        	break;
