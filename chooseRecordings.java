@@ -47,6 +47,7 @@ public class chooseRecordings implements Initializable {
 			//do nothing
 		} else {
 			for(String names : listOfSelectedItems) {
+				nextButton.setDisable(false); //un-disable the next button
 				_selected.add(names);
 				confirmListView.getItems().addAll(names);
 				selectionListView.getItems().remove(names);
@@ -60,13 +61,22 @@ public class chooseRecordings implements Initializable {
 			//do nothing
 		} else {
 			for(String names : listOfSelectedItems) {
-				_selected.remove(names);
+				_selected.remove(names); 
+				// Enable the next button
+				if (_selected.isEmpty()) {
+					nextButton.setDisable(true);
+				}
 				selectionListView.getItems().addAll(names);
 				confirmListView.getItems().remove(names);
 			}
 		}
 	}
 	
+	/**
+	 * Goes to the play recordings screen. It is disabled until at 
+	 * least 1 name has been selected.
+	 * @throws IOException
+	 */
 	@FXML public void pressedNextButton() throws IOException {
 		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
@@ -84,5 +94,7 @@ public class chooseRecordings implements Initializable {
 		selectionListView.getItems().addAll(Main._names);
 		selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		//Initially disable the next button
+		nextButton.setDisable(true);
 	}
 }
