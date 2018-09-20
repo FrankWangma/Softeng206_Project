@@ -22,8 +22,10 @@ import javafx.stage.Stage;
 
 public class PlayRecordings {
 	// FIELDS
-	String _filePath;
-	Media _databaseFile; //The recording in question. 
+	static String _filePath;
+	static String _name;
+	static Media _databaseFile; //The recording in question. 
+	static Scene _savedScene;
 	boolean _isBad; // is it marked as bad quality
 	int _index; // index of the list we are on
 	
@@ -43,6 +45,7 @@ public class PlayRecordings {
 	 * @param name
 	 */
 	public void setName(String name) throws IOException {
+		_name = name;
 		currentName.setText(name); //set the title
 		_filePath = Main._workDir + System.getProperty("file.separator") + 
 				"name_database" + System.getProperty("file.separator") + name;
@@ -92,11 +95,7 @@ public class PlayRecordings {
 	
 	@FXML protected void handlePlay(ActionEvent event) {
 		// Set all buttons to disabled
-		buttonPlay.setDisable(true);
-		buttonRecord.setDisable(true);
-		buttonPastRecordings.setDisable(true);
-		buttonNext.setDisable(true);
-		toggle.setDisable(true);
+		disableButtons();
 		
 		// Play the thing
 		MediaPlayer player = new MediaPlayer(_databaseFile);
@@ -105,22 +104,22 @@ public class PlayRecordings {
 		// Once done, set all buttons to enabled
 		player.setOnEndOfMedia(new Runnable() {
 			public void run() {
-				buttonPlay.setDisable(false);
-				buttonRecord.setDisable(false);
-				buttonPastRecordings.setDisable(false);
-				buttonNext.setDisable(false);
-				toggle.setDisable(false);
+				enableButtons();
 			}
 		});
 	}
 	
 	@FXML protected void handleRecord(ActionEvent event) throws IOException {
         // GO TO RECORD VIEW
-		goToView("MainMenu.fxml"); //PLACEHOLDER
+		Stage stage = (Stage) _rootPane.getScene().getWindow();
+		_savedScene = stage.getScene();
+		goToView("Record.fxml"); 
 	}
 	
 	@FXML protected void handlePast(ActionEvent event) throws IOException {
         // GO TO PAST RECORDING VIEW
+		Stage stage = (Stage) _rootPane.getScene().getWindow();
+		_savedScene = stage.getScene();
 		goToView("PastRecordings.fxml");
 	}
 	
@@ -196,6 +195,22 @@ public class PlayRecordings {
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	protected void disableButtons() {
+		buttonPlay.setDisable(true);
+		buttonRecord.setDisable(true);
+		buttonPastRecordings.setDisable(true);
+		buttonNext.setDisable(true);
+		toggle.setDisable(true);
+	}
+	
+	protected void enableButtons() {
+		buttonPlay.setDisable(false);
+		buttonRecord.setDisable(false);
+		buttonPastRecordings.setDisable(false);
+		buttonNext.setDisable(false);
+		toggle.setDisable(false);
 	}
 
 	@FXML
