@@ -6,6 +6,10 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
+
+import application.MicTesting.Background;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +28,6 @@ public class PlayRecordings {
 	// FIELDS
 	static String _filePath;
 	static String _name;
-	static Media _databaseFile; //The recording in question. 
 	static Scene _savedScene;
 	boolean _isBad; // is it marked as bad quality
 	int _index; // index of the list we are on
@@ -63,7 +66,6 @@ public class PlayRecordings {
 			toggleNo.setVisible(false);
 		}
 		
-		_databaseFile = new Media(getRecording().toURI().toString());
 	}
 	
 	/**
@@ -81,17 +83,13 @@ public class PlayRecordings {
 	@FXML protected void handlePlay(ActionEvent event) {
 		// Set all buttons to disabled
 		disableButtons();
+		// Play the audio
+		String cmd = "ffplay -nodisp -autoexit " + getRecording().toURI().toString() +" &> listenfile";
+		Background background = new Background();
+		background.setcmd(cmd);
+		Thread thread = new Thread(background);
+		thread.start();
 		
-		// Play the thing
-		MediaPlayer player = new MediaPlayer(_databaseFile);
-		player.play();
-		
-		// Once done, set all buttons to enabled
-		player.setOnEndOfMedia(new Runnable() {
-			public void run() {
-				enableButtons();
-			}
-		});
 	}
 	
 	@FXML protected void handleRecord(ActionEvent event) throws IOException {
@@ -210,4 +208,54 @@ public class PlayRecordings {
 		nameList.setFocusTraversable(false);
 	}
 	
+	/**
+	 * Background worker to create the ffmpeg files and stop any freezing of GUi
+	 * 
+	 *
+	 */
+	public class Background extends Task<Void>{
+		private String _cmd;
+		@Override
+		protected Void call() throws Exception {
+			bash(_cmd);
+			return null;
+		}
+		
+		@Override
+		protected void done() {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					enableButtons();
+				}
+				
+			});
+		}
+		
+		public void setcmd(String cmd) {
+			_cmd = cmd;
+		}
+		
+		/**
+		 * Process builder method to call a bash function
+		 * @param cmd the command that needs to be input
+		 */
+		public void bash(String cmd) {
+			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+			try {
+				Process process = builder.start();
+				
+				//Wait for a process to finish before exiting
+				int exitStatus = process.waitFor();
+				if(exitStatus!=0) {
+					return;
+				}
+			} catch (IOException e) {
+				System.out.println("Error: Invalid command");
+			} catch (InterruptedException e) {
+				System.out.println("Error: Interrupted");
+			}
+		}
+		
+	}
 }
