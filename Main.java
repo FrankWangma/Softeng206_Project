@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +31,21 @@ public class Main extends Application {
 	static File _namesFile = new File(_workDir + System.getProperty("file.separator") + "names.txt");
 	static List<String> _names = new ArrayList<String>();
 	private Stage _primaryStage;
+	
+	// File filter for .wav files
+	static FilenameFilter _filter = new FilenameFilter() {
+		@Override
+		public boolean accept(File dir, String name) {
+           if(name.lastIndexOf('.')>0) {
+              int lastIndex = name.lastIndexOf('.');
+              String str = name.substring(lastIndex); //get extension
+              if(str.equals(".wav")) {
+                 return true;
+              }
+           }
+           return false;
+        }
+     };
 	
 	
 	@Override
@@ -60,7 +76,7 @@ public class Main extends Application {
 		String sep = System.getProperty("file.separator");
 		File input = new File(_workDir + sep + "input");
 		File destination = new File(_workDir + sep + "name_database");
-		File[] listOfFiles = input.listFiles();
+		File[] listOfFiles = input.listFiles(_filter);
 		String fileName;
 		_names = readNamesFromFile(); // existing list
 		List<String> tempNamesList = new ArrayList<String>();
