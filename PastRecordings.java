@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.PlayRecordings.Background;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -31,56 +32,28 @@ public class PastRecordings {
 	@FXML protected void handlePlaySelected(ActionEvent event) {
 		int selectedIndex = viewPastRecordings.getSelectionModel().getSelectedIndex();
 		if (selectedIndex != -1) { 
-			// DO THINGS
+			// Set all buttons to disabled
+			disableButtons();
+			// Play the database file
+			String cmd = "ffplay -nodisp -autoexit " +PlayRecordings._filePath + "/" + viewPastRecordings.getSelectionModel().getSelectedItem() +" &> pastrecord.txt";
+			Background background = new Background();
+			background.setcmd(cmd);
+			Thread thread = new Thread(background);
+			thread.start();
+			
 		}
 	}
 	
 	@FXML protected void handlePlayDatabase(ActionEvent event) {
-		// DO THINGS
 		// Set all buttons to disabled
-				disableButtons();
-						
-				// Play the database file
-				Task<Void> recordTask = new Task<Void>() {
-					@Override
-					protected Void call() throws Exception {
-						bash("ffplay -nodisp -autoexit " + PlayRecordings.getRecording().toURI().toString() +" &> /dev/null");
-						return null;
-					}
-					
-					@Override
-					protected void done() {
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								enableButtons();
-							}
-							
-						});
-					}
-					
-					/**
-					 * Process builder method to call a bash function
-					 * @param cmd the command that needs to be input
-					 */
-					public void bash(String cmd) {
-						ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-						try {
-							Process process = builder.start();
-							
-							//Wait for a process to finish before exiting
-							int exitStatus = process.waitFor();
-							if(exitStatus!=0) {
-								return;
-							}
-						} catch (IOException e) {
-							System.out.println("Error: Invalid command");
-						} catch (InterruptedException e) {
-							System.out.println("Error: Interrupted");
-						}
-					}
-				};
-				new Thread(recordTask).start();
+		disableButtons();
+		// Play the database file
+		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings.getRecording().toURI().toString() +" &> /dev/null";
+		Background background = new Background();
+		background.setcmd(cmd);
+		Thread thread = new Thread(background);
+		thread.start();
+				
 	}
 	
 	@FXML protected void handleBack(ActionEvent event) throws IOException {
@@ -128,8 +101,10 @@ public class PastRecordings {
 		File dbFolder = new File(PlayRecordings._filePath);
 		File[] dbArray = dbFolder.listFiles(Main._filter);
 		List<String> dbList = new ArrayList<String>();
-		for (int i=0;i<dbArray.length;i++) {
-			dbList.add(dbArray[i].getName());
+		if(dbArray != null) {
+			for (int i=0;i<dbArray.length;i++) {
+				dbList.add(dbArray[i].getName());
+			}
 		}
 		return dbList;
 	}
@@ -154,5 +129,56 @@ public class PastRecordings {
 		buttonBack.setDisable(false);
 		toggleDatabase.setDisable(false);
 		toggleUser.setDisable(false);
+	}
+	
+	/**
+	 * Background worker to create the ffmpeg files and stop any freezing of GUi
+	 * 
+	 *
+	 */
+	public class Background extends Task<Void>{
+		private String _cmd;
+		@Override
+		protected Void call() throws Exception {
+			bash(_cmd);
+			return null;
+		}
+		
+		@Override
+		protected void done() {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					enableButtons();
+				}
+				
+			});
+		}
+		
+		public void setcmd(String cmd) {
+			_cmd = cmd;
+		}
+		
+		/**
+		 * Process builder method to call a bash function
+		 * @param cmd the command that needs to be input
+		 */
+		public void bash(String cmd) {
+			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+			try {
+				Process process = builder.start();
+				
+				//Wait for a process to finish before exiting
+				int exitStatus = process.waitFor();
+				if(exitStatus!=0) {
+					return;
+				}
+			} catch (IOException e) {
+				System.out.println("Error: Invalid command");
+			} catch (InterruptedException e) {
+				System.out.println("Error: Interrupted");
+			}
+		}
+		
 	}
 }

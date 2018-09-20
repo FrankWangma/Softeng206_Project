@@ -168,7 +168,7 @@ public class Record {
 		Task<Void> recordTask = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
-				String cmd = "ffmpeg -f alsa -i default -t 5 " + _tempFile.getAbsolutePath();
+				String cmd = "ffmpeg -f alsa -i default -t 5 " + _tempFile.getAbsolutePath() + "&> recording.txt";
 				ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 				Process process = null;
 				try {process = builder.start();} 
