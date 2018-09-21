@@ -20,11 +20,36 @@
       </VBox>
    </center>
    <top>
-      <Label styleClass="label-text" text="Past Recordings" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="10.0" top="10.0" />
-         </padding>
-      </Label>
+      <HBox>
+         <children>
+            <VBox prefHeight="53.0" prefWidth="329.0">
+               <children>
+                  <Label fx:id="toggleLabel" styleClass="label-text" text="User">
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </VBox>
+            <Label styleClass="label-text" text="Past Recordings" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
    </top>
    <padding>
       <Insets bottom="20.0" />
