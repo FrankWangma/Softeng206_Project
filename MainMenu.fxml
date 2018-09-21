@@ -36,7 +36,7 @@
             <Insets bottom="100.0" />
          </GridPane.margin>
       </Label>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You can practice the pronounciation of the names in the database, and use the pre-recorded pronounciations to help you" wrappingWidth="652.7294921875" GridPane.rowIndex="1">
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You can practice the pronunciation of the names in the database, and use the pre-recorded pronounciations to help you" wrappingWidth="652.7294921875" GridPane.rowIndex="1">
          <font>
             <Font size="29.0" />
          </font>
