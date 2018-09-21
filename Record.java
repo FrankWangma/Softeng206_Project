@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+import application.PlayRecordings.Background;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -60,61 +61,30 @@ public class Record {
 	@FXML protected void handleRecordPlayDatabase(ActionEvent event) throws IOException {
 		// Set all buttons to disabled
 		disableButtons();
-				
+		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings.getRecording().toURI().toString() +" &> /dev/null";
 		// Play the database file
-		Task<Void> recordTask = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				bash("ffplay -nodisp -autoexit " + PlayRecordings.getRecording().toURI().toString() +" &> /dev/null");
-				return null;
-			}
-			
-			@Override
-			protected void done() {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						enableButtons();
-					}
-					
-				});
-			}
-			
-			/**
-			 * Process builder method to call a bash function
-			 * @param cmd the command that needs to be input
-			 */
-			public void bash(String cmd) {
-				ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-				try {
-					Process process = builder.start();
-					
-					//Wait for a process to finish before exiting
-					int exitStatus = process.waitFor();
-					if(exitStatus!=0) {
-						return;
-					}
-				} catch (IOException e) {
-					System.out.println("Error: Invalid command");
-				} catch (InterruptedException e) {
-					System.out.println("Error: Interrupted");
-				}
-			}
-		};
-		new Thread(recordTask).start();
+		Background background = new Background();
+		background.setcmd(cmd);
+		Thread thread = new Thread(background);
+		thread.start();
 	}
 	
 	@FXML protected void handleRecordPlay(ActionEvent event) throws IOException {
 		// Set all buttons to disabled
 		disableButtons();
-				
+		String cmd;
 		// Play the user recording
 		if (_saved) {
 			// Play the saved file; path = _recordedFileName
+			cmd = "ffplay -nodisp -autoexit " + _recordedFileName +" &> /dev/null";
 		} else {
 			// Play the temp file = _tempFile
+			cmd = "ffplay -nodisp -autoexit " + _tempFile +" &> /dev/null";
 		}
-				
+		Background background = new Background();
+		background.setcmd(cmd);
+		Thread thread = new Thread(background);
+		thread.start();
 		// Once done, set all buttons to enabled
 		//#TODO
 		enableButtons();
@@ -165,29 +135,16 @@ public class Record {
 				"_" + PlayRecordings._name + ".wav";
 				
 		// Record the thing
-		Task<Void> recordTask = new Task<Void>() {
-			@Override
-			public Void call() throws Exception {
-				String cmd = "ffmpeg -f alsa -i default -t 5 " + _tempFile.getAbsolutePath() + "&> recording.txt";
-				ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-				Process process = null;
-				try {process = builder.start();} 
-				catch (IOException e) {e.printStackTrace();}
-				
-				try {process.waitFor();} // waits until recording is finished
-				catch (InterruptedException e) {e.printStackTrace();}
-				
-				return null;
-			}
-		};
+		String cmd = "ffmpeg -f alsa -i default -t 5 " + _tempFile.getAbsolutePath() + "&> recording.txt";
+		Background background = new Background();
+		background.setcmd(cmd);
+		Thread thread = new Thread(background);
+		thread.start();
 				
 		// Once done, set all buttons to enabled
-		recordTask.setOnSucceeded(e -> {
-			enableButtons();
+		background.setOnSucceeded(e -> {
 			recordLabel.setText("Done.");
 		});
-				
-		new Thread(recordTask).start();
 		_saved = false;
 	}
 	
@@ -227,6 +184,57 @@ public class Record {
 		recordLabel.setText("The recording is 5 seconds long.");
 		buttonRecordPlay.setDisable(true);
 		buttonRecordSave.setDisable(true);
+	}
+	
+	/**
+	 * Background worker to create the ffmpeg files and stop any freezing of GUi
+	 * 
+	 *
+	 */
+	public class Background extends Task<Void>{
+		private String _cmd;
+		@Override
+		protected Void call() throws Exception {
+			bash(_cmd);
+			return null;
+		}
+		
+		@Override
+		protected void done() {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					enableButtons();
+				}
+				
+			});
+		}
+		
+		public void setcmd(String cmd) {
+			_cmd = cmd;
+		}
+		
+		/**
+		 * Process builder method to call a bash function
+		 * @param cmd the command that needs to be input
+		 */
+		public void bash(String cmd) {
+			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+			try {
+				Process process = builder.start();
+				
+				//Wait for a process to finish before exiting
+				int exitStatus = process.waitFor();
+				if(exitStatus!=0) {
+					return;
+				}
+			} catch (IOException e) {
+				System.out.println("Error: Invalid command");
+			} catch (InterruptedException e) {
+				System.out.println("Error: Interrupted");
+			}
+		}
+		
 	}
         
 }

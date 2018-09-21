@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
@@ -28,6 +29,8 @@ public class PastRecordings {
 	@FXML Button buttonBack;
 	@FXML Button toggleDatabase;
 	@FXML Button toggleUser;
+	private Boolean isUser = true;
+	@FXML Label toggleLabel;
 	
 	@FXML protected void handlePlaySelected(ActionEvent event) {
 		int selectedIndex = viewPastRecordings.getSelectionModel().getSelectedIndex();
@@ -35,8 +38,14 @@ public class PastRecordings {
 			// Set all buttons to disabled
 			disableButtons();
 			// Play the database file
-			String cmd = "ffplay -nodisp -autoexit " +PlayRecordings._filePath + "/" + 
-			viewPastRecordings.getSelectionModel().getSelectedItem() +" &> pastrecord.txt";
+			String cmd;
+			if (isUser) {
+				cmd = "ffplay -nodisp -autoexit "  + PlayRecordings._filePath + "/user/" + 
+						viewPastRecordings.getSelectionModel().getSelectedItem()+" &> /dev/null";
+			} else {
+				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath + "/" + 
+			viewPastRecordings.getSelectionModel().getSelectedItem() +" &> /dev/null";
+			}
 			Background background = new Background();
 			background.setcmd(cmd);
 			Thread thread = new Thread(background);
@@ -70,11 +79,15 @@ public class PastRecordings {
 	@FXML protected void handleToggleDatabase(ActionEvent event) {
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getDatabaseRecordings());
+		isUser = false;
+		toggleLabel.setText("Database");
 	}
 	
 	@FXML protected void handleToggleUser(ActionEvent event) {
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getUserRecordings());
+		isUser = true;
+		toggleLabel.setText("User");
 	}
 	
 	/**
