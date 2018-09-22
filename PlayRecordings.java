@@ -3,11 +3,9 @@ package application;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
 
-import application.MicTesting.Background;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -18,17 +16,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Play Recordings screen.
+ * 
+ *
+ */
 public class PlayRecordings {
 	// FIELDS
 	static String _filePath;
 	static String _name;
-	static Scene _savedScene;
 	boolean _isBad; // is it marked as bad quality
 	int _index; // index of the list we are on
 	
@@ -94,16 +94,12 @@ public class PlayRecordings {
 	
 	@FXML protected void handleRecord(ActionEvent event) throws IOException {
         // GO TO RECORD VIEW
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		_savedScene = stage.getScene();
-		goToView("Record.fxml"); 
+		newWindow("Record.fxml"); 
 	}
 	
 	@FXML protected void handlePast(ActionEvent event) throws IOException {
         // GO TO PAST RECORDING VIEW
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		_savedScene = stage.getScene();
-		goToView("PastRecordings.fxml");
+		newWindow("PastRecordings.fxml");
 	}
 	
 	@FXML protected void handleNext(ActionEvent event) throws IOException {
@@ -173,11 +169,19 @@ public class PlayRecordings {
 	protected void goToView(String fxml) throws IOException {
 		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
+		stage.getScene().setRoot(pane);;
+        stage.sizeToScene();
+	}
+	
+	protected void newWindow(String fxml) throws IOException {
+		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+		Stage stage = (Stage) _rootPane.getScene().getWindow();
+		Stage newStage = new Stage();
+		Scene scene = new Scene(pane);
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.setScene(scene);
+        newStage.show();
 	}
 	
 	protected void disableButtons() {
@@ -201,6 +205,7 @@ public class PlayRecordings {
 		nameList.getItems().addAll(chooseRecordings._selected);
 		_index = 0;
 		nameList.getSelectionModel().select(_index);
+		
 		String name = nameList.getItems().get(_index); //get the first name
 		try {setName(name);} 
 		catch (IOException e){}

@@ -19,6 +19,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for the recording screen.
+ * 
+ *
+ */
 public class Record {
 	File _tempFile = new File(PlayRecordings._filePath + System.getProperty("file.separator") + 
 			"user" + System.getProperty("file.separator") + "temp.wav");
@@ -151,11 +156,7 @@ public class Record {
 	private void goBack() throws IOException {
 		_tempFile.delete();
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-        scene = PlayRecordings._savedScene;
-        stage.setScene(scene);
-        stage.sizeToScene();
+		stage.close();
 	}
 	
 	protected void disableButtons() {

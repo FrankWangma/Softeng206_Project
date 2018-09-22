@@ -5,12 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.PlayRecordings.Background;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -18,6 +16,11 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * Controller class for Past Recordings screen.
+ *
+ */
 public class PastRecordings {
 	// FIELDS
 	String _name;
@@ -67,27 +70,23 @@ public class PastRecordings {
 	}
 	
 	@FXML protected void handleBack(ActionEvent event) throws IOException {
-        // GO TO PLAY VIEW
+        // GO TO PLAY VIEW (close the window)
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-        scene = PlayRecordings._savedScene;
-        stage.setScene(scene);
-        stage.show();
+		stage.close();
 	}
 	
 	@FXML protected void handleToggleDatabase(ActionEvent event) {
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getDatabaseRecordings());
 		isUser = false;
-		toggleLabel.setText("Database");
+		toggleLabel.setText("Database Recordings");
 	}
 	
 	@FXML protected void handleToggleUser(ActionEvent event) {
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getUserRecordings());
 		isUser = true;
-		toggleLabel.setText("User");
+		toggleLabel.setText("User Recordings");
 	}
 	
 	/**
