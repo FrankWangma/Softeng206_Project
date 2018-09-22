@@ -1,19 +1,14 @@
 package application;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -23,7 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class chooseRecordings implements Initializable {
+public class chooseRecordings {
 	static List<String> _selected = new ArrayList<String>();
 	
 	@FXML private Button nextButton;
@@ -37,13 +32,7 @@ public class chooseRecordings implements Initializable {
 	
 	@FXML public void changeToMain() throws IOException {
 		//back to main menu
-		Parent pane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
+		goToView("MainMenu.fxml");
 	}
 	
 	@FXML public void pressedSelectButton() {
@@ -91,17 +80,17 @@ public class chooseRecordings implements Initializable {
 		if (result.isPresent() && result.get() == ButtonType.OK) {
 			Collections.shuffle(_selected);
 		}
-		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
+		goToView("PlayRecordings.fxml");
+	}
+	
+	protected void goToView(String fxml) throws IOException {
+		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
+		stage.getScene().setRoot(pane);;
+        stage.sizeToScene();
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		//Add the files into the list view
 		_selected.clear(); // clear any previous items
 		selectionListView.getItems().addAll(Main._names);

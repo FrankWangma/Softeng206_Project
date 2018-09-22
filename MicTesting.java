@@ -1,19 +1,11 @@
 package application;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javax.swing.Timer;
-
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +15,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-public class MicTesting  implements Initializable{
+public class MicTesting {
 	@FXML BorderPane _rootPane;
 	@FXML Button backButton;
 	@FXML Button playButton;
@@ -119,14 +111,5 @@ public class MicTesting  implements Initializable{
 				System.out.println("Error: Interrupted");
 			}
 		}
-		
 	}
-
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		
-	}
-	
 }

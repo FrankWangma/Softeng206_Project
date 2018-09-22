@@ -1,12 +1,8 @@
 package application;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -14,10 +10,8 @@ import javafx.stage.Stage;
 
 /**
  * Controller class for the main menu.
- * 
- *
  */
-public class MainMenu implements Initializable {
+public class MainMenu {
 	@FXML GridPane _rootPane;
 	
 	/**
@@ -51,13 +45,7 @@ public class MainMenu implements Initializable {
 		//change and show the scene
         scene = new Scene(pane);
         stage.setScene(scene);
-        stage.show();
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+        stage.sizeToScene();
 	}
 
 }

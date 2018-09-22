@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,21 +15,20 @@ import java.util.HashSet;
 import java.util.List;
 
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-
-
-
+/**
+ * Main class of application.
+ *
+ */
 public class Main extends Application {
 	static Path relativePath = Paths.get("");
 	static String _workDir = relativePath.toAbsolutePath().toString();
 	static File _namesFile = new File(_workDir + System.getProperty("file.separator") + "names.txt");
 	static List<String> _names = new ArrayList<String>();
-	private Stage _primaryStage;
 	
 	// File filter for .wav files
 	static FilenameFilter _filter = new FilenameFilter() {
@@ -52,14 +50,13 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		makeDatabase();
 		try {
-			_primaryStage = primaryStage;
-			_primaryStage.setTitle("Name Sayer");
+			primaryStage.setTitle("Name Sayer");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getResource("MainMenu.fxml"));
 			Parent layout = loader.load();
 			Scene scene = new Scene(layout);
-			_primaryStage.setScene(scene);
-			_primaryStage.show();
+			primaryStage.setScene(scene);
+			primaryStage.show();
 		
 			
 		} catch(Exception e) {
