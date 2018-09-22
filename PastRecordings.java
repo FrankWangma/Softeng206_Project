@@ -100,7 +100,8 @@ public class PastRecordings {
 		List<String> userList = new ArrayList<String>();
 		if(userArray != null) {
 			for (int i=0;i<userArray.length;i++) {
-				userList.add(userArray[i].getName());
+				String name = userArray[i].getName();
+				userList.add(name.substring(0, name.length()-4));
 			}
 		}
 		return userList;
@@ -116,7 +117,8 @@ public class PastRecordings {
 		List<String> dbList = new ArrayList<String>();
 		if(dbArray != null) {
 			for (int i=0;i<dbArray.length;i++) {
-				dbList.add(dbArray[i].getName());
+				String name = dbArray[i].getName();
+				dbList.add(name.substring(0, name.length()-4));
 			}
 		}
 		return dbList;
