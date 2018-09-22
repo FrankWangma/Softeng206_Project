@@ -2,10 +2,14 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,13 +19,12 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-public class MicTesting {
+public class MicTesting implements Initializable {
 	@FXML BorderPane _rootPane;
 	@FXML Button backButton;
 	@FXML Button playButton;
 	@FXML Button testButton;
 	@FXML Label RecordingText;
-	
 	@FXML public void changeToMain() throws IOException {
 		//back to main menu
 		Parent pane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
@@ -111,5 +114,11 @@ public class MicTesting {
 				System.out.println("Error: Interrupted");
 			}
 		}
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		playButton.setDisable(true);
+		
 	}
 }

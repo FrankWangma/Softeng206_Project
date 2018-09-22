@@ -39,6 +39,7 @@ public class PlayRecordings {
 	@FXML Button buttonPastRecordings;
 	@FXML Button buttonNext;
 	@FXML Button toggle;
+	@FXML Button previousButton;
 	@FXML Label toggleYes; // Bad quality
 	@FXML Label toggleNo; // Not bad quality (default)
 	@FXML ListView<String> nameList;
@@ -94,12 +95,12 @@ public class PlayRecordings {
 	
 	@FXML protected void handleRecord(ActionEvent event) throws IOException {
         // GO TO RECORD VIEW
-		newWindow("Record.fxml"); 
+		goToView("Record.fxml"); 
 	}
 	
 	@FXML protected void handlePast(ActionEvent event) throws IOException {
         // GO TO PAST RECORDING VIEW
-		newWindow("PastRecordings.fxml");
+		goToView("PastRecordings.fxml");
 	}
 	
 	@FXML protected void handleNext(ActionEvent event) throws IOException {
@@ -137,8 +138,23 @@ public class PlayRecordings {
 			_isBad = true;
 			saveQuality();
 		}
+		
 	}
 	
+	@FXML protected void handlepreviousName(ActionEvent event) throws IOException {
+			if(_index > 0) {
+				_index--;
+			}
+		try {
+			
+			nameList.getSelectionModel().select(_index);
+			String name = nameList.getItems().get(_index);
+			// Set the next name
+			setName(name);
+		}
+		catch (IndexOutOfBoundsException e) {
+		}
+	}
 	/**
 	 * Writes a "1" to the text file, meaning the recording is 
 	 * tagged as bad quality
@@ -171,18 +187,7 @@ public class PlayRecordings {
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
 		stage.getScene().setRoot(pane);;
         stage.sizeToScene();
-	}
-	
-	protected void newWindow(String fxml) throws IOException {
-		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Stage newStage = new Stage();
-		Scene scene = new Scene(pane);
-        newStage.initOwner(stage);
-        newStage.initModality(Modality.WINDOW_MODAL);
-        newStage.setScene(scene);
-        newStage.show();
-	}
+	}	
 	
 	protected void disableButtons() {
 		buttonPlay.setDisable(true);

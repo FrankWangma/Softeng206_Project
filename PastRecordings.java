@@ -9,6 +9,9 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -70,9 +73,14 @@ public class PastRecordings {
 	}
 	
 	@FXML protected void handleBack(ActionEvent event) throws IOException {
-        // GO TO PLAY VIEW (close the window)
+		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		stage.close();
+		Scene scene = stage.getScene();
+		
+		//change and show the scene
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.sizeToScene();
 	}
 	
 	@FXML protected void handleToggleDatabase(ActionEvent event) {

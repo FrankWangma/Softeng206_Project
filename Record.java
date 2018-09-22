@@ -10,6 +10,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -154,9 +156,16 @@ public class Record {
 	 * @throws IOException
 	 */
 	private void goBack() throws IOException {
-		_tempFile.delete();
+		
+		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		stage.close();
+		Scene scene = stage.getScene();
+		
+		//change and show the scene
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.sizeToScene();
+		
 	}
 	
 	protected void disableButtons() {
