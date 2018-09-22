@@ -43,8 +43,14 @@ public class Record {
 	@FXML private Button buttonRecordSave;
 	@FXML private Button buttonRecordBack;
 	
+	/**
+	 * This method will handle the record button if the user has recorded another file for the same name 
+	 * and hasn't saved it. This will prompt them to make sure if they want to override the recording
+	 * @param event
+	 */
 	@FXML protected void handleRecordRecord(ActionEvent event) {
 		if (!_saved) {
+			//If the recording has not been saved, then prompt the user for confirmation
 			Alert nameConfirm = new Alert(AlertType.CONFIRMATION, 
 					"Continue without saving your previous recording?");
 			Optional<ButtonType> result = nameConfirm.showAndWait();
@@ -57,7 +63,7 @@ public class Record {
     }
 	
 	/**
-	 * Play from the database
+	 * Play the file that is from the database when the play button is pressed by the user
 	 * @param event
 	 * @throws IOException
 	 */
@@ -72,6 +78,12 @@ public class Record {
 		thread.start();
 	}
 	
+	/**
+	 * This method will handle the playing of the recording that the user has just created when the
+	 * play record button is pressed
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML protected void handleRecordPlay(ActionEvent event) throws IOException {
 		// Set all buttons to disabled
 		disableButtons();
@@ -90,13 +102,24 @@ public class Record {
 		thread.start();
 	}
 	
+	/**
+	 * This saves the recording that the user has recorded when the save button is pressed
+	 * @param event
+	 */
 	@FXML protected void handleRecordSave(ActionEvent event) {
+		//save the file
 		_saved = true;
 		buttonRecordSave.setDisable(true);
 		File file = new File(_recordedFileName);
 		_tempFile.renameTo(file);
 	}
 	
+	/**
+	 * This method handles the event when the user presses the back button, and 
+	 * calls the goBack method to take the user back to the previous screen
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML protected void handleRecordBack(ActionEvent event) throws IOException {
 		if (!_saved) {
 			// Confirmation: "Go back without saving?"
@@ -168,6 +191,9 @@ public class Record {
 		
 	}
 	
+	/**
+	 * This method disables all the buttons in the current pane
+	 */
 	protected void disableButtons() {
 		buttonRecordPlay.setDisable(true);
 		buttonRecordRecord.setDisable(true);
@@ -175,7 +201,9 @@ public class Record {
 		buttonRecordBack.setDisable(true);
 		buttonRecordSave.setDisable(true);
 	}
-	
+	/**
+	 * This method enables all the buttons in the current pane
+	 */
 	protected void enableButtons() {
 		buttonRecordRecord.setDisable(false);
 		buttonRecordPlayDatabase.setDisable(false);

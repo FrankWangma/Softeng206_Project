@@ -29,17 +29,25 @@ public class chooseRecordings {
 	@FXML private ListView<String> selectionListView;
 	@FXML private ListView<String> confirmListView;
 	
-	
+	/**
+	 * This changes the pane to the Main Menu pane
+	 * @throws IOException
+	 */
 	@FXML public void changeToMain() throws IOException {
 		//back to main menu
 		goToView("MainMenu.fxml");
 	}
 	
+	/**
+	 * This method allows users to select which names they want to practice and handles the "select" button
+	 * It takes the name and puts it onto the confirm list view
+	 */
 	@FXML public void pressedSelectButton() {
 		ObservableList<String> listOfSelectedItems = selectionListView.getSelectionModel().getSelectedItems();
 		if (listOfSelectedItems.isEmpty()) {
 			//do nothing
 		} else {
+			//put the name that is selected onto the confirmListView
 			for(String names : listOfSelectedItems) {
 				nextButton.setDisable(false); //un-disable the next button
 				_selected.add(names);
@@ -49,11 +57,16 @@ public class chooseRecordings {
 		}
 	}
 	
+	/**
+	 * This method allows users to de-select which names they want to practice and handles the "de-select" button
+	 * It takes the name and puts it back onto the selection list view
+	 */
 	@FXML public void pressedDeSelectButton() {
 		ObservableList<String> listOfSelectedItems = confirmListView.getSelectionModel().getSelectedItems();
 		if (listOfSelectedItems.isEmpty()) {
 			//do nothing
 		} else {
+			//move the selected name to the Selection view list
 			for(String names : listOfSelectedItems) {
 				_selected.remove(names); 
 				// Enable the next button
@@ -83,6 +96,11 @@ public class chooseRecordings {
 		goToView("PlayRecordings.fxml");
 	}
 	
+	/**
+	 * Helper method to change the the pane of the stage
+	 * @param fxml
+	 * @throws IOException
+	 */
 	protected void goToView(String fxml) throws IOException {
 		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();

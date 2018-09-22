@@ -81,6 +81,11 @@ public class PlayRecordings {
 		return files[files.length-1];
 	}
 	
+	/**
+	 * This method handles the event of the play button being pressed
+	 * and plays the database recording of the name
+	 * @param event
+	 */
 	@FXML protected void handlePlay(ActionEvent event) {
 		// Set all buttons to disabled
 		disableButtons();
@@ -93,16 +98,34 @@ public class PlayRecordings {
 		
 	}
 	
+	/**
+	 * This method handles the event of the record button getting pressed and goes
+	 * to the record view
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML protected void handleRecord(ActionEvent event) throws IOException {
         // GO TO RECORD VIEW
 		goToView("Record.fxml"); 
 	}
 	
+	/**
+	 * This method handles the event of the Past Recordings button getting pressed, and 
+	 * goes to the past recordings view
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML protected void handlePast(ActionEvent event) throws IOException {
         // GO TO PAST RECORDING VIEW
 		goToView("PastRecordings.fxml");
 	}
 	
+	/**
+	 * This method handles the event of the Next button being pressed, and goes to
+	 * the next name on the list
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML protected void handleNext(ActionEvent event) throws IOException {
         // Get the next name in the list
 		_index++;
@@ -120,6 +143,11 @@ public class PlayRecordings {
 		}
 	}
 	
+	/**
+	 * This method handles the event of the toggle button being pressed, and 
+	 * toggles the "bad quality" attribute of the recording
+	 * @param event
+	 */
 	@FXML protected void toggle(ActionEvent event) {
 		// Toggle visible/invisible
 		if (_isBad) {
@@ -141,18 +169,26 @@ public class PlayRecordings {
 		
 	}
 	
+	/**
+	 *  This event handles the previous name button, and when its pressed, it
+	 *  will go the the previous name on the list
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML protected void handlepreviousName(ActionEvent event) throws IOException {
-			if(_index > 0) {
-				_index--;
-			}
+		//Button will only work if the current index is not at 0
+		if(_index > 0) {
+			_index--;
+		}
 		try {
-			
+			//Go to the previous name
 			nameList.getSelectionModel().select(_index);
 			String name = nameList.getItems().get(_index);
 			// Set the next name
 			setName(name);
 		}
 		catch (IndexOutOfBoundsException e) {
+		//Do nothing
 		}
 	}
 	/**
@@ -182,6 +218,11 @@ public class PlayRecordings {
 		}
 	}
 	
+	/**
+	 * Helper method to change the views of the current pane
+	 * @param fxml
+	 * @throws IOException
+	 */
 	protected void goToView(String fxml) throws IOException {
 		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
 		Stage stage = (Stage) _rootPane.getScene().getWindow();
@@ -189,6 +230,9 @@ public class PlayRecordings {
         stage.sizeToScene();
 	}	
 	
+	/**
+	 * Helper method to disable the buttons
+	 */
 	protected void disableButtons() {
 		buttonPlay.setDisable(true);
 		buttonRecord.setDisable(true);
@@ -197,6 +241,9 @@ public class PlayRecordings {
 		toggle.setDisable(true);
 	}
 	
+	/**
+	 * Helper method to enable the uttons
+	 */
 	protected void enableButtons() {
 		buttonPlay.setDisable(false);
 		buttonRecord.setDisable(false);

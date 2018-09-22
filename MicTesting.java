@@ -25,6 +25,10 @@ public class MicTesting implements Initializable {
 	@FXML Button playButton;
 	@FXML Button testButton;
 	@FXML Label RecordingText;
+	/**
+	 * Method to change back to the main menu pane
+	 * @throws IOException
+	 */
 	@FXML public void changeToMain() throws IOException {
 		//back to main menu
 		Parent pane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
@@ -36,6 +40,10 @@ public class MicTesting implements Initializable {
         stage.show();
 	}
 	
+	/**
+	 * This method is used to have the user start recording and testing their microphone
+	 * to see if the levels are alright, or if the microphone is working
+	 */
 	@FXML public void testMic() {
 		//Disable buttons
 		backButton.setDisable(true);
@@ -50,11 +58,16 @@ public class MicTesting implements Initializable {
 		thread.start();
 	}
 	
+	/**
+	 * This method is used to play the audio file that is created when the user tests their mic
+	 * 
+	 */
 	@FXML public void playSound() {
 		
 		//Play the mic test file created
 				String testFile = "MicTest.wav";
 				File file = new File(testFile);
+				//play the media file
 				if (file.exists()) {
 					Media sound = new Media(file.toURI().toString());
 					MediaPlayer mediaPlayer = new MediaPlayer(sound);
@@ -76,6 +89,9 @@ public class MicTesting implements Initializable {
 			return null;
 		}
 		
+		/**
+		 * This is the method that is used to do something in a background worker thread
+		 */
 		@Override
 		protected void done() {
 			Platform.runLater(new Runnable() {
@@ -86,7 +102,6 @@ public class MicTesting implements Initializable {
 					playButton.setDisable(false);
 					testButton.setDisable(false);
 				}
-				
 			});
 		}
 		
