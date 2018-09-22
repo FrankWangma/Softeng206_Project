@@ -6,13 +6,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import application.PlayRecordings.Background;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,8 +17,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class Record {
@@ -29,7 +24,8 @@ public class Record {
 			"user" + System.getProperty("file.separator") + "temp.wav");
 	Scene _previousScene;
 	String _recordedFileName; //File path of the latest user recording
-	boolean _saved = true;
+	boolean _firstRecord;
+	boolean _saved;
 	
 	@FXML BorderPane _rootPane;
 	@FXML private Label currentName;
@@ -85,13 +81,11 @@ public class Record {
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
 		thread.start();
-		// Once done, set all buttons to enabled
-		//#TODO
-		enableButtons();
 	}
 	
 	@FXML protected void handleRecordSave(ActionEvent event) {
 		_saved = true;
+		buttonRecordSave.setDisable(true);
 		File file = new File(_recordedFileName);
 		_tempFile.renameTo(file);
 	}
@@ -141,11 +135,13 @@ public class Record {
 		Thread thread = new Thread(background);
 		thread.start();
 				
-		// Once done, set all buttons to enabled
+		// Once done, set text
 		background.setOnSucceeded(e -> {
 			recordLabel.setText("Done.");
 		});
+		
 		_saved = false;
+		_firstRecord = true;
 	}
 	
 	/**
@@ -159,7 +155,7 @@ public class Record {
 		
         scene = PlayRecordings._savedScene;
         stage.setScene(scene);
-        stage.show();
+        stage.sizeToScene();
 	}
 	
 	protected void disableButtons() {
@@ -171,23 +167,33 @@ public class Record {
 	}
 	
 	protected void enableButtons() {
-		buttonRecordPlay.setDisable(false);
 		buttonRecordRecord.setDisable(false);
 		buttonRecordPlayDatabase.setDisable(false);
 		buttonRecordBack.setDisable(false);
-		buttonRecordSave.setDisable(false);
+		
+		// Don't re-enable play if user hasn't recorded yet
+		if (_firstRecord) {
+			buttonRecordPlay.setDisable(false);
+		}
+		
+		// Disable save button if already saved (or haven't recorded yet)
+		if (!_saved) {
+			buttonRecordSave.setDisable(false);
+		}
 	}
 	
 	@FXML
 	public void initialize() {
 		currentName.setText("Recording for: " + PlayRecordings._name);
 		recordLabel.setText("The recording is 5 seconds long.");
+		_firstRecord = false;
+		_saved = true;
 		buttonRecordPlay.setDisable(true);
 		buttonRecordSave.setDisable(true);
 	}
 	
 	/**
-	 * Background worker to create the ffmpeg files and stop any freezing of GUi
+	 * Background worker to create the ffmpeg files and stop any freezing of GUI
 	 * 
 	 *
 	 */
@@ -206,7 +212,6 @@ public class Record {
 				public void run() {
 					enableButtons();
 				}
-				
 			});
 		}
 		
