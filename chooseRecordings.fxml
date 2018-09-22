@@ -11,7 +11,7 @@
    <children>
       <VBox>
          <children>
-            <Label prefHeight="82.0" text="Select names to practice:">
+            <Label prefHeight="82.0" styleClass="label-textsmall" text="Select names to practice:">
                <VBox.margin>
                   <Insets left="15.0" />
                </VBox.margin>
@@ -48,7 +48,7 @@
       </VBox>
       <VBox>
          <children>
-            <Label prefHeight="82.0" text="Your selected names:" />
+            <Label prefHeight="82.0" styleClass="label-textsmall" text="Your selected names:" />
             <ListView fx:id="confirmListView" minWidth="-Infinity" prefHeight="590.0" prefWidth="280.0" styleClass="background-list" stylesheets="@application.css" />
          </children>
       </VBox>

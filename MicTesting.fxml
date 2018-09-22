@@ -29,7 +29,7 @@
                   <Font size="20.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="50.0" />
+                  <Insets left="150.0" />
                </GridPane.margin>
             </Button>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#changeToMain" prefHeight="33.0" prefWidth="249.0" text="Back to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -37,12 +37,12 @@
                   <Font size="20.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="5.0" />
+                  <Insets left="4.0" />
                </GridPane.margin>
             </Button>
             <Button fx:id="playButton" mnemonicParsing="false" onAction="#playSound" prefHeight="33.0" prefWidth="256.0" text="Play Microphone Test" GridPane.rowIndex="4">
                <GridPane.margin>
-                  <Insets bottom="10.0" left="50.0" />
+                  <Insets bottom="10.0" left="150.0" />
                </GridPane.margin>
             </Button>
          </children>
@@ -51,7 +51,7 @@
    <center>
       <VBox>
          <children>
-            <Label prefHeight="76.0" prefWidth="538.0" styleClass="label-textsmall" text="Press the Test Microphone button to begin recording" BorderPane.alignment="CENTER">
+            <Label prefHeight="76.0" prefWidth="426.0" styleClass="label-textsmall" text="Press the Test Microphone button to begin recording" BorderPane.alignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -59,12 +59,17 @@
                   <Insets left="70.0" />
                </BorderPane.margin>
                <VBox.margin>
-                  <Insets left="90.0" />
+                  <Insets left="190.0" />
                </VBox.margin>
             </Label>
-            <Label fx:id="RecordingText" prefHeight="20.0" prefWidth="568.0" styleClass="label-text">
+            <Label styleClass="label-textsmall" text="The Recording will last 5 seconds">
                <VBox.margin>
-                  <Insets left="170.0" top="100.0" />
+                  <Insets left="250.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="RecordingText" prefHeight="33.0" prefWidth="512.0" styleClass="label-text">
+               <VBox.margin>
+                  <Insets left="300.0" top="100.0" />
                </VBox.margin>
             </Label>
          </children>

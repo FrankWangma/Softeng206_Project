@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="_rootPane" prefHeight="300.0" prefWidth="600.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Record">
+<BorderPane fx:id="_rootPane" prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Record">
    <top>
       <Label fx:id="currentName" styleClass="label-text" text="Recording For:" BorderPane.alignment="CENTER">
          <padding>
@@ -28,10 +29,13 @@
       </HBox>
    </bottom>
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonRecordRecord" mnemonicParsing="false" onAction="#handleRecordRecord" text="Start Recording" />
-            <Label fx:id="recordLabel" text="The recording is 5 seconds long." />
+            <Button fx:id="buttonRecordRecord" mnemonicParsing="false" onAction="#handleRecordRecord" prefHeight="108.0" prefWidth="262.0" text="Start Recording">
+               <font>
+                  <Font size="7.0" />
+               </font></Button>
+            <Label fx:id="recordLabel" styleClass="label-textsmall" text="The recording is 5 seconds long" />
          </children>
       </VBox>
    </center>
