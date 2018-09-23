@@ -72,6 +72,7 @@ public class Main extends Application {
 	public void makeDatabase() {
 		String sep = System.getProperty("file.separator");
 		File input = new File(_workDir + sep + "input");
+		input.mkdirs(); // Make the input folder if it doesn't exist
 		File destination = new File(_workDir + sep + "name_database");
 		File[] listOfFiles = input.listFiles(_filter);
 		String fileName;
