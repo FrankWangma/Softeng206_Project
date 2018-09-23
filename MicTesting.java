@@ -2,14 +2,10 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,7 +15,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-public class MicTesting implements Initializable {
+public class MicTesting {
 	@FXML BorderPane _rootPane;
 	@FXML Button backButton;
 	@FXML Button playButton;
@@ -69,9 +65,16 @@ public class MicTesting implements Initializable {
 				File file = new File(testFile);
 				//play the media file
 				if (file.exists()) {
+					playButton.setDisable(true);
 					Media sound = new Media(file.toURI().toString());
 					MediaPlayer mediaPlayer = new MediaPlayer(sound);
 					mediaPlayer.play();
+					
+					mediaPlayer.setOnEndOfMedia(new Runnable() {
+        				public void run() {
+        					playButton.setDisable(false); // Re-enable button
+        				}
+        			});
 				}
 	}
 	
@@ -131,9 +134,7 @@ public class MicTesting implements Initializable {
 		}
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		playButton.setDisable(true);
-		
 	}
 }
