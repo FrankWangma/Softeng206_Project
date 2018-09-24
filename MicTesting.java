@@ -1,26 +1,25 @@
 package application;
 
-import java.io.File;
 import java.io.IOException;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.TargetDataLine;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-public class MicTesting {
+public class MicTesting{
 	@FXML BorderPane _rootPane;
 	@FXML Button backButton;
-	@FXML Button playButton;
-	@FXML Button testButton;
-	@FXML Label RecordingText;
+	@FXML ProgressBar progressBar;;
 	/**
 	 * Method to change back to the main menu pane
 	 * @throws IOException
@@ -36,105 +35,81 @@ public class MicTesting {
         stage.show();
 	}
 	
-	/**
-	 * This method is used to have the user start recording and testing their microphone
-	 * to see if the levels are alright, or if the microphone is working
-	 */
-	@FXML public void testMic() {
-		//Disable buttons
-		backButton.setDisable(true);
-		playButton.setDisable(true);
-		testButton.setDisable(true);
-		RecordingText.setText("Recording....");
-		//Use a process builder to use ffmpeg to make audios
-		String cmd = " ffmpeg -y -f alsa -i default -t 5 MicTest.wav &> /dev/null";
-		Background background = new Background();
-		background.setcmd(cmd);
-		Thread thread = new Thread(background);
-		thread.start();
+	@FXML
+	public void initialize() {
+		new Thread(new Recorder(progressBar)).start();;
+//		Thread thread = new Thread(new Background());
+//		thread.start();
 	}
 	
-	/**
-	 * This method is used to play the audio file that is created when the user tests their mic
-	 * 
-	 */
-	@FXML public void playSound() {
-		
-		//Play the mic test file created
-				String testFile = "MicTest.wav";
-				File file = new File(testFile);
-				//play the media file
-				if (file.exists()) {
-					playButton.setDisable(true);
-					Media sound = new Media(file.toURI().toString());
-					MediaPlayer mediaPlayer = new MediaPlayer(sound);
-					mediaPlayer.play();
-					
-					mediaPlayer.setOnEndOfMedia(new Runnable() {
-        				public void run() {
-        					playButton.setDisable(false); // Re-enable button
-        				}
-        			});
-				}
-	}
 	
 	/**
-	 * Background worker to create the ffmpeg files and stop any freezing of GUi
-	 * 
+	 * This class is used to record the microphone levels
+	 * @author fwan175
 	 *
 	 */
-	public class Background extends Task<Void>{
-		private String _cmd;
+	class Recorder implements Runnable {
+		final ProgressBar _progressBar;
+		
+		Recorder(final ProgressBar progressBar) {
+            this._progressBar = progressBar;
+        }
 		@Override
-		protected Void call() throws Exception {
-			
-			bash(_cmd);
-			return null;
-		}
-		
-		/**
-		 * This is the method that is used to do something in a background worker thread
-		 */
-		@Override
-		protected void done() {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					RecordingText.setText("Done Recording");
-					backButton.setDisable(false);
-					playButton.setDisable(false);
-					testButton.setDisable(false);
-				}
-			});
-		}
-		
-		public void setcmd(String cmd) {
-			_cmd = cmd;
-		}
-		
-		/**
-		 * Process builder method to call a bash function
-		 * @param cmd the command that needs to be input
-		 */
-		public void bash(String cmd) {
-			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-			try {
-				Process process = builder.start();
-				
-				//Wait for a process to finish before exiting
-				int exitStatus = process.waitFor();
-				if(exitStatus!=0) {
-					return;
-				}
-			} catch (IOException e) {
-				System.out.println("Error: Invalid command");
-			} catch (InterruptedException e) {
-				System.out.println("Error: Interrupted");
-			}
-		}
-	}
+		public void run() {
+	            AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
+	            final int bufferByteSize = 2048;
 
-	public void initialize() {
-		playButton.setDisable(true);
+	            TargetDataLine line;
+	            try {
+	                line = AudioSystem.getTargetDataLine(fmt);
+	                line.open(fmt, bufferByteSize);
+	            } catch(LineUnavailableException e) {
+	                System.err.println(e);
+	                return;
+	            }
+
+	            byte[] buf = new byte[bufferByteSize];
+	            float[] samples = new float[bufferByteSize / 2];
+
+	            float lastPeak = 0f;
+
+	            line.start();
+	            for(int b; (b = line.read(buf, 0, buf.length)) > -1;) {
+
+	                // convert bytes to samples here
+	                for(int i = 0, s = 0; i < b;) {
+	                    int sample = 0;
+
+	                    sample |= buf[i++] & 0xFF; // (reverse these two lines
+	                    sample |= buf[i++] << 8;   //  if the format is big endian)
+
+	                    // normalize to range of +/-1.0f
+	                    samples[s++] = sample / 32768f;
+	                }
+
+	                float rms = 0f;
+	                float peak = 0f;
+	                for(float sample : samples) {
+
+	                    float abs = Math.abs(sample);
+	                    if(abs > peak) {
+	                        peak = abs;
+	                    }
+
+	                    rms += sample * sample;
+	                }
+
+	                rms = (float)Math.sqrt(rms / samples.length);
+
+	                if(lastPeak > peak) {
+	                    peak = lastPeak * 0.875f;
+	                }
+
+	                lastPeak = peak;
+	                _progressBar.setProgress(rms);
+	            }
+		
+		}
 	}
 }
+
