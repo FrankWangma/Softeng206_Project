@@ -85,15 +85,17 @@ public class chooseRecordings {
 	 * @throws IOException
 	 */
 	@FXML public void pressedNextButton() throws IOException {
-		// Confirmation: "Would you like to randomize recordings?"
-		Alert randomizeConfirm = new Alert(AlertType.CONFIRMATION, 
-				"Would you like to randomize recordings?");
-		Optional<ButtonType> result = randomizeConfirm.showAndWait();
-		
-		if (result.isPresent() && result.get() == ButtonType.OK) {
-			Collections.shuffle(_selected);
+		if(confirmListView.getItems().size() != 1) {
+			// Confirmation: "Would you like to randomize recordings?"
+			Alert randomizeConfirm = new Alert(AlertType.CONFIRMATION, 
+					"Would you like to randomize recordings?");
+			Optional<ButtonType> result = randomizeConfirm.showAndWait();
+			
+			if (result.isPresent() && result.get() == ButtonType.OK) {
+				Collections.shuffle(_selected);
+			}
 		}
-		goToView("PlayRecordings.fxml");
+			goToView("PlayRecordings.fxml");
 	}
 	
 	/**
