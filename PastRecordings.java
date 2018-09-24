@@ -47,10 +47,10 @@ public class PastRecordings {
 			String cmd;
 			if (isUser) {
 				cmd = "ffplay -nodisp -autoexit "  + PlayRecordings._filePath + "/user/" + 
-						viewPastRecordings.getSelectionModel().getSelectedItem()+" &> /dev/null";
+						viewPastRecordings.getSelectionModel().getSelectedItem()+".wav &> /dev/null";
 			} else {
 				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath + "/" + 
-			viewPastRecordings.getSelectionModel().getSelectedItem() +" &> /dev/null";
+			viewPastRecordings.getSelectionModel().getSelectedItem() +".wav &> /dev/null";
 			}
 			Background background = new Background();
 			background.setcmd(cmd);

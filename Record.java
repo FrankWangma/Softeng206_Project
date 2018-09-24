@@ -127,6 +127,7 @@ public class Record {
 					"Go back without saving?");
 			Optional<ButtonType> result = nameConfirm.showAndWait();
 			if (result.isPresent() && result.get() == ButtonType.OK) {
+				_tempFile.delete();
 				goBack();
 			}
 		} else {

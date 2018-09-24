@@ -38,8 +38,7 @@ public class MicTesting{
 	@FXML
 	public void initialize() {
 		new Thread(new Recorder(progressBar)).start();;
-//		Thread thread = new Thread(new Background());
-//		thread.start();
+
 	}
 	
 	
