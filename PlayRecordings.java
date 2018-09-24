@@ -12,12 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -40,6 +38,7 @@ public class PlayRecordings {
 	@FXML Button buttonNext;
 	@FXML Button toggle;
 	@FXML Button previousButton;
+	@FXML Button backMainMenuButton;
 	@FXML Label toggleYes; // Bad quality
 	@FXML Label toggleNo; // Not bad quality (default)
 	@FXML ListView<String> nameList;
@@ -137,9 +136,7 @@ public class PlayRecordings {
 			setName(name);
 		}
 		catch (IndexOutOfBoundsException e) {
-			// Otherwise, go back to the main menu
-			nameList.getItems().clear();
-			goToView("MainMenu.fxml");
+			_index--;
 		}
 	}
 	
@@ -250,6 +247,12 @@ public class PlayRecordings {
 		buttonPastRecordings.setDisable(false);
 		buttonNext.setDisable(false);
 		toggle.setDisable(false);
+	}
+	
+	@FXML
+	protected void backToMainMenu() throws IOException {
+		nameList.getItems().clear();
+		goToView("MainMenu.fxml");
 	}
 
 	@FXML
