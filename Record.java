@@ -160,7 +160,7 @@ public class Record {
 				"_" + PlayRecordings._name + ".wav";
 				
 		// Record the thing
-		String cmd = "ffmpeg -f alsa -i default -t 5 " + _tempFile.getAbsolutePath() + "&> recording.txt";
+		String cmd = "ffmpeg -y -f alsa -i default -t 5 " + _tempFile.getAbsolutePath() + "&> recording.txt";
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
