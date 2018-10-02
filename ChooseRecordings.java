@@ -18,7 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class chooseRecordings {
+public class ChooseRecordings {
 	static List<String> _selected = new ArrayList<String>();
 	
 	@FXML private Button nextButton;

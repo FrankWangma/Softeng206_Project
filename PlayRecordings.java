@@ -257,7 +257,7 @@ public class PlayRecordings {
 
 	@FXML
 	public void initialize() {
-		nameList.getItems().addAll(chooseRecordings._selected);
+		nameList.getItems().addAll(ChooseRecordings._selected);
 		_index = 0;
 		nameList.getSelectionModel().select(_index);
 		
