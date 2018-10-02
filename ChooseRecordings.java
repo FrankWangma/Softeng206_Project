@@ -109,7 +109,13 @@ public class ChooseRecordings {
 		stage.getScene().setRoot(pane);;
         stage.sizeToScene();
 	}
-
+	
+	/**
+	 * This method filters the list of the listView
+	 */
+	public void filterList() {
+		
+	}
 	public void initialize() {
 		//Add the files into the list view
 		_selected.clear(); // clear any previous items
