@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -28,6 +31,9 @@ public class ChooseRecordings {
 	@FXML HBox _rootPane;
 	@FXML private ListView<String> selectionListView;
 	@FXML private ListView<String> confirmListView;
+	@FXML private TextField _searchText;
+	@FXML private Button clearButton;
+	@FXML private Button searchButton;
 	
 	/**
 	 * This changes the pane to the Main Menu pane
@@ -113,9 +119,36 @@ public class ChooseRecordings {
 	/**
 	 * This method filters the list of the listView
 	 */
-	public void filterList() {
-		
+	@FXML public void filterList() {
+		if (_searchText != null || _searchText.getText().trim().length() != 0) {
+			String[] parts = _searchText.getText().toLowerCase().split(" ");
+			
+			ObservableList<String> searchedNames = FXCollections.observableArrayList();
+			for (Object names: Main._names) {
+				boolean match = true;
+				String name = (String) names; 
+				for(String part: parts) {
+					if ((!name.toLowerCase().contains(part))) {
+						match = false;
+						break;
+					}
+				}
+				if (match) {
+					searchedNames.add(name);
+				}
+			}
+			selectionListView.getItems().clear();
+			selectionListView.setItems(searchedNames);
+		}
 	}
+	
+	@FXML public void clearSearch() {
+		selectionListView.getItems().clear();
+		selectionListView.getItems().addAll(Main._names);
+		_searchText.setText("");
+	}
+	
+	
 	public void initialize() {
 		//Add the files into the list view
 		_selected.clear(); // clear any previous items
