@@ -97,7 +97,7 @@ public class ChooseRecordings {
 	 * @throws IOException
 	 */
 	@FXML public void pressedNextButton() throws IOException {
-		if(confirmListView.getItems().size() != 1) {
+		if(_selected.size() != 1) {
 			// Confirmation: "Would you like to randomize recordings?"
 			Alert randomizeConfirm = new Alert(AlertType.CONFIRMATION, 
 					"Would you like to randomize recordings?");
@@ -162,13 +162,22 @@ public class ChooseRecordings {
 		if (selectedFile != null) {
 		BufferedReader br = new BufferedReader(new FileReader(selectedFile));
 		
-		String currentLine; 
+		String currentLine;
+	
 		  while ((currentLine = br.readLine()) != null) {
 			  _selected.add(currentLine);
 		  } 
-		  pressedNextButton();
+		  
+		  if(_selected.isEmpty()) {
+			  Alert alert = new Alert(AlertType.ERROR, "Text file was empty", ButtonType.OK);
+			  alert.showAndWait();
+		  } else {
+			  pressedNextButton();
+		  }
 		} else {
 			// some error message?
+			Alert alert = new Alert(AlertType.ERROR , "No text file was selected", ButtonType.OK);
+			 alert.showAndWait();
 		}
 	}
 	
