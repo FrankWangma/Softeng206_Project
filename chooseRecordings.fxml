@@ -49,6 +49,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
+            <Button fx:id="selectFileButton" mnemonicParsing="false" onAction="#selectFile" prefHeight="38.0" prefWidth="198.0" text="Import a text file" />
          </children>
          <padding>
             <Insets left="10.0" right="10.0" />

@@ -1,5 +1,9 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +23,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ChooseRecordings {
@@ -34,6 +39,7 @@ public class ChooseRecordings {
 	@FXML private TextField _searchText;
 	@FXML private Button clearButton;
 	@FXML private Button searchButton;
+	@FXML private Button selectFileButton;
 	
 	/**
 	 * This changes the pane to the Main Menu pane
@@ -146,6 +152,24 @@ public class ChooseRecordings {
 		selectionListView.getItems().clear();
 		selectionListView.getItems().addAll(Main._names);
 		_searchText.setText("");
+	}
+	
+	@FXML public void selectFile() throws IOException {
+		FileChooser fc = new FileChooser();
+		fc.setInitialDirectory(new File(Main._workDir));
+		File selectedFile = fc.showOpenDialog(null);
+		
+		if (selectedFile != null) {
+		BufferedReader br = new BufferedReader(new FileReader(selectedFile));
+		
+		String currentLine; 
+		  while ((currentLine = br.readLine()) != null) {
+			  _selected.add(currentLine);
+		  } 
+		  pressedNextButton();
+		} else {
+			// some error message?
+		}
 	}
 	
 	
