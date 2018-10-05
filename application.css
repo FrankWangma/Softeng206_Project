@@ -73,7 +73,9 @@
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
     -fx-text-fill: #d8d8d8;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-border-color:black;
+    -fx-border-width: 0 3 3 0;
+    -fx-background-insets: 0;
 }
 
 .button:hover {

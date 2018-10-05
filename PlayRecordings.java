@@ -10,20 +10,17 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 /**
  * Controller class for Play Recordings screen.
  * 
  *
  */
-public class PlayRecordings {
+public class PlayRecordings extends AbstractController{
 	// FIELDS
 	static String _filePath;
 	static String _name;
@@ -105,7 +102,7 @@ public class PlayRecordings {
 	 */
 	@FXML protected void handleRecord(ActionEvent event) throws IOException {
         // GO TO RECORD VIEW
-		goToView("Record.fxml"); 
+		switchScenes("Record.fxml", _rootPane); 
 	}
 	
 	/**
@@ -116,7 +113,7 @@ public class PlayRecordings {
 	 */
 	@FXML protected void handlePast(ActionEvent event) throws IOException {
         // GO TO PAST RECORDING VIEW
-		goToView("PastRecordings.fxml");
+		switchScenes("PastRecordings.fxml", _rootPane);
 	}
 	
 	/**
@@ -215,17 +212,6 @@ public class PlayRecordings {
 		}
 	}
 	
-	/**
-	 * Helper method to change the views of the current pane
-	 * @param fxml
-	 * @throws IOException
-	 */
-	protected void goToView(String fxml) throws IOException {
-		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		stage.getScene().setRoot(pane);;
-        stage.sizeToScene();
-	}	
 	
 	/**
 	 * Helper method to disable the buttons
@@ -239,7 +225,7 @@ public class PlayRecordings {
 	}
 	
 	/**
-	 * Helper method to enable the uttons
+	 * Helper method to enable the buttons
 	 */
 	protected void enableButtons() {
 		buttonPlay.setDisable(false);
@@ -252,7 +238,7 @@ public class PlayRecordings {
 	@FXML
 	protected void backToMainMenu() throws IOException {
 		nameList.getItems().clear();
-		goToView("MainMenu.fxml");
+		switchScenes("MainMenu.fxml", _rootPane);
 	}
 
 	@FXML

@@ -9,22 +9,18 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 /**
  * 
  * Controller class for Past Recordings screen.
  *
  */
-public class PastRecordings {
+public class PastRecordings extends AbstractController{
 	// FIELDS
 	String _name;
 	
@@ -73,14 +69,7 @@ public class PastRecordings {
 	}
 	
 	@FXML protected void handleBack(ActionEvent event) throws IOException {
-		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-		//change and show the scene
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.sizeToScene();
+		switchScenes("PlayRecordings.fxml", _rootPane);
 	}
 	
 	@FXML protected void handleToggleDatabase(ActionEvent event) {

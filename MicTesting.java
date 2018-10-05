@@ -16,7 +16,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class MicTesting{
+public class MicTesting extends AbstractController{
 	@FXML BorderPane _rootPane;
 	@FXML Button backButton;
 	@FXML ProgressBar progressBar;;
@@ -26,13 +26,7 @@ public class MicTesting{
 	 */
 	@FXML public void changeToMain() throws IOException {
 		//back to main menu
-		Parent pane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
+		switchScenes("MainMenu.fxml", _rootPane);
 	}
 	
 	@FXML

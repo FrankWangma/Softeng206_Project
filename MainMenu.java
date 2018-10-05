@@ -1,17 +1,14 @@
 package application;
 
 import java.io.IOException;
+
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
 /**
  * Controller class for the main menu.
  */
-public class MainMenu {
+public class MainMenu extends AbstractController{
 	@FXML GridPane _rootPane;
 	
 	/**
@@ -19,7 +16,7 @@ public class MainMenu {
 	 */
 	@FXML public void micTestButton() throws IOException {
 		//Change to mic test pane
-		switchScenes("MicTesting.fxml");
+		switchScenes("MicTesting.fxml", _rootPane);
 	}
 	
 
@@ -28,24 +25,15 @@ public class MainMenu {
 	 */
 	@FXML public void practiceButton() throws IOException {
 		//Change to practice pane
-		switchScenes("chooseRecordings.fxml"); 
+		switchScenes("chooseRecordings.fxml", _rootPane); 
 	}
 	
-	/**
-	 * This method switches scenes, given an fxml file name
-	 * @param fxml the name of the fxml file
-	 * @throws IOException
-	 */
-	public void switchScenes(String fxml) throws IOException {
-		//use fxmlloader to change the fxml file
-		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-		//change and show the scene
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.sizeToScene();
+	@FXML public void helpButton() throws IOException {
+		//Change to help pane
+		switchScenes("HelpScreen.fxml", _rootPane);
 	}
+	
+	
+	
 
 }

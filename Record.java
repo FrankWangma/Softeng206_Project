@@ -10,23 +10,20 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 /**
  * Controller class for the recording screen.
  * 
  *
  */
-public class Record {
+public class Record extends AbstractController{
 	File _tempFile = new File(PlayRecordings._filePath + System.getProperty("file.separator") + 
 			"user" + System.getProperty("file.separator") + "temp.wav");
 	Scene _previousScene;
@@ -180,16 +177,7 @@ public class Record {
 	 * @throws IOException
 	 */
 	private void goBack() throws IOException {
-		
-		Parent pane = FXMLLoader.load(getClass().getResource("PlayRecordings.fxml"));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		Scene scene = stage.getScene();
-		
-		//change and show the scene
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.sizeToScene();
-		
+		switchScenes("PlayRecordings.fxml", _rootPane);
 	}
 	
 	/**

@@ -2,7 +2,6 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,20 +12,17 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-public class ChooseRecordings {
+public class ChooseRecordings extends AbstractController{
 	static List<String> _selected = new ArrayList<String>();
 	
 	@FXML private Button nextButton;
@@ -47,7 +43,7 @@ public class ChooseRecordings {
 	 */
 	@FXML public void changeToMain() throws IOException {
 		//back to main menu
-		goToView("MainMenu.fxml");
+		switchScenes("MainMenu.fxml", _rootPane);
 	}
 	
 	/**
@@ -107,20 +103,9 @@ public class ChooseRecordings {
 				Collections.shuffle(_selected);
 			}
 		}
-			goToView("PlayRecordings.fxml");
+			switchScenes("PlayRecordings.fxml", _rootPane);
 	}
 	
-	/**
-	 * Helper method to change the the pane of the stage
-	 * @param fxml
-	 * @throws IOException
-	 */
-	protected void goToView(String fxml) throws IOException {
-		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
-		Stage stage = (Stage) _rootPane.getScene().getWindow();
-		stage.getScene().setRoot(pane);;
-        stage.sizeToScene();
-	}
 	
 	/**
 	 * This method filters the list of the listView
