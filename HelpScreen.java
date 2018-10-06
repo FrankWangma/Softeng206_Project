@@ -46,8 +46,8 @@ public class HelpScreen extends AbstractController implements Initializable{
 	}
 	
 	private void loadStyle(Parent node, String css) {
-	      node.getStylesheets().clear();
-	      node.getStylesheets().add(getClass().getResource(css).toExternalForm());
+		_rootPane.getStylesheets().clear();
+	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
 
 	@Override

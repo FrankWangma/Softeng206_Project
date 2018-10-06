@@ -2,9 +2,11 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -209,16 +211,6 @@ public class Record extends AbstractController{
 		}
 	}
 	
-	@FXML
-	public void initialize() {
-		currentName.setText("Recording for: " + PlayRecordings._name);
-		recordLabel.setText("The recording is 5 seconds long.");
-		_firstRecord = false;
-		_saved = true;
-		buttonRecordPlay.setDisable(true);
-		buttonRecordSave.setDisable(true);
-	}
-	
 	/**
 	 * Background worker to create the ffmpeg files and stop any freezing of GUI
 	 * 
@@ -267,6 +259,26 @@ public class Record extends AbstractController{
 			}
 		}
 		
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		//load css file
+		 _rootPane.getStylesheets().clear();
+		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
+			
+			if(theme.length() == 5) {
+				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
+			} else {
+				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			}
+	     
+	     currentName.setText("Recording for: " + PlayRecordings._name);
+			recordLabel.setText("The recording is 5 seconds long.");
+			_firstRecord = false;
+			_saved = true;
+			buttonRecordPlay.setDisable(true);
+			buttonRecordSave.setDisable(true);
 	}
         
 }

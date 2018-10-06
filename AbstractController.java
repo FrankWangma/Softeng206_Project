@@ -1,15 +1,19 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public abstract class AbstractController {
+public abstract class AbstractController implements Initializable {
 	
 	/**
 	 * This method switches scenes, given an fxml file name

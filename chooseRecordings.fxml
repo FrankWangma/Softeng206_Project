@@ -26,7 +26,7 @@
             <HBox>
                <children>
                   <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearSearch" prefHeight="29.0" prefWidth="95.0" text="Clear" />
-                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#filterList" prefHeight="29.0" prefWidth="101.0" text="Search" />
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#filterList" prefHeight="32.0" prefWidth="105.0" text="Search" />
                </children>
             </HBox>
             <Button fx:id="selectButton" mnemonicParsing="false" onAction="#pressedSelectButton" prefHeight="38.0" prefWidth="196.0" text="&gt;&gt;">
