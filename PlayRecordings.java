@@ -26,7 +26,7 @@ public class PlayRecordings extends AbstractController{
 	// FIELDS
 	static String _filePath; //URI path to the audio file
 	static String _name;
-	String _fileFolder; //path to the name folder
+	static String _fileFolder; //path to the name folder
 	boolean _isBad; // is it marked as bad quality
 	boolean _isConcat; // is is a combined file
 	int _index; // index of the list we are on
@@ -49,10 +49,11 @@ public class PlayRecordings extends AbstractController{
 	 * @param name
 	 */
 	public void setName(String name) throws IOException {
-		if (!currentLine.contains(" ")) {
+		_name = name;
+		currentName.setText(name); //set the title
+		
+		if (!name.contains(" ")) {
 			_isConcat = false;
-			_name = name;
-			currentName.setText(name); //set the title
 			_fileFolder = Main._workDir + System.getProperty("file.separator") + 
 				"name_database" + System.getProperty("file.separator") + name;
 			_filePath = getRecording(_fileFolder).toURI().toString();
@@ -93,6 +94,7 @@ public class PlayRecordings extends AbstractController{
 			
 			// set the path to this file as the recording file
 			_filePath = audioFile.toURI().toString();
+			_fileFolder = audioFile.getParentFile().getAbsolutePath();
 		}
 	}
 	
