@@ -24,9 +24,11 @@ import javafx.scene.layout.BorderPane;
  */
 public class PlayRecordings extends AbstractController{
 	// FIELDS
-	static String _filePath;
+	static String _filePath; //URI path to the audio file
 	static String _name;
+	String _fileFolder; //path to the name folder
 	boolean _isBad; // is it marked as bad quality
+	boolean _isConcat; // is is a combined file
 	int _index; // index of the list we are on
 	
 	@FXML BorderPane _rootPane;
@@ -47,33 +49,61 @@ public class PlayRecordings extends AbstractController{
 	 * @param name
 	 */
 	public void setName(String name) throws IOException {
-		_name = name;
-		currentName.setText(name); //set the title
-		_filePath = Main._workDir + System.getProperty("file.separator") + 
+		if (!currentLine.contains(" ")) {
+			_isConcat = false;
+			_name = name;
+			currentName.setText(name); //set the title
+			_fileFolder = Main._workDir + System.getProperty("file.separator") + 
 				"name_database" + System.getProperty("file.separator") + name;
+			_filePath = getRecording(_fileFolder).toURI().toString();
 		
-		// Getting saved file quality
-		File quality = new File(_filePath + System.getProperty("file.separator") + "info.txt");
-		quality.createNewFile(); // create info file if doesn't exist
-		if (quality.length() == 0) {
-			_isBad = false;
-			toggleYes.setVisible(false);
-			toggleNo.setVisible(true);
+			// Getting saved file quality
+			File quality = new File(_fileFolder + System.getProperty("file.separator") + "info.txt");
+			quality.createNewFile(); // create info file if doesn't exist
+			if (quality.length() == 0) {
+				_isBad = false;
+				toggleYes.setVisible(false);
+				toggleNo.setVisible(true);
+			} else {
+				_isBad = true;
+				toggleYes.setVisible(true);
+				toggleNo.setVisible(false);
+			}
 		} else {
-			_isBad = true;
-			toggleYes.setVisible(true);
-			toggleNo.setVisible(false);
+			_isConcat = true;
+			
+			// make rating not possible by making buttons invisible
+			toggle.setVisible(false); // the button
+			toggleYes.setVisible(false); // the text
+			toggleNo.setVisible(false); // the text
+			
+			// get the individual names
+			List<File> files = new ArrayList<>();
+			String[] split = currentLine.trim().split("\\s+");
+			for (int i=0; i<split.length; i++) {
+				File filePath = new File(Main._workDir + System.getProperty("file.separator") + 
+						"name_database" + System.getProperty("file.separator") + split[i]);
+				File file = getRecording(filePath);
+				files.add(file);
+			}
+			
+			// concatenate
+			AudioProcess concat = new AudioProcess();
+			File audioFile = concat.concatenate(files);
+			
+			// set the path to this file as the recording file
+			_filePath = audioFile.toURI().toString();
 		}
-		
 	}
 	
 	/**
 	 * Looks at the available wav files and returns the latest as
-	 * the database recording.
+	 * the database recording, given a File representing the folder.
+	 * @param filePath the directory where the audio files are
 	 * @return the database .wav file
 	 */
-	public static File getRecording() {
-		File nameDir = new File(_filePath);
+	public static File getRecording(File filePath) {
+		File nameDir = new File(filePath);
 		File[] files = nameDir.listFiles(Main._filter);
 		Arrays.sort(files);
 		return files[files.length-1];
@@ -88,7 +118,7 @@ public class PlayRecordings extends AbstractController{
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the audio
-		String cmd = "ffplay -nodisp -autoexit " + getRecording().toURI().toString() +" &> /dev/null";
+		String cmd = "ffplay -nodisp -autoexit " + _filePath +" &> /dev/null";
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
@@ -150,7 +180,7 @@ public class PlayRecordings extends AbstractController{
 			toggleYes.setVisible(false);
 			toggleNo.setVisible(true);
 			_isBad = false;
-			File quality = new File(_filePath + 
+			File quality = new File(_fileFolder + 
 					System.getProperty("file.separator") + "info.txt");
 			quality.delete();
 			try {quality.createNewFile();}
