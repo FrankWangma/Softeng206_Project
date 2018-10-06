@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 public abstract class AbstractController {
 	
-	static ArrayList<Pane> _rootList;
 	/**
 	 * This method switches scenes, given an fxml file name
 	 * @param fxml the name of the fxml file
