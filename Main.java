@@ -173,6 +173,9 @@ public class Main extends Application {
 		return existingNames;
 	}
 	
+	public void fillRootList() {
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
