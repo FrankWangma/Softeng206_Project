@@ -2,11 +2,9 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -26,7 +24,7 @@ import javafx.scene.layout.BorderPane;
  *
  */
 public class Record extends AbstractController{
-	File _tempFile = new File(PlayRecordings._filePath + System.getProperty("file.separator") + 
+	File _tempFile = new File(PlayRecordings._fileFolder + System.getProperty("file.separator") + 
 			"user" + System.getProperty("file.separator") + "temp.wav");
 	Scene _previousScene;
 	String _recordedFileName; //File path of the latest user recording
@@ -69,7 +67,7 @@ public class Record extends AbstractController{
 	@FXML protected void handleRecordPlayDatabase(ActionEvent event) throws IOException {
 		// Set all buttons to disabled
 		disableButtons();
-		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings.getRecording().toURI().toString() +" &> /dev/null";
+		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";
 		// Play the database file
 		Background background = new Background();
 		background.setcmd(cmd);
@@ -154,7 +152,7 @@ public class Record extends AbstractController{
 		String date = dtf.format(now); 
 				
 		// Set the wav file name
-		_recordedFileName = PlayRecordings._filePath + System.getProperty("file.separator") + 
+		_recordedFileName = PlayRecordings._fileFolder + System.getProperty("file.separator") + 
 				"user" + System.getProperty("file.separator") + "user_" + date +
 				"_" + PlayRecordings._name + ".wav";
 				
@@ -211,6 +209,16 @@ public class Record extends AbstractController{
 		}
 	}
 	
+	@FXML
+	public void initialize() {
+		currentName.setText("Recording for: " + PlayRecordings._name);
+		recordLabel.setText("The recording is 5 seconds long.");
+		_firstRecord = false;
+		_saved = true;
+		buttonRecordPlay.setDisable(true);
+		buttonRecordSave.setDisable(true);
+	}
+	
 	/**
 	 * Background worker to create the ffmpeg files and stop any freezing of GUI
 	 * 
@@ -259,26 +267,6 @@ public class Record extends AbstractController{
 			}
 		}
 		
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		//load css file
-		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
-			
-			if(theme.length() == 5) {
-				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
-			} else {
-				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			}
-	     
-	     currentName.setText("Recording for: " + PlayRecordings._name);
-			recordLabel.setText("The recording is 5 seconds long.");
-			_firstRecord = false;
-			_saved = true;
-			buttonRecordPlay.setDisable(true);
-			buttonRecordSave.setDisable(true);
 	}
         
 }
