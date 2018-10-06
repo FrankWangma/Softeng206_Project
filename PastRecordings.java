@@ -45,10 +45,10 @@ public class PastRecordings extends AbstractController{
 			// Play the database file
 			String cmd;
 			if (isUser) {
-				cmd = "ffplay -nodisp -autoexit "  + PlayRecordings._filePath + "/user/" + 
+				cmd = "ffplay -nodisp -autoexit "  + PlayRecordings._fileFolder + "/user/" + 
 						viewPastRecordings.getSelectionModel().getSelectedItem()+".wav &> /dev/null";
 			} else {
-				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath + "/" + 
+				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + "/" + 
 			viewPastRecordings.getSelectionModel().getSelectedItem() +".wav &> /dev/null";
 			}
 			Background background = new Background();
@@ -63,7 +63,7 @@ public class PastRecordings extends AbstractController{
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the database file
-		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings.getRecording().toURI().toString() +" &> /dev/null";
+		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
@@ -94,7 +94,7 @@ public class PastRecordings extends AbstractController{
 	 * @return A String list of the user recording files
 	 */
 	private List<String> getUserRecordings() {
-		File userFolder = new File(PlayRecordings._filePath + 
+		File userFolder = new File(PlayRecordings._fileFolder + 
 				System.getProperty("file.separator") + "user");
 		File[] userArray = userFolder.listFiles(Main._filter);
 		List<String> userList = new ArrayList<String>();
@@ -112,7 +112,7 @@ public class PastRecordings extends AbstractController{
 	 * @return A String list of the database recording files
 	 */
 	private List<String> getDatabaseRecordings() {
-		File dbFolder = new File(PlayRecordings._filePath);
+		File dbFolder = new File(PlayRecordings._fileFolder);
 		File[] dbArray = dbFolder.listFiles(Main._filter);
 		List<String> dbList = new ArrayList<String>();
 		if(dbArray != null) {
