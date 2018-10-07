@@ -61,7 +61,7 @@
       <VBox>
          <children>
             <Label prefHeight="82.0" styleClass="label-textsmall" text="Your selected names:" />
-            <ListView fx:id="confirmListView" minWidth="-Infinity" prefHeight="579.0" prefWidth="296.0" styleClass="background-list" stylesheets="@application.css" />
+            <ListView fx:id="confirmListView" minWidth="-Infinity" prefHeight="579.0" prefWidth="296.0" styleClass="background-list" />
          </children>
       </VBox>
    </children>

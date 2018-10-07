@@ -1,9 +1,9 @@
 .background {
-    -fx-background-color: #FEFEFE;
+    -fx-background-color: #DEDBDB;
 }
 
 .background-list {
-    -fx-background-color: #890000;
+    -fx-background-color: #57D2FE;
 }
 .label {
     -fx-font-size: 11pt;
@@ -30,24 +30,24 @@
 
 .label-header {
     -fx-font-size: 24pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: black;
     -fx-opacity: 1;
 }
 
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: #C16A6A;
+    -fx-background-color: #A1A6A8;
     -fx-text-fill: white;
-     -fx-accent: #890000;
+     -fx-accent: #A1A6A8;
 }
 
 .list-cell:even{
-	-fx-background-color: #6F0202;
+	-fx-background-color: #44B4DC;
 }
 .list-cell { 
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 
@@ -69,7 +69,7 @@
 .button {
     -fx-padding: 5 22 5 22;   
     -fx-background-radius: 10;
-    -fx-background-color: #C6C7C7;
+    -fx-background-color: #01A3DE;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
     -fx-text-fill: black;
@@ -79,7 +79,7 @@
 }
 
 .button:hover {
-    -fx-background-color: #622D2D;
+    -fx-background-color: #02668A;
 }
 
 .button:pressed, .button:default:hover:pressed {

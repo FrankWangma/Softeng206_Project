@@ -50,7 +50,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <ListView fx:id="nameList" styleClass="background-list" stylesheets="@application.css" GridPane.rowIndex="1" GridPane.rowSpan="3" />
+            <ListView fx:id="nameList" styleClass="background-list" GridPane.rowIndex="1" GridPane.rowSpan="3" />
             <Label styleClass="label-textsmall" text="Your list of names:" />
             <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>

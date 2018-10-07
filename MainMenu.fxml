@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import java.net.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.effect.*?>
@@ -59,13 +60,23 @@
             <Insets bottom="100.0" />
          </GridPane.margin>
       </Label>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You can practice the pronunciation of the names in the database, and use the pre-recorded pronounciations to help you" textAlignment="CENTER" wrappingWidth="652.7294921875" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-         <font>
-            <Font size="29.0" />
-         </font>
+      <VBox GridPane.rowIndex="1">
+         <children>
+            <Label styleClass="label-text" text="You can practice the pronunciation of the names" />
+            <Label styleClass="label-text" text=" in the database, and use the pre-recorded">
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
+            </Label>
+            <Label styleClass="label-text" text=" pronounciations to help you">
+               <VBox.margin>
+                  <Insets left="140.0" />
+               </VBox.margin>
+            </Label>
+         </children>
          <GridPane.margin>
-            <Insets />
+            <Insets left="70.0" />
          </GridPane.margin>
-      </Text>
+      </VBox>
    </children>
 </GridPane>
