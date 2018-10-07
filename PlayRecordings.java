@@ -234,7 +234,7 @@ public class PlayRecordings extends AbstractController{
 		FileWriter fw = null;
 
 		try {
-			fw = new FileWriter(_filePath + System.getProperty("file.separator") + 
+			fw = new FileWriter(_fileFolder + System.getProperty("file.separator") + 
 					"info.txt", true);
 			bw = new BufferedWriter(fw);
 			bw.write("1");
@@ -280,17 +280,7 @@ public class PlayRecordings extends AbstractController{
 		switchScenes("MainMenu.fxml", _rootPane);
 	}
 
-	public void initialize() {
-		//load css file
-		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
-			
-			if(theme.length() == 5) {
-				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
-			} else {
-				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			}
-	     
+	public void customInit() {
 		nameList.getItems().addAll(ChooseRecordings._selected);
 		_index = 0;
 		nameList.getSelectionModel().select(_index);

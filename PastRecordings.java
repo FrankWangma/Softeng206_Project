@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.BorderPane;
 
 /**
  * 
@@ -21,7 +20,6 @@ public class PastRecordings extends AbstractController {
 	// FIELDS
 	String _name;
 	
-	@FXML BorderPane _rootPane;
 	@FXML ListView<String> viewPastRecordings;
 	@FXML Button buttonPlaySelected;
 	@FXML Button buttonPlayDatabase;
@@ -118,20 +116,11 @@ public class PastRecordings extends AbstractController {
 		return dbList;
 	}
 
-	public void initialize() {
-		//load css file
-		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
-			
-			if(theme.length() == 5) {
-				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
-			} else {
-				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			}
-	     
+	public void customInit() {
 	 	viewPastRecordings.getItems().addAll(getUserRecordings());
 		viewPastRecordings.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
+	
 	protected void disableButtons() {
 		buttonPlaySelected.setDisable(true);
 		buttonPlayDatabase.setDisable(true);

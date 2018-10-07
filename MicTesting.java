@@ -1,6 +1,5 @@
 package application;
 
-import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -10,10 +9,10 @@ import javax.sound.sampled.TargetDataLine;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 public class MicTesting extends AbstractController{
-	@FXML BorderPane _rootPane;
+	@FXML Pane _rootPane;
 	@FXML Button backButton;
 	@FXML ProgressBar progressBar;;
 	/**
@@ -94,18 +93,9 @@ public class MicTesting extends AbstractController{
 		
 		}
 	}
-
-	public void initialize() {
-		//load css file
-		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
-			
-			if(theme.length() == 5) {
-				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
-			} else {
-				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			}
-		
+	
+	@Override
+	public void customInit() {
 	     new Thread(new Recorder(progressBar)).start();;
 	}
 }

@@ -18,7 +18,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 
 public class ChooseRecordings extends AbstractController{
@@ -28,7 +27,6 @@ public class ChooseRecordings extends AbstractController{
 	@FXML private Button backButton;
 	@FXML private Button selectButton;
 	@FXML private Button deselectButton;
-	@FXML HBox _rootPane;
 	@FXML private ListView<String> selectionListView;
 	@FXML private ListView<String> confirmListView;
 	@FXML private TextField _searchText;
@@ -164,19 +162,9 @@ public class ChooseRecordings extends AbstractController{
 			 alert.showAndWait();
 		}
 	}
-
-	public void initialize() {
-		//load css file
-		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
-			
-			if(theme.length() == 5) {
-				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
-			} else {
-				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			}
-	   
-		
+	
+	@Override
+	public void customInit() {
 		//Add the files into the list view
 				_selected.clear(); // clear any previous items
 				selectionListView.getItems().addAll(Main._names);

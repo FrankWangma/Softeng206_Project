@@ -14,7 +14,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 
 /**
  * Controller class for the recording screen.
@@ -29,7 +28,6 @@ public class Record extends AbstractController{
 	boolean _firstRecord;
 	boolean _saved;
 	
-	@FXML BorderPane _rootPane;
 	@FXML private Label currentName;
 	@FXML private Label recordLabel;
 	@FXML private Button buttonRecordRecord;
@@ -207,8 +205,8 @@ public class Record extends AbstractController{
 		}
 	}
 	
-	@FXML
-	public void initialize() {
+	@Override
+	public void customInit() {
 		currentName.setText("Recording for: " + PlayRecordings._name);
 		recordLabel.setText("The recording is 5 seconds long.");
 		_firstRecord = false;

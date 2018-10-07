@@ -1,9 +1,11 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public abstract class AbstractController {
+	@FXML Pane _rootPane;
 	
 	/**
 	 * This method switches scenes, given an fxml file name
@@ -83,5 +86,24 @@ public abstract class AbstractController {
 	 * To enable buttons after a bash process is finished.
 	 */
 	protected void enableButtons() {}
+	
+	public void initialize() {
+		//load css file
+		 _rootPane.getStylesheets().clear();
+		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
+			
+			if(theme.length() == 5) {
+				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
+			} else {
+				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			}
+			customInit();
+	}
+	
+	/**
+	 * Class specific initialize()
+	 */
+	protected abstract void customInit();
+	   
 	
 }

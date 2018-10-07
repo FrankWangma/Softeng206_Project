@@ -8,10 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.BorderPane;
 
 public class HelpScreen extends AbstractController {
-	@FXML BorderPane _rootPane;
 	@FXML private CheckBox _lightTheme;
 	@FXML private CheckBox _darkTheme;
 	@FXML private Slider _volumeSlider;
@@ -44,8 +42,9 @@ public class HelpScreen extends AbstractController {
 		_rootPane.getStylesheets().clear();
 	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
-
-	public void initialize() {
+	
+	@Override
+	public void customInit() {
 		File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
 		
 		if(theme.length() == 5) {

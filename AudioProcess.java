@@ -16,11 +16,6 @@ public class AudioProcess {
 	 * @return the combined audio file
 	 */
 	public File concatenate(List<File> files) {
-		//Folder to store concat files
-		String output = Main._workDir + SEP + "combined";
-		File outputFolder = new File(output);
-		outputFolder.mkdirs();
-		
 		// process the files
 		String fileName = "";
 		List<File> newFiles = new ArrayList<>();
@@ -32,6 +27,12 @@ public class AudioProcess {
 			//Remove silence
 			newFiles.add(removeSilence(file));
 		}
+		fileName = fileName.substring(0,fileName.length()-1);
+		
+		//Folder to store concat files
+		String output = Main._workDir + SEP + "combined" + SEP + fileName;
+		File outputFolder = new File(output);
+		outputFolder.mkdirs();
 		
 		File concatFileTemp = new File(output + SEP + fileName + "temp.wav");
 		File concatFile = new File(output + SEP + fileName+ ".wav");
