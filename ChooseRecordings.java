@@ -4,13 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -147,34 +144,28 @@ public class ChooseRecordings extends AbstractController{
 		File selectedFile = fc.showOpenDialog(null);
 		
 		if (selectedFile != null) {
-		BufferedReader br = new BufferedReader(new FileReader(selectedFile));
-		
-		String currentLine;
+			BufferedReader br = new BufferedReader(new FileReader(selectedFile));
+			String currentLine;
 	
-		  while ((currentLine = br.readLine()) != null) {
-			  _selected.add(currentLine);
-		  } 
+		 	while ((currentLine = br.readLine()) != null) {
+		 		_selected.add(currentLine);
+		 	} 
+		 	br.close();
 		  
-		  if(_selected.isEmpty()) {
-			  Alert alert = new Alert(AlertType.ERROR, "Text file was empty", ButtonType.OK);
-			  alert.showAndWait();
-		  } else {
-			  pressedNextButton();
-		  }
+		 	if(_selected.isEmpty()) {
+		 		Alert alert = new Alert(AlertType.ERROR, "Text file was empty", ButtonType.OK);
+		 		alert.showAndWait();
+		 	} else {
+		 		pressedNextButton();
+		 	}
 		} else {
 			// some error message?
 			Alert alert = new Alert(AlertType.ERROR , "No text file was selected", ButtonType.OK);
 			 alert.showAndWait();
 		}
 	}
-	
-	
-	public void initialize() {
-		
-	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
 		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");

@@ -2,9 +2,6 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 
@@ -36,9 +33,7 @@ public class MainMenu extends AbstractController{
 		switchScenes("HelpScreen.fxml", _rootPane);
 	}
 
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
 		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
@@ -49,11 +44,5 @@ public class MainMenu extends AbstractController{
 				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			}
 	}
-
-
-	
-	
-	
-	
 
 }

@@ -2,12 +2,8 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-
-import application.MicTesting.Recorder;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -23,7 +19,7 @@ import javafx.scene.layout.BorderPane;
  * Controller class for Past Recordings screen.
  *
  */
-public class PastRecordings extends AbstractController{
+public class PastRecordings extends AbstractController {
 	// FIELDS
 	String _name;
 	
@@ -123,14 +119,8 @@ public class PastRecordings extends AbstractController{
 		}
 		return dbList;
 	}
-	
-	@FXML
-	public void initialize() {
-	
-	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
 		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");

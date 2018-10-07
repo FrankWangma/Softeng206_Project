@@ -2,22 +2,15 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 public class MicTesting extends AbstractController{
 	@FXML BorderPane _rootPane;
@@ -102,9 +95,7 @@ public class MicTesting extends AbstractController{
 		}
 	}
 
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
 		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");

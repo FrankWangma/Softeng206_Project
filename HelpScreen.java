@@ -4,18 +4,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
-public class HelpScreen extends AbstractController implements Initializable{
+public class HelpScreen extends AbstractController {
 	@FXML BorderPane _rootPane;
 	@FXML private CheckBox _lightTheme;
 	@FXML private CheckBox _darkTheme;
@@ -50,8 +45,7 @@ public class HelpScreen extends AbstractController implements Initializable{
 	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
 		
 		if(theme.length() == 5) {

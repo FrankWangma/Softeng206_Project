@@ -4,10 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle;
-
+import java.util.List;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -80,11 +79,10 @@ public class PlayRecordings extends AbstractController{
 			
 			// get the individual names
 			List<File> files = new ArrayList<>();
-			String[] split = currentLine.trim().split("\\s+");
+			String[] split = name.trim().split("\\s+");
 			for (int i=0; i<split.length; i++) {
-				File filePath = new File(Main._workDir + System.getProperty("file.separator") + 
+				File file = getRecording(Main._workDir + System.getProperty("file.separator") + 
 						"name_database" + System.getProperty("file.separator") + split[i]);
-				File file = getRecording(filePath);
 				files.add(file);
 			}
 			
@@ -104,7 +102,7 @@ public class PlayRecordings extends AbstractController{
 	 * @param filePath the directory where the audio files are
 	 * @return the database .wav file
 	 */
-	public static File getRecording(File filePath) {
+	public static File getRecording(String filePath) {
 		File nameDir = new File(filePath);
 		File[] files = nameDir.listFiles(Main._filter);
 		Arrays.sort(files);
@@ -275,8 +273,7 @@ public class PlayRecordings extends AbstractController{
 		switchScenes("MainMenu.fxml", _rootPane);
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
 		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
