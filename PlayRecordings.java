@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,22 +76,30 @@ public class PlayRecordings extends AbstractController{
 			toggleYes.setVisible(false); // the text
 			toggleNo.setVisible(false); // the text
 			
-			// get the individual names
-			List<File> files = new ArrayList<>();
-			String[] split = name.trim().split("\\s+");
-			for (int i=0; i<split.length; i++) {
-				File file = getRecording(Main._workDir + System.getProperty("file.separator") + 
-						"name_database" + System.getProperty("file.separator") + split[i]);
-				files.add(file);
-			}
+			Task<Void> concatTask = new Task<Void>() {
+    		    @Override
+    		    public Void call() throws Exception {
+    		    	// get the individual names
+    		    	List<File> files = new ArrayList<>();
+					String[] split = name.trim().split("\\s+");
+					for (int i=0; i<split.length; i++) {
+						File file = getRecording(Main._workDir + System.getProperty("file.separator") + 
+								"name_database" + System.getProperty("file.separator") + split[i]);
+						files.add(file);
+					}
 			
-			// concatenate
-			AudioProcess concat = new AudioProcess();
-			File audioFile = concat.concatenate(files);
+					// concatenate
+					AudioProcess concat = new AudioProcess();
+					File audioFile = concat.concatenate(files);
 			
-			// set the path to this file as the recording file
-			_filePath = audioFile.toURI().toString();
-			_fileFolder = audioFile.getParentFile().getAbsolutePath();
+					// set the path to this file as the recording file
+					_filePath = audioFile.toURI().toString();
+					_fileFolder = audioFile.getParentFile().getAbsolutePath();
+			
+					return null;
+    		    }
+    		};
+    		new Thread(concatTask).start();
 		}
 	}
 	
@@ -295,59 +302,5 @@ public class PlayRecordings extends AbstractController{
 		nameList.setFocusTraversable(false);
 		
 	}
-	
-	/**
-	 * Background worker to create the ffmpeg files and stop any freezing of GUi
-	 * 
-	 *
-	 */
-	public class Background extends Task<Void>{
-		private String _cmd;
-		@Override
-		protected Void call() throws Exception {
-			bash(_cmd);
-			return null;
-		}
-		
-		@Override
-		protected void done() {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					enableButtons();
-				}
-				
-			});
-		}
-		
-		public void setcmd(String cmd) {
-			_cmd = cmd;
-		}
-		
-		/**
-		 * Process builder method to call a bash function
-		 * @param cmd the command that needs to be input
-		 */
-		public void bash(String cmd) {
-			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-			try {
-				Process process = builder.start();
-				
-				//Wait for a process to finish before exiting
-				int exitStatus = process.waitFor();
-				if(exitStatus!=0) {
-					return;
-				}
-			} catch (IOException e) {
-				System.out.println("Error: Invalid command");
-			} catch (InterruptedException e) {
-				System.out.println("Error: Interrupted");
-			}
-		}
-		
-	}
-
-
-
 	
 }

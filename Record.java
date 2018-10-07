@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -217,56 +215,6 @@ public class Record extends AbstractController{
 		_saved = true;
 		buttonRecordPlay.setDisable(true);
 		buttonRecordSave.setDisable(true);
-	}
-	
-	/**
-	 * Background worker to create the ffmpeg files and stop any freezing of GUI
-	 * 
-	 *
-	 */
-	public class Background extends Task<Void>{
-		private String _cmd;
-		@Override
-		protected Void call() throws Exception {
-			bash(_cmd);
-			return null;
-		}
-		
-		@Override
-		protected void done() {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					enableButtons();
-				}
-			});
-		}
-		
-		public void setcmd(String cmd) {
-			_cmd = cmd;
-		}
-		
-		/**
-		 * Process builder method to call a bash function
-		 * @param cmd the command that needs to be input
-		 */
-		public void bash(String cmd) {
-			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-			try {
-				Process process = builder.start();
-				
-				//Wait for a process to finish before exiting
-				int exitStatus = process.waitFor();
-				if(exitStatus!=0) {
-					return;
-				}
-			} catch (IOException e) {
-				System.out.println("Error: Invalid command");
-			} catch (InterruptedException e) {
-				System.out.println("Error: Interrupted");
-			}
-		}
-		
 	}
         
 }

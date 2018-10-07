@@ -30,7 +30,7 @@ public class AudioProcess {
 			fileName = fileName + file.getName().substring(0, file.getName().length()-4) + "_";
 			
 			//Remove silence
-			newFiles.add(removeSilence(files.get(i)));
+			newFiles.add(removeSilence(file));
 		}
 		
 		File concatFileTemp = new File(output + SEP + fileName + "temp.wav");
@@ -97,6 +97,7 @@ public class AudioProcess {
 		}
 		return null;
 	}
+	
 	
 	private void bash(String cmd) {
 		ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
