@@ -90,7 +90,7 @@ public class AudioProcess {
 		if (file != null && file.getName().endsWith(".wav")) {
 			File newFile = new File(file.getParent() + SEP + "cleaned_" + file.getName());
 			String silence = "ffmpeg -y -hide_banner -i "+ file.getAbsolutePath() +" -af " + 
-				"silenceremove=1:0:-35dB:1:5:-35dB:0:peak " + newFile.getAbsolutePath();
+				"silenceremove=1:0:-50dB:1:2:-50dB " + newFile.getAbsolutePath();
 		
 			bash(silence);
 			return newFile;
