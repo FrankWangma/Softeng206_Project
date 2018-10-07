@@ -1,9 +1,12 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
@@ -18,7 +21,7 @@ public class HelpScreen extends AbstractController {
 	}
 	
 	@FXML void lightThemeListener() {
-		saveTheme("Light");
+		writeToText("Light", true);
 		_darkTheme.setDisable(false);
 		if (_darkTheme.isSelected()) {
 			_darkTheme.setSelected(false);
@@ -29,7 +32,7 @@ public class HelpScreen extends AbstractController {
 	}
 	
 	@FXML void darkThemeListener() {
-		saveTheme("Dark");
+		writeToText("Dark", true);
 		_lightTheme.setDisable(false);
 		if(_lightTheme.isSelected()) {
 			_lightTheme.setSelected(false);
@@ -43,27 +46,55 @@ public class HelpScreen extends AbstractController {
 	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
 	
+	@FXML private void volumeSliderListener() {
+		writeToText(Double.toString(_volumeSlider.getValue()), false);
+		String cmd = "pactl -- set-sink-volume 1 " + (int)_volumeSlider.getValue() + "%";
+		System.out.println(cmd);
+		Background background = new Background();
+		background.setcmd(cmd);
+		Thread thread = new Thread(background);
+		thread.start();
+	}
+	
 	@Override
 	public void customInit() {
 		File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
-		
 		if(theme.length() == 5) {
 			_lightTheme.fire();
 		} else {
 			_darkTheme.fire();
 		}
+		
+		File volume = new File(Main._workDir + System.getProperty("file.separator") + "volume.txt");
+		BufferedReader br;
+		try {
+			String currentLine;
+			br = new BufferedReader(new FileReader(volume));
+		 	while ((currentLine = br.readLine()) != null) {
+		 		_volumeSlider.setValue(Double.parseDouble(currentLine));
+		 	} 
+		 	br.close();
+		} catch (IOException e) {
+			
+		}
+		
 	}
 	
-	protected void saveTheme(String isDark) {
+	protected void writeToText(String text, Boolean isTheme) {
 		// Write settings to file
 		BufferedWriter bw = null;
 		FileWriter fw = null;
-
+		String textName;
+		if(isTheme) {
+			textName = "theme.txt";
+		} else {
+			textName = "volume.txt";
+		}
 		try {
 			fw = new FileWriter(Main._workDir + System.getProperty("file.separator") + 
-					"theme.txt", false);
+					textName, false);
 			bw = new BufferedWriter(fw);
-			bw.write(isDark);
+			bw.write(text);
 
 		} catch (IOException e) {
 			e.printStackTrace();

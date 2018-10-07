@@ -64,7 +64,7 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
                            <children>
                               <Label styleClass="label-textsmall" text="Volume" />
-                              <Slider fx:id="_volumeSlider" prefHeight="16.0" prefWidth="532.0" />
+                              <Slider fx:id="_volumeSlider" onMouseReleased="#volumeSliderListener" prefHeight="16.0" prefWidth="532.0" />
                            </children>
                            <padding>
                               <Insets left="20.0" top="20.0" />
