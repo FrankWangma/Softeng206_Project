@@ -9,10 +9,8 @@ import javax.sound.sampled.TargetDataLine;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.Pane;
 
 public class MicTesting extends AbstractController{
-	@FXML Pane _rootPane;
 	@FXML Button backButton;
 	@FXML ProgressBar progressBar;;
 	/**

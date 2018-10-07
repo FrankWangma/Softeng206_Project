@@ -83,7 +83,8 @@ public abstract class AbstractController {
 	}
 	
 	/**
-	 * To enable buttons after a bash process is finished.
+	 * To enable buttons after a bash process to record or play is finished. 
+	 * Optional override.
 	 */
 	protected void enableButtons() {}
 	

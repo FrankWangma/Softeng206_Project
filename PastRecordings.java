@@ -115,7 +115,8 @@ public class PastRecordings extends AbstractController {
 		}
 		return dbList;
 	}
-
+	
+	@Override
 	public void customInit() {
 	 	viewPastRecordings.getItems().addAll(getUserRecordings());
 		viewPastRecordings.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -129,6 +130,7 @@ public class PastRecordings extends AbstractController {
 		toggleUser.setDisable(true);
 	}
 	
+	@Override
 	protected void enableButtons() {
 		buttonPlaySelected.setDisable(false);
 		buttonPlayDatabase.setDisable(false);

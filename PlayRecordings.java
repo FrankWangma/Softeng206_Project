@@ -266,6 +266,7 @@ public class PlayRecordings extends AbstractController{
 	/**
 	 * Helper method to enable the buttons
 	 */
+	@Override
 	protected void enableButtons() {
 		buttonPlay.setDisable(false);
 		buttonRecord.setDisable(false);
@@ -279,7 +280,8 @@ public class PlayRecordings extends AbstractController{
 		nameList.getItems().clear();
 		switchScenes("MainMenu.fxml", _rootPane);
 	}
-
+	
+	@Override
 	public void customInit() {
 		nameList.getItems().addAll(ChooseRecordings._selected);
 		_index = 0;

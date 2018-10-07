@@ -189,6 +189,7 @@ public class Record extends AbstractController{
 	/**
 	 * This method enables all the buttons in the current pane
 	 */
+	@Override
 	protected void enableButtons() {
 		buttonRecordRecord.setDisable(false);
 		buttonRecordPlayDatabase.setDisable(false);
