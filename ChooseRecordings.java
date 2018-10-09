@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -108,26 +109,8 @@ public class ChooseRecordings extends AbstractController{
 	 * This method filters the list of the listView
 	 */
 	@FXML public void filterList() {
-		if (_searchText != null || _searchText.getText().trim().length() != 0) {
-			String[] parts = _searchText.getText().toLowerCase().split(" ");
-			
-			ObservableList<String> searchedNames = FXCollections.observableArrayList();
-			for (Object names: Main._names) {
-				boolean match = true;
-				String name = (String) names; 
-				for(String part: parts) {
-					if ((!name.toLowerCase().contains(part))) {
-						match = false;
-						break;
-					}
-				}
-				if (match) {
-					searchedNames.add(name);
-				}
-			}
-			selectionListView.getItems().clear();
-			selectionListView.setItems(searchedNames);
-		}
+		
+
 	}
 	
 	@FXML public void clearSearch() {
@@ -172,5 +155,24 @@ public class ChooseRecordings extends AbstractController{
 				confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 				//Initially disable the next button
 				nextButton.setDisable(true);
+				
+				//code retrieved from https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
+				ObservableList<String> names = selectionListView.getItems();
+				FilteredList<String> filteredList = new FilteredList<>(names, e -> true);
+				_searchText.textProperty().addListener((observable, oldValue, newValue) -> {
+				    filteredList.setPredicate(element -> {
+				        if (newValue == null || newValue.isEmpty()) {
+				            return true;
+				        }
+
+				        if (element.toLowerCase().contains(newValue.toLowerCase())) {
+				            return true; // Filter matches
+				        }
+				        //Add your filtering conditions here
+
+				        return false; // Does not match
+				    });
+				    selectionListView.setItems(filteredList);
+				});
 	}
 }
