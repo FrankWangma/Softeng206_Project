@@ -261,6 +261,8 @@ public class PlayRecordings extends AbstractController{
 		buttonPastRecordings.setDisable(true);
 		buttonNext.setDisable(true);
 		toggle.setDisable(true);
+		previousButton.setDisable(true);
+		backMainMenuButton.setDisable(true);
 	}
 	
 	/**
@@ -273,6 +275,8 @@ public class PlayRecordings extends AbstractController{
 		buttonPastRecordings.setDisable(false);
 		buttonNext.setDisable(false);
 		toggle.setDisable(false);
+		previousButton.setDisable(false);
+		backMainMenuButton.setDisable(false);
 	}
 	
 	@FXML

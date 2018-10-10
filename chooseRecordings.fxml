@@ -40,6 +40,7 @@
                </VBox.margin>
             </Button>
             <Button fx:id="selectFileButton" mnemonicParsing="false" onAction="#selectFile" prefHeight="38.0" prefWidth="198.0" text="Import a text file" />
+            <Button fx:id="addCustomNameButton" mnemonicParsing="false" onAction="#addNameButtonListener" prefHeight="38.0" prefWidth="198.0" text="Add custom name" />
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#changeToMain" prefHeight="38.0" prefWidth="198.0" text="Back">
                <VBox.margin>
                   <Insets />

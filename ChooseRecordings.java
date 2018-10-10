@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -20,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class ChooseRecordings extends AbstractController{
 	static List<String> _selected = new ArrayList<String>();
@@ -34,6 +37,8 @@ public class ChooseRecordings extends AbstractController{
 	@FXML private Button clearButton;
 	@FXML private Button searchButton;
 	@FXML private Button selectFileButton;
+	@FXML private Button addCustomNameButton;
+	@FXML private static String addName;
 	
 	/**
 	 * This changes the pane to the Main Menu pane
@@ -104,21 +109,6 @@ public class ChooseRecordings extends AbstractController{
 			switchScenes("PlayRecordings.fxml", _rootPane);
 	}
 	
-	
-	/**
-	 * This method filters the list of the listView
-	 */
-	@FXML public void filterList() {
-		
-
-	}
-	
-	@FXML public void clearSearch() {
-		selectionListView.getItems().clear();
-		selectionListView.getItems().addAll(Main._names);
-		_searchText.setText("");
-	}
-	
 	@FXML public void selectFile() throws IOException {
 		FileChooser fc = new FileChooser();
 		fc.setInitialDirectory(new File(Main._workDir));
@@ -146,8 +136,30 @@ public class ChooseRecordings extends AbstractController{
 		}
 	}
 	
+	@FXML public void addNameButtonListener() {
+	        try {
+	        	Parent pane = FXMLLoader.load(getClass().getResource("AddCustomName.fxml"));
+	            Stage stage = new Stage();
+	            stage.setTitle("Add Custom Name");
+	            stage.setScene(new Scene(pane));
+	            stage.showAndWait();
+	            if(AddCustomName._name != null && !AddCustomName._name.isEmpty()) {
+		            confirmListView.getItems().add(AddCustomName._name);
+		            _selected.add(AddCustomName._name);
+		            nextButton.setDisable(false);
+	            }
+	        }
+	        catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        
+	        
+	}
+	
+	
 	@Override
 	public void customInit() {
+		addName = null;
 		//Add the files into the list view
 				_selected.clear(); // clear any previous items
 				selectionListView.getItems().addAll(Main._names);
@@ -155,7 +167,6 @@ public class ChooseRecordings extends AbstractController{
 				confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 				//Initially disable the next button
 				nextButton.setDisable(true);
-				
 				//code retrieved from https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
 				ObservableList<String> names = selectionListView.getItems();
 				FilteredList<String> filteredList = new FilteredList<>(names, e -> true);
@@ -165,7 +176,7 @@ public class ChooseRecordings extends AbstractController{
 				            return true;
 				        }
 
-				        if (element.toLowerCase().contains(newValue.toLowerCase())) {
+				        if (element.toLowerCase().startsWith(newValue.toLowerCase())) {
 				            return true; // Filter matches
 				        }
 				        //Add your filtering conditions here
@@ -174,5 +185,6 @@ public class ChooseRecordings extends AbstractController{
 				    });
 				    selectionListView.setItems(filteredList);
 				});
+				
 	}
 }
