@@ -25,7 +25,7 @@ public class MicTesting extends AbstractController{
 	
 	/**
 	 * This class is used to record the microphone levels
-	 * @author fwan175
+	 *  code retrieved from: https://stackoverflow.com/questions/26574326/how-to-calculate-the-level-amplitude-db-of-audio-signal-in-java
 	 *
 	 */
 	class Recorder implements Runnable {

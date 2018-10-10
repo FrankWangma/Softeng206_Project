@@ -119,11 +119,13 @@ public class ChooseRecordings extends AbstractController{
 	@FXML public void selectFile() throws IOException {
 		// use file chooser to allow the user choose a text file
 		FileChooser fc = new FileChooser();
+		
 		// add a filter (only text files)
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
 		fc.getExtensionFilters().add(extFilter);
 		fc.setInitialDirectory(new File(Main._workDir));
 		File selectedFile = fc.showOpenDialog(null);
+		
 		ArrayList<String> inexistantNames = new ArrayList<String>();
 		// Check if the user has selected anything
 		if (selectedFile != null) {
@@ -167,6 +169,7 @@ public class ChooseRecordings extends AbstractController{
 	            stage.setTitle("Add Custom Name");
 	            stage.setScene(new Scene(pane));
 	            stage.showAndWait();
+	            
 	            // if the user inputted any name
 	            if(AddCustomName._name != null && !AddCustomName._name.isEmpty()) {
 	            	//Check if the name exists
@@ -178,6 +181,7 @@ public class ChooseRecordings extends AbstractController{
 			            alert.showAndWait();
 	    			}
 	            }
+	            
 	        }
 	        catch (IOException e) {
 	            e.printStackTrace();
@@ -186,10 +190,19 @@ public class ChooseRecordings extends AbstractController{
 	        
 	}
 	
+	/**
+	 * Check if the name inputted exists (checks the _name list in Main)
+	 * @param name the name that is inputted
+	 * @return
+	 */
 	public Boolean checkIfNameExists(String name) {
+	
+		
 		Boolean shouldBeAdded = false;
+		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");
 		for (String partOfName : splitted) {
+			// If the names list contains the name
 			if (Main._names.contains(partOfName)) {
 				shouldBeAdded = true;
 			} else {

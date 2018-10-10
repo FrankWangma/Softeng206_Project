@@ -12,25 +12,43 @@ import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 
+/**
+ * This class is used as the controller for the help screen in the GUI
+ * @author frank
+ *
+ */
 public class HelpScreen extends AbstractController {
 	@FXML private CheckBox _lightTheme;
 	@FXML private CheckBox _darkTheme;
 	@FXML private Slider _volumeSlider;
+	/**
+	 * This method listens for when the back button is pressed
+	 * @throws IOException
+	 */
 	@FXML void backButtonListener() throws IOException{
 		switchScenes("MainMenu.fxml", _rootPane);
 	}
 	
+	/**
+	 * This method listens for when the light Theme checkbox is pressed
+	 */
 	@FXML void lightThemeListener() {
 		writeToText("Light", true);
+		// enable the dark theme checkbox
 		_darkTheme.setDisable(false);
+		// de-select the dark theme
 		if (_darkTheme.isSelected()) {
 			_darkTheme.setSelected(false);
 		}
+		// disable the light theme checkbox
 		_lightTheme.setDisable(true);
 		loadStyle(_rootPane, "LightTheme.css");
 		
 	}
 	
+	/**
+	 * This method listens for when the dark theme checkbox is pressed
+	 */
 	@FXML void darkThemeListener() {
 		writeToText("Dark", true);
 		_lightTheme.setDisable(false);
@@ -41,13 +59,22 @@ public class HelpScreen extends AbstractController {
 		loadStyle(_rootPane, "application.css");
 	}
 	
+	/**
+	 * This method loads the style of the css file that is inputed
+	 * @param node
+	 * @param css
+	 */
 	private void loadStyle(Parent node, String css) {
 		_rootPane.getStylesheets().clear();
 	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
 	
+	/**
+	 * This method listens for when the volume slider is changed
+	 */
 	@FXML private void volumeSliderListener() {
 		writeToText(Double.toString(_volumeSlider.getValue()), false);
+		// use the process builder to set the pc volume 
 		String cmd = "pactl -- set-sink-volume 1 " + (int)_volumeSlider.getValue() + "%";
 		System.out.println(cmd);
 		Background background = new Background();
@@ -58,6 +85,7 @@ public class HelpScreen extends AbstractController {
 	
 	@Override
 	public void customInit() {
+		//Check the theme using a file, and select whichever theme was previously selected
 		File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
 		if(theme.length() == 5) {
 			_lightTheme.fire();
@@ -65,6 +93,7 @@ public class HelpScreen extends AbstractController {
 			_darkTheme.fire();
 		}
 		
+		// Check the previous volume selected (memory)
 		File volume = new File(Main._workDir + System.getProperty("file.separator") + "volume.txt");
 		BufferedReader br;
 		try {
@@ -80,6 +109,11 @@ public class HelpScreen extends AbstractController {
 		
 	}
 	
+	/**
+	 * This method writes the inputed string into a text file
+	 * @param text
+	 * @param isTheme if it is meant to write to a theme
+	 */
 	protected void writeToText(String text, Boolean isTheme) {
 		// Write settings to file
 		BufferedWriter bw = null;
