@@ -33,7 +33,7 @@ public abstract class AbstractController {
 	}
 	
 	/**
-	 * Background worker to create the ffmpeg files and stop any freezing of GUi
+	 * Background worker to create the ffmpeg files and stop any freezing of the GUI
 	 * 
 	 */
 	public class Background extends Task<Void>{
