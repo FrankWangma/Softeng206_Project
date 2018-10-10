@@ -89,8 +89,10 @@ public class Main extends Application {
 			        }
 			        if (underscores == 3) {
 			        	
+			        	// Get the name from the file
 			        	int cut = c+1;
-			        	String name = fileName.substring(cut,fileName.length()-4);
+			        	String name = fileName.substring(cut,fileName.length()-4).toLowerCase();
+			        	name = name.substring(0, 1).toUpperCase() + name.substring(1);
 			        	tempNamesList.add(name);
 			        	
 			        	// Make the name folder
