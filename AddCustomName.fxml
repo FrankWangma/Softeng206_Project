@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane fx:id="_rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddCustomName">
+   <top>
+      <VBox alignment="CENTER" prefHeight="84.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="label-textsmall" text="You may write custom names made from the names of the data base" />
+            <Label styleClass="label-textsmall" text="The name will be concatenated automatically" />
+            <Label styleClass="label-textsmall" text="For example: Catherine Watson" />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <TextField fx:id="_customName" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="400.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="_cancelButton" mnemonicParsing="false" onAction="#cancelButtonListener" prefWidth="100.0" text="Cancel" />
+            <Button fx:id="_addButton" mnemonicParsing="false" onAction="#addButtonListener" prefWidth="100.0" text="Add" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
