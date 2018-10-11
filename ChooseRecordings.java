@@ -224,7 +224,7 @@ public class ChooseRecordings extends AbstractController{
 		//Add the files into the list view
 				_selected.clear(); // clear any previous items
 				selectionList=FXCollections.observableArrayList(Main._names);
-				selectionListView.getItems().addAll(Main._names);
+				
 				selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 				confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 				//Initially disable the next button
@@ -232,6 +232,7 @@ public class ChooseRecordings extends AbstractController{
 				
 				//code retrieved from https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
 				filteredList = new FilteredList<>(selectionList, e -> true);
+				selectionListView.setItems(filteredList);
 				_searchText.textProperty().addListener((observable, oldValue, newValue) -> {
 				    filteredList.setPredicate(element -> {
 				        if (newValue == null || newValue.isEmpty()) {
