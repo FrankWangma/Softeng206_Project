@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -41,6 +42,8 @@ public class ChooseRecordings extends AbstractController{
 	@FXML private Button selectFileButton;
 	@FXML private Button addCustomNameButton;
 	@FXML private static String addName;
+	private ObservableList<String> selectionList;
+	private FilteredList<String> filteredList;
 	
 	/**
 	 * This changes the pane to the Main Menu pane
@@ -61,9 +64,10 @@ public class ChooseRecordings extends AbstractController{
 			//do nothing
 		} else {
 			//put the name that is selected onto the confirmListView
+			_searchText.clear();
 			nextButton.setDisable(false); //un-disable the next button
 			confirmListView.getItems().addAll(selectedItem);
-			selectionListView.getItems().remove(selectedItem);
+			selectionList.remove(selectedItem);
 		}
 	}
 	
@@ -78,7 +82,7 @@ public class ChooseRecordings extends AbstractController{
 		} else {
 			//move the selected name to the Selection view list
 			// Enable the next button
-			selectionListView.getItems().addAll(selectedItem);
+			selectionList.add(selectedItem);
 			confirmListView.getItems().remove(selectedItem);
 			if(confirmListView.getItems().size() == 0) {
 				nextButton.setDisable(true);
@@ -219,6 +223,7 @@ public class ChooseRecordings extends AbstractController{
 		addName = null;
 		//Add the files into the list view
 				_selected.clear(); // clear any previous items
+				selectionList=FXCollections.observableArrayList(Main._names);
 				selectionListView.getItems().addAll(Main._names);
 				selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 				confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -226,8 +231,7 @@ public class ChooseRecordings extends AbstractController{
 				nextButton.setDisable(true);
 				
 				//code retrieved from https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
-				ObservableList<String> names = selectionListView.getItems();
-				FilteredList<String> filteredList = new FilteredList<>(names, e -> true);
+				filteredList = new FilteredList<>(selectionList, e -> true);
 				_searchText.textProperty().addListener((observable, oldValue, newValue) -> {
 				    filteredList.setPredicate(element -> {
 				        if (newValue == null || newValue.isEmpty()) {
@@ -241,7 +245,9 @@ public class ChooseRecordings extends AbstractController{
 
 				        return false; // Does not match
 				    });
+				  
 				    selectionListView.setItems(filteredList);
+				    
 				});
 	}
 }
