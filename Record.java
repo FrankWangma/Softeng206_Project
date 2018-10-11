@@ -149,16 +149,9 @@ public class Record extends AbstractController{
 		// Set text to "recording"
 		recordLabel.setText("Recording...");
 		buttonRecordRecord.setText("Stop");
-				
-		// Get the date and time
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-YYYY_HH-mm-ss");
-		LocalDateTime now = LocalDateTime.now();
-		String date = dtf.format(now); 
-				
-		// Set the wav file name
-		_recordedFileName = PlayRecordings._fileFolder + System.getProperty("file.separator") + 
-				"user" + System.getProperty("file.separator") + "user_" + date +
-				"_" + PlayRecordings._name + ".wav";
+		
+		// setup the file names
+		setRecordFile();
 				
 		// Record the thing
 		String cmd = "ffmpeg -y -f alsa -i default -t 20 " + _tempFile.getAbsolutePath() + "&> recording.txt";
@@ -190,6 +183,22 @@ public class Record extends AbstractController{
 	 */
 	private void stopRecord() {
 		_recordThread.interrupt();
+	}
+	
+	/**
+	 * Sets the name for a recorded file, containing the 
+	 * date and time.
+	 */
+	private void setRecordFile() {
+		// Get the date and time
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-YYYY_HH-mm-ss");
+		LocalDateTime now = LocalDateTime.now();
+		String date = dtf.format(now); 
+						
+		// Set the wav file name
+		_recordedFileName = PlayRecordings._fileFolder + System.getProperty("file.separator") + 
+					"user" + System.getProperty("file.separator") + "user_" + date +
+					"_" + PlayRecordings._name + ".wav";
 	}
 	
 	/**

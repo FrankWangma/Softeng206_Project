@@ -21,7 +21,8 @@ public class AddCustomName extends AbstractController{
 	 * This method handles the event when the add button is pressed
 	 */
 	@FXML public void addButtonListener() {
-		_name = _customName.getText();
+		_name = _customName.getText().substring(0, 1).toUpperCase() + 
+				_customName.getText().substring(1);
 		cancelButtonListener();
 	}
 	
