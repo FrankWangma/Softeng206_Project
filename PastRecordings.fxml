@@ -25,17 +25,17 @@
    <left>
       <VBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="toggleLabel" styleClass="label-textsmall" text="User Recordings">
+            <Label fx:id="toggleLabel" prefWidth="290.0" styleClass="label-textsmall" text="User Recordings">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <ListView fx:id="viewPastRecordings" prefWidth="282.0" styleClass="background-list">
+            <ListView fx:id="viewPastRecordings" prefWidth="290.0" styleClass="background-list">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </ListView>
-            <HBox prefWidth="200.0" spacing="10.0">
+            <HBox prefWidth="290.0" spacing="10.0">
                <children>
                   <Button fx:id="toggleDatabase" mnemonicParsing="false" onAction="#handleToggleDatabase" text="View Database" />
                   <Button fx:id="toggleUser" mnemonicParsing="false" onAction="#handleToggleUser" text="View User" />
