@@ -27,6 +27,8 @@ public class Record extends AbstractController{
 	String _recordedFileName; //File path of the latest user recording
 	boolean _firstRecord;
 	boolean _saved;
+	private boolean _isRecording;
+	Thread _recordThread = new Thread(new Background());
 	
 	@FXML private Label currentName;
 	@FXML private Label recordLabel;
@@ -42,16 +44,21 @@ public class Record extends AbstractController{
 	 * @param event
 	 */
 	@FXML protected void handleRecordRecord(ActionEvent event) {
-		if (!_saved) {
-			//If the recording has not been saved, then prompt the user for confirmation
-			Alert nameConfirm = new Alert(AlertType.CONFIRMATION, 
+		if (!_isRecording) {
+			if (!_saved) {
+				//If the recording has not been saved, then prompt the user for confirmation
+				Alert nameConfirm = new Alert(AlertType.CONFIRMATION, 
 					"Continue without saving your previous recording?");
-			Optional<ButtonType> result = nameConfirm.showAndWait();
-			if (result.isPresent() && result.get() == ButtonType.OK) {
+				Optional<ButtonType> result = nameConfirm.showAndWait();
+				if (result.isPresent() && result.get() == ButtonType.OK) {
+					record();
+				}
+			} else {
 				record();
 			}
 		} else {
-			record();
+			// stop the recording
+			stopRecord();
 		}
     }
 	
@@ -141,6 +148,7 @@ public class Record extends AbstractController{
 				
 		// Set text to "recording"
 		recordLabel.setText("Recording...");
+		buttonRecordRecord.setText("Stop");
 				
 		// Get the date and time
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-YYYY_HH-mm-ss");
@@ -153,19 +161,35 @@ public class Record extends AbstractController{
 				"_" + PlayRecordings._name + ".wav";
 				
 		// Record the thing
-		String cmd = "ffmpeg -y -f alsa -i default -t 5 " + _tempFile.getAbsolutePath() + "&> recording.txt";
+		String cmd = "ffmpeg -y -f alsa -i default -t 20 " + _tempFile.getAbsolutePath() + "&> recording.txt";
 		Background background = new Background();
 		background.setcmd(cmd);
-		Thread thread = new Thread(background);
-		thread.start();
+		_recordThread = new Thread(background);
+		_recordThread.start();
+		_isRecording = true;
 				
 		// Once done, set text
 		background.setOnSucceeded(e -> {
+			buttonRecordRecord.setText("Record");
 			recordLabel.setText("Done.");
+			_isRecording = false;
+		});
+		
+		background.setOnCancelled(e -> {
+			buttonRecordRecord.setText("Record");
+			recordLabel.setText("Done.");
+			_isRecording = false;
 		});
 		
 		_saved = false;
 		_firstRecord = true;
+	}
+	
+	/**
+	 * Stop the recording.
+	 */
+	private void stopRecord() {
+		_recordThread.interrupt();
 	}
 	
 	/**
@@ -181,7 +205,6 @@ public class Record extends AbstractController{
 	 */
 	protected void disableButtons() {
 		buttonRecordPlay.setDisable(true);
-		buttonRecordRecord.setDisable(true);
 		buttonRecordPlayDatabase.setDisable(true);
 		buttonRecordBack.setDisable(true);
 		buttonRecordSave.setDisable(true);
@@ -191,7 +214,6 @@ public class Record extends AbstractController{
 	 */
 	@Override
 	protected void enableButtons() {
-		buttonRecordRecord.setDisable(false);
 		buttonRecordPlayDatabase.setDisable(false);
 		buttonRecordBack.setDisable(false);
 		
@@ -209,7 +231,8 @@ public class Record extends AbstractController{
 	@Override
 	public void customInit() {
 		currentName.setText("Recording for: " + PlayRecordings._name);
-		recordLabel.setText("The recording is 5 seconds long.");
+		recordLabel.setText("Press to start recording.");
+		_isRecording = false;
 		_firstRecord = false;
 		_saved = true;
 		buttonRecordPlay.setDisable(true);

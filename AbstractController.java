@@ -2,6 +2,7 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -65,8 +66,9 @@ public abstract class AbstractController {
 		 */
 		public void bash(String cmd) {
 			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+			Process process = null;
 			try {
-				Process process = builder.start();
+				process = builder.start();
 				
 				//Wait for a process to finish before exiting
 				int exitStatus = process.waitFor();
@@ -76,7 +78,12 @@ public abstract class AbstractController {
 			} catch (IOException e) {
 				System.out.println("Error: Invalid command");
 			} catch (InterruptedException e) {
-				System.out.println("Error: Interrupted");
+				// Interrupted: stop the process
+				try {
+					OutputStream out = process.getOutputStream();
+					out.write("q".getBytes()); //q to stop the process
+					out.flush();    
+				} catch (IOException ex) {}
 			}
 		}
 		
