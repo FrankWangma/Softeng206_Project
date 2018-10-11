@@ -8,9 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
+import javafx.stage.Stage;
 
 /**
  * This class is used as the controller for the help screen in the GUI
@@ -21,6 +25,8 @@ public class HelpScreen extends AbstractController {
 	@FXML private CheckBox _lightTheme;
 	@FXML private CheckBox _darkTheme;
 	@FXML private Slider _volumeSlider;
+	@FXML private Button _backButton;
+	@FXML private Button _howToUseButton;
 	/**
 	 * This method listens for when the back button is pressed
 	 * @throws IOException
@@ -81,6 +87,15 @@ public class HelpScreen extends AbstractController {
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
 		thread.start();
+	}
+	
+	@FXML private void howToUseButtonListener() throws IOException {
+		// open a new window
+    	Parent pane = FXMLLoader.load(getClass().getResource("HowToUse.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("How To Use");
+        stage.setScene(new Scene(pane));
+        stage.showAndWait();
 	}
 	
 	@Override

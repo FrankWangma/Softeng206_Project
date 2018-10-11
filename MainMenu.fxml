@@ -44,7 +44,7 @@
             <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#helpButton" prefHeight="60.0" prefWidth="179.0" text="Settings" />
-                  <Label prefHeight="20.0" prefWidth="278.0" styleClass="label-textsmall" text="Change settings or get help" />
+                  <Label prefHeight="20.0" prefWidth="278.0" styleClass="label-textsmall" text="Change settings and user manual" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
