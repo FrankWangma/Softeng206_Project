@@ -1,7 +1,11 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Controller class for the main menu.
@@ -31,6 +35,20 @@ public class MainMenu extends AbstractController{
 	}
 
 	@Override
-	public void customInit() {}
+	public void customInit() {
+		File checkNewUser = new File(Main._workDir + System.getProperty("file.separator") + "isNewUser.txt");
+		if(checkNewUser.exists()) {
+			//Do Nothing
+		} else {
+			Alert alert = new Alert(AlertType.WARNING , "New User Detected \nPlease test your microphone first", ButtonType.OK);
+            alert.showAndWait();
+            try {
+				checkNewUser.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 }
