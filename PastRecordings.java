@@ -2,9 +2,11 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,17 +21,20 @@ import javafx.scene.control.SelectionMode;
 public class PastRecordings extends AbstractController {
 	// FIELDS
 	String _name;
-	
-	@FXML ListView<String> viewPastRecordings;
-	@FXML Button buttonPlaySelected;
-	@FXML Button buttonPlayDatabase;
-	@FXML Button buttonBack;
-	@FXML Button toggleDatabase;
-	@FXML Button toggleUser;
 	private Boolean isUser = true;
-	@FXML Label toggleLabel;
 	
-	@FXML protected void handlePlaySelected(ActionEvent event) {
+	@FXML private ListView<String> viewPastRecordings;
+	@FXML private Button buttonPlaySelected;
+	@FXML private Button buttonPlayDatabase;
+	@FXML private Button buttonBack;
+	@FXML private Button toggleDatabase;
+	@FXML private Button toggleUser;
+	@FXML private Label toggleLabel;
+	
+	/**
+	 * User presses play.
+	 */
+	@FXML protected void handlePlaySelected() {
 		int selectedIndex = viewPastRecordings.getSelectionModel().getSelectedIndex();
 		if (selectedIndex != -1) { 
 			// Set all buttons to disabled
@@ -51,7 +56,10 @@ public class PastRecordings extends AbstractController {
 		}
 	}
 	
-	@FXML protected void handlePlayDatabase(ActionEvent event) {
+	/**
+	 * User presses play from the database.
+	 */
+	@FXML protected void handlePlayDatabase() {
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the database file
@@ -63,18 +71,28 @@ public class PastRecordings extends AbstractController {
 				
 	}
 	
-	@FXML protected void handleBack(ActionEvent event) throws IOException {
+	/**
+	 * User presses Back; go back to PlayRecordings screen.
+	 * @throws IOException
+	 */
+	@FXML protected void handleBack() throws IOException {
 		switchScenes("PlayRecordings.fxml", _rootPane);
 	}
 	
-	@FXML protected void handleToggleDatabase(ActionEvent event) {
+	/**
+	 * User switches to database list.
+	 */
+	@FXML protected void handleToggleDatabase() {
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getDatabaseRecordings());
 		isUser = false;
 		toggleLabel.setText("Database Recordings");
 	}
 	
-	@FXML protected void handleToggleUser(ActionEvent event) {
+	/**
+	 * User switches to user list.
+	 */
+	@FXML protected void handleToggleUser() {
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getUserRecordings());
 		isUser = true;
@@ -93,7 +111,7 @@ public class PastRecordings extends AbstractController {
 		if(userArray != null) {
 			for (int i=0;i<userArray.length;i++) {
 				String name = userArray[i].getName();
-				userList.add(name.substring(0, name.length()-4));
+				userList.add(getDispName(name));
 			}
 		}
 		return userList;
@@ -110,10 +128,34 @@ public class PastRecordings extends AbstractController {
 		if(dbArray != null) {
 			for (int i=0;i<dbArray.length;i++) {
 				String name = dbArray[i].getName();
-				dbList.add(name.substring(0, name.length()-4));
+				dbList.add(getDispName(name));
 			}
 		}
 		return dbList;
+	}
+	
+	/**
+	 * Given a file name of a recording, returns the
+	 * display name.
+	 * @param name
+	 * @return the name and date to display
+	 */
+	private String getDispName(String name) {
+		name = name.substring(name.indexOf("_")+1, name.length()-4);
+		String date = name.substring(0, name.lastIndexOf('_'));
+		
+		// file date format
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d-MM-yyyy_HH-mm-ss");
+		LocalDateTime localDate = LocalDateTime.parse(date, dtf);
+		
+		// new date format
+		DateTimeFormatter newFormat = 
+				DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+		String dispDate = 
+				newFormat.format(localDate);
+		String dispName = name.substring(name.lastIndexOf('_')+1) +" "+ dispDate;
+		
+		return dispName;
 	}
 	
 	@Override
