@@ -25,9 +25,10 @@ import javafx.scene.Scene;
  *
  */
 public class Main extends Application {
+	static final String SEP = System.getProperty("file.separator");
 	static Path relativePath = Paths.get("");
 	static String _workDir = relativePath.toAbsolutePath().toString();
-	static File _namesFile = new File(_workDir + System.getProperty("file.separator") + "names.txt");
+	static File _namesFile = new File(_workDir + SEP + "names.txt");
 	static List<String> _names = new ArrayList<String>();
 	
 	// File filter for .wav files
@@ -70,10 +71,9 @@ public class Main extends Application {
 	 * to the _names list.
 	 */
 	public void makeDatabase() {
-		String sep = System.getProperty("file.separator");
-		File input = new File(_workDir + sep + "input");
+		File input = new File(_workDir + SEP + "input");
 		input.mkdirs(); // Make the input folder if it doesn't exist
-		File destination = new File(_workDir + sep + "name_database");
+		File destination = new File(_workDir + SEP + "name_database");
 		File[] listOfFiles = input.listFiles(_filter);
 		String fileName;
 		_names = readNamesFromFile(); // existing list
@@ -96,11 +96,11 @@ public class Main extends Application {
 			        	tempNamesList.add(name);
 			        	
 			        	// Make the name folder
-			        	File nameFolder = new File(destination + sep + name);
-			        	File userFolder = new File(nameFolder + sep + "user");
+			        	File nameFolder = new File(destination + SEP + name);
+			        	File userFolder = new File(nameFolder + SEP + "user");
 					    nameFolder.mkdirs();
 					    userFolder.mkdirs();
-					    listOfFiles[file].renameTo(new File(nameFolder + sep + fileName));
+					    listOfFiles[file].renameTo(new File(nameFolder + SEP + fileName));
 					    
 			        	break;
 			        }
@@ -173,9 +173,6 @@ public class Main extends Application {
         
 		} catch (IOException e) {e.printStackTrace();}
 		return existingNames;
-	}
-	
-	public void fillRootList() {
 	}
 	
 	public static void main(String[] args) {

@@ -13,12 +13,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
 
 /**
  * Controller class for Play Recordings screen.
- * 
- *
  */
 public class PlayRecordings extends AbstractController{
 	// FIELDS
@@ -26,21 +23,20 @@ public class PlayRecordings extends AbstractController{
 	static String _name;
 	static String _fileFolder; //path to the name folder
 	boolean _isBad; // is it marked as bad quality
-	boolean _isConcat; // is is a combined file
+	boolean _isConcat; // is it a combined file
 	int _index; // index of the list we are on
 	
-	@FXML BorderPane _rootPane;
-	@FXML Label currentName;
-	@FXML Button buttonPlay;
-	@FXML Button buttonRecord;
-	@FXML Button buttonPastRecordings;
-	@FXML Button buttonNext;
-	@FXML Button toggle;
-	@FXML Button previousButton;
-	@FXML Button backMainMenuButton;
-	@FXML Label toggleYes; // Bad quality
-	@FXML Label toggleNo; // Not bad quality (default)
-	@FXML ListView<String> nameList;
+	@FXML private Label currentName;
+	@FXML private Button buttonPlay;
+	@FXML private Button buttonRecord;
+	@FXML private Button buttonPastRecordings;
+	@FXML private Button buttonNext;
+	@FXML private Button toggle;
+	@FXML private Button previousButton;
+	@FXML private Button backMainMenuButton;
+	@FXML private Label toggleYes; // Bad quality
+	@FXML private Label toggleNo; // Not bad quality (default)
+	@FXML private ListView<String> nameList;
 	
 	/**
 	 * Sets the name that is playing.
@@ -52,12 +48,12 @@ public class PlayRecordings extends AbstractController{
 		
 		if (!name.contains(" ")) {
 			_isConcat = false;
-			_fileFolder = Main._workDir + System.getProperty("file.separator") + 
-				"name_database" + System.getProperty("file.separator") + name;
+			_fileFolder = Main._workDir + Main.SEP + 
+				"name_database" + Main.SEP + name;
 			_filePath = getRecording(_fileFolder).toURI().toString();
 		
 			// Getting saved file quality
-			File quality = new File(_fileFolder + System.getProperty("file.separator") + "info.txt");
+			File quality = new File(_fileFolder + Main.SEP + "info.txt");
 			quality.createNewFile(); // create info file if doesn't exist
 			if (quality.length() == 0) {
 				_isBad = false;
@@ -83,8 +79,8 @@ public class PlayRecordings extends AbstractController{
     		    	List<File> files = new ArrayList<>();
 					String[] split = name.trim().split("\\s+");
 					for (int i=0; i<split.length; i++) {
-						File file = getRecording(Main._workDir + System.getProperty("file.separator") + 
-								"name_database" + System.getProperty("file.separator") + split[i]);
+						File file = getRecording(Main._workDir + Main.SEP + 
+								"name_database" + Main.SEP + split[i]);
 						files.add(file);
 					}
 			
@@ -187,8 +183,7 @@ public class PlayRecordings extends AbstractController{
 			toggleYes.setVisible(false);
 			toggleNo.setVisible(true);
 			_isBad = false;
-			File quality = new File(_fileFolder + 
-					System.getProperty("file.separator") + "info.txt");
+			File quality = new File(_fileFolder + Main.SEP + "info.txt");
 			quality.delete();
 			try {quality.createNewFile();}
 			catch (IOException e) {}
@@ -234,8 +229,7 @@ public class PlayRecordings extends AbstractController{
 		FileWriter fw = null;
 
 		try {
-			fw = new FileWriter(_fileFolder + System.getProperty("file.separator") + 
-					"info.txt", true);
+			fw = new FileWriter(_fileFolder + Main.SEP + "info.txt", true);
 			bw = new BufferedWriter(fw);
 			bw.write("1");
 

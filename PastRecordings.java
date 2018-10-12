@@ -104,8 +104,7 @@ public class PastRecordings extends AbstractController {
 	 * @return A String list of the user recording files
 	 */
 	private List<String> getUserRecordings() {
-		File userFolder = new File(PlayRecordings._fileFolder + 
-				System.getProperty("file.separator") + "user");
+		File userFolder = new File(PlayRecordings._fileFolder + Main.SEP + "user");
 		File[] userArray = userFolder.listFiles(Main._filter);
 		List<String> userList = new ArrayList<String>();
 		if(userArray != null) {

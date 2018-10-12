@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AudioProcess {
-	String SEP = System.getProperty("file.separator");
 	
 	/**
 	 * Takes in a(n Array)List of files and combines them
@@ -30,15 +29,15 @@ public class AudioProcess {
 		fileName = fileName.substring(0,fileName.length()-1);
 		
 		//Folder to store concat files
-		String output = Main._workDir + SEP + "combined" + SEP + fileName;
+		String output = Main._workDir + Main.SEP + "combined" + Main.SEP + fileName;
 		File outputFolder = new File(output);
 		outputFolder.mkdirs();
 		
-		File concatFileTemp = new File(output + SEP + fileName + "temp.wav");
-		File concatFile = new File(output + SEP + fileName+ ".wav");
+		File concatFileTemp = new File(output + Main.SEP + fileName + "temp.wav");
+		File concatFile = new File(output + Main.SEP + fileName+ ".wav");
 		
 		// Make text file list from list of files
-		File textFile = new File(output + SEP + fileName + ".txt");
+		File textFile = new File(output + Main.SEP + fileName + ".txt");
 		buildList(newFiles, textFile);
 		
 		// Concatenate and normalise loudness
@@ -89,7 +88,7 @@ public class AudioProcess {
 	 */
 	File removeSilence(File file) {
 		if (file != null && file.getName().endsWith(".wav")) {
-			File newFile = new File(file.getParent() + SEP + "cleaned_" + file.getName());
+			File newFile = new File(file.getParent() + Main.SEP + "cleaned_" + file.getName());
 			String silence = "ffmpeg -y -hide_banner -i "+ file.getAbsolutePath() +" -af " + 
 				"silenceremove=1:0:-50dB:1:2:-50dB " + newFile.getAbsolutePath();
 		
