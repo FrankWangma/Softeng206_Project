@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -65,7 +66,7 @@ public class ChooseRecordings extends AbstractController{
 		} else {
 			//put the name that is selected onto the confirmListView
 			_searchText.clear();
-			nextButton.setDisable(false); //un-disable the next button
+			
 			confirmListView.getItems().addAll(selectedItem);
 			selectionList.remove(selectedItem);
 		}
@@ -84,9 +85,6 @@ public class ChooseRecordings extends AbstractController{
 			// Enable the next button
 			selectionList.add(selectedItem);
 			confirmListView.getItems().remove(selectedItem);
-			if(confirmListView.getItems().size() == 0) {
-				nextButton.setDisable(true);
-			}
 		}
 	}
 	
@@ -176,14 +174,8 @@ public class ChooseRecordings extends AbstractController{
 	            
 	            // if the user inputted any name
 	            if(AddCustomName._name != null && !AddCustomName._name.isEmpty()) {
-	            	//Check if the name exists
-	    			if(checkIfNameExists(AddCustomName._name)) {
-			            confirmListView.getItems().add(AddCustomName._name);
-			            nextButton.setDisable(false);
-	    			} else {
-	    				Alert alert = new Alert(AlertType.ERROR , AddCustomName._name + " does not exist", ButtonType.OK);
-			            alert.showAndWait();
-	    			}
+			           confirmListView.getItems().add(AddCustomName._name);
+			           nextButton.setDisable(false);
 	            }
 	            
 	        }
@@ -194,6 +186,12 @@ public class ChooseRecordings extends AbstractController{
 	        
 	}
 	
+	@FXML
+	public void onEnter(ActionEvent ae) {
+		confirmListView.getItems().add(filteredList.get(0));
+		selectionList.remove(filteredList.get(0));
+	}
+	
 	/**
 	 * Check if the name inputted exists (checks the _name list in Main)
 	 * @param name the name that is inputted
@@ -201,23 +199,18 @@ public class ChooseRecordings extends AbstractController{
 	 */
 	public Boolean checkIfNameExists(String name) {
 	
-		
-		Boolean shouldBeAdded = false;
+		Boolean shouldBeAdded = true;
 		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");
 		for (String partOfName : splitted) {
 			// If the names list contains the name
-			if (Main._names.contains(partOfName)) {
-				shouldBeAdded = true;
-			} else {
+			if (!containsCaseInsensitive(partOfName, Main._names)) {
 				shouldBeAdded = false;
-				break;
 			}
 		}
 		
 		return shouldBeAdded;
 	}
-	
 	@Override
 	public void customInit() {
 		addName = null;
@@ -250,5 +243,18 @@ public class ChooseRecordings extends AbstractController{
 				    selectionListView.setItems(filteredList);
 				    
 				});
+				
+				confirmListView.getItems().addListener(new ListChangeListener<String>() {
+				    @Override
+				    public void onChanged(ListChangeListener.Change<? extends String> change) {
+				    	if(confirmListView.getItems().size() == 0) {
+							nextButton.setDisable(true);
+						} else if(nextButton.isDisabled()){
+							nextButton.setDisable(false); //un-disable the next button
+						}
+				    	Collections.sort(selectionList);
+				    }
+				});
+				
 	}
 }
