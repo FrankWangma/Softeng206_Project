@@ -3,6 +3,7 @@ package application;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -107,6 +108,16 @@ public abstract class AbstractController {
 			}
 			customInit();
 	}
+	
+	/**
+	 * Check if the name exists in the inputted list
+	 * @param s
+	 * @param l
+	 * @return
+	 */
+	public boolean containsCaseInsensitive(String s, List<String> l){
+        return l.stream().anyMatch(x -> x.equalsIgnoreCase(s));
+    }
 	
 	/**
 	 * Class specific initialize()
