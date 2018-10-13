@@ -3,7 +3,7 @@
 }
 
 .background-list {
-    -fx-background-color: #57D2FE;
+    -fx-background-color: #EDD69F;
 }
 .label {
     -fx-font-size: 11pt;
@@ -43,7 +43,7 @@
 }
 
 .list-cell:even{
-	-fx-background-color: #44B4DC;
+	-fx-background-color: #D2BBA4;
 }
 .list-cell { 
     -fx-background-color: transparent;
@@ -69,7 +69,7 @@
 .button {
     -fx-padding: 5 22 5 22;   
     -fx-background-radius: 10;
-    -fx-background-color: #01A3DE;
+    -fx-background-color: #EDD69F;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
     -fx-text-fill: black;
@@ -79,7 +79,7 @@
 }
 
 .button:hover {
-    -fx-background-color: #02668A;
+    -fx-background-color: #EDB99F;
 }
 
 .button:pressed, .button:default:hover:pressed {
@@ -102,3 +102,9 @@
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
 }
+
+.my-separator .line {
+  -fx-border-color: black ;
+  -fx-border-width: 1 0 0 0 ;
+}
+

@@ -27,7 +27,7 @@
                         <Insets left="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <Separator prefHeight="3.0" prefWidth="685.0" />
+                  <Separator prefHeight="3.0" prefWidth="685.0" styleClass="my-separator" />
                   <VBox spacing="10.0">
                      <children>
                         <CheckBox fx:id="_lightTheme" mnemonicParsing="false" onAction="#lightThemeListener" styleClass="label-textsmall" text="Light theme" />
@@ -49,7 +49,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Separator prefWidth="200.0" />
+                  <Separator prefWidth="200.0" styleClass="my-separator" />
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
@@ -72,13 +72,13 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Separator prefWidth="200.0" />
+                  <Separator prefWidth="200.0" styleClass="my-separator" />
                   <HBox alignment="CENTER" prefHeight="166.0" prefWidth="800.0">
                      <children>
                         <Button fx:id="_howToUseButton" mnemonicParsing="false" onAction="#howToUseButtonListener" prefHeight="100.0" prefWidth="300.0" text="How To Use" />
                      </children>
                   </HBox>
-                  <Separator prefWidth="200.0" />
+                  <Separator prefWidth="200.0" styleClass="my-separator" />
                </children>
             </VBox>
          </children>
