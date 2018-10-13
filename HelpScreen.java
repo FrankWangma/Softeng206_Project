@@ -83,7 +83,6 @@ public class HelpScreen extends AbstractController {
 		writeToText(Double.toString(_volumeSlider.getValue()), false);
 		// use the process builder to set the pc volume 
 		String cmd = "pactl -- set-sink-volume 1 " + (int)_volumeSlider.getValue() + "%";
-		System.out.println(cmd);
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);

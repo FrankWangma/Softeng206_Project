@@ -174,7 +174,7 @@ public class ChooseRecordings extends AbstractController{
 	            stage.showAndWait();
 	            
 	            // if the user inputed any name
-	            if(AddCustomName._name != null && !AddCustomName._name.isEmpty()) {
+	            if(AddCustomName.nameExists) {
 			           confirmListView.getItems().add(AddCustomName._name);
 			           nextButton.setDisable(false);
 	            }
@@ -200,13 +200,10 @@ public class ChooseRecordings extends AbstractController{
 	 */
 	public Boolean checkIfNameExists(String name) {
 		Boolean shouldBeAdded = true;
-		
+		name = name.trim();
 		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");
 		for (String partOfName : splitted) {
-			// first letter uppercase
-			partOfName = partOfName.substring(0, 1).toUpperCase() + partOfName.substring(1);
-			
 			// If the names list contains the name
 			if (!containsCaseInsensitive(partOfName, Main._names)) {
 				shouldBeAdded = false;

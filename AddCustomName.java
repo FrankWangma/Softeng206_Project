@@ -18,7 +18,7 @@ public class AddCustomName extends AbstractController{
 	@FXML private Button _addButton;
 	@FXML private Button _cancelButton;
 	@FXML private TextField _customName;
-	private Boolean nameExists = true;
+	protected static Boolean nameExists = true;
 	protected static String _name;
 	
 	/**
@@ -31,13 +31,18 @@ public class AddCustomName extends AbstractController{
         	String newName = checkIfNameExists(_name);
         	//Check if the name exists
 			if(!nameExists) {
-				_name = null;
+				_name = "";
 				Alert alert = new Alert(AlertType.ERROR , newName + " does not exist", ButtonType.OK);
 	            alert.showAndWait();
 			} 
         }
-		_name = _customName.getText().substring(0, 1).toUpperCase() + 
-				_customName.getText().substring(1);
+        String[] splitted = _customName.getText().split("\\s+");
+        String capitalizedName = "";
+        for(String name: splitted) {
+        	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
+    				name.substring(1);
+        }
+		_name = capitalizedName;
 		cancelButtonListener();
 	}
 	
