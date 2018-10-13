@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -17,18 +16,15 @@ import javafx.scene.control.Label;
 
 /**
  * Controller class for the recording screen.
- * 
- *
  */
 public class Record extends AbstractController{
-	File _tempFile = new File(PlayRecordings._fileFolder + System.getProperty("file.separator") + 
-			"user" + System.getProperty("file.separator") + "temp.wav");
-	Scene _previousScene;
-	String _recordedFileName; //File path of the latest user recording
-	boolean _firstRecord;
-	boolean _saved;
+	private File _tempFile = new File(PlayRecordings._fileFolder + Main.SEP + 
+			"user" + Main.SEP + "temp.wav");
+	private String _recordedFileName; //File path of the latest user recording
+	private boolean _firstRecord;
+	private boolean _saved;
 	private boolean _isRecording;
-	Thread _recordThread = new Thread(new Background());
+	private Thread _recordThread = new Thread(new Background());
 	
 	@FXML private Label currentName;
 	@FXML private Label recordLabel;
@@ -149,16 +145,9 @@ public class Record extends AbstractController{
 		// Set text to "recording"
 		recordLabel.setText("Recording...");
 		buttonRecordRecord.setText("Stop");
-				
-		// Get the date and time
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-YYYY_HH-mm-ss");
-		LocalDateTime now = LocalDateTime.now();
-		String date = dtf.format(now); 
-				
-		// Set the wav file name
-		_recordedFileName = PlayRecordings._fileFolder + System.getProperty("file.separator") + 
-				"user" + System.getProperty("file.separator") + "user_" + date +
-				"_" + PlayRecordings._name + ".wav";
+		
+		// setup the file names
+		setRecordFile();
 				
 		// Record the thing
 		String cmd = "ffmpeg -y -f alsa -i default -t 20 " + _tempFile.getAbsolutePath() + "&> recording.txt";
@@ -190,6 +179,21 @@ public class Record extends AbstractController{
 	 */
 	private void stopRecord() {
 		_recordThread.interrupt();
+	}
+	
+	/**
+	 * Sets the name for a recorded file, containing the 
+	 * date and time.
+	 */
+	private void setRecordFile() {
+		// Get the date and time
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-YYYY_HH-mm-ss");
+		LocalDateTime now = LocalDateTime.now();
+		String date = dtf.format(now); 
+						
+		// Set the wav file name
+		_recordedFileName = PlayRecordings._fileFolder + Main.SEP + "user" + 
+				Main.SEP + "user_" + date + "_" + PlayRecordings._name + ".wav";
 	}
 	
 	/**

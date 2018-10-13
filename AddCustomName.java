@@ -36,6 +36,8 @@ public class AddCustomName extends AbstractController{
 	            alert.showAndWait();
 			} 
         }
+		_name = _customName.getText().substring(0, 1).toUpperCase() + 
+				_customName.getText().substring(1);
 		cancelButtonListener();
 	}
 	

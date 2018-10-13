@@ -102,7 +102,7 @@ public class HelpScreen extends AbstractController {
 	@Override
 	public void customInit() {
 		//Check the theme using a file, and select whichever theme was previously selected
-		File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
+		File theme = new File(Main._workDir + Main.SEP + "theme.txt");
 		if(theme.length() == 5) {
 			_lightTheme.fire();
 		} else {
@@ -110,7 +110,7 @@ public class HelpScreen extends AbstractController {
 		}
 		
 		// Check the previous volume selected (memory)
-		File volume = new File(Main._workDir + System.getProperty("file.separator") + "volume.txt");
+		File volume = new File(Main._workDir + Main.SEP + "volume.txt");
 		BufferedReader br;
 		try {
 			String currentLine;
@@ -141,8 +141,7 @@ public class HelpScreen extends AbstractController {
 			textName = "volume.txt";
 		}
 		try {
-			fw = new FileWriter(Main._workDir + System.getProperty("file.separator") + 
-					textName, false);
+			fw = new FileWriter(Main._workDir + Main.SEP + textName, false);
 			bw = new BufferedWriter(fw);
 			bw.write(text);
 

@@ -142,6 +142,7 @@ public class ChooseRecordings extends AbstractController{
 		 		}
 		 	} 
 		 	br.close();
+		 	
 		 	if(inexistantNames != null || inexistantNames.size() != 0) {
 		 		Alert alert = new Alert(AlertType.ERROR, "Some names did not exist and will not be displayed", ButtonType.OK);
 		 		alert.showAndWait();
@@ -172,7 +173,7 @@ public class ChooseRecordings extends AbstractController{
 	            stage.setScene(new Scene(pane));
 	            stage.showAndWait();
 	            
-	            // if the user inputted any name
+	            // if the user inputed any name
 	            if(AddCustomName._name != null && !AddCustomName._name.isEmpty()) {
 			           confirmListView.getItems().add(AddCustomName._name);
 			           nextButton.setDisable(false);
@@ -193,16 +194,19 @@ public class ChooseRecordings extends AbstractController{
 	}
 	
 	/**
-	 * Check if the name inputted exists (checks the _name list in Main)
-	 * @param name the name that is inputted
+	 * Check if the name inputed exists (checks the _name list in Main)
+	 * @param name the name that is inputed
 	 * @return
 	 */
 	public Boolean checkIfNameExists(String name) {
-	
 		Boolean shouldBeAdded = true;
+		
 		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");
 		for (String partOfName : splitted) {
+			// first letter uppercase
+			partOfName = partOfName.substring(0, 1).toUpperCase() + partOfName.substring(1);
+			
 			// If the names list contains the name
 			if (!containsCaseInsensitive(partOfName, Main._names)) {
 				shouldBeAdded = false;
@@ -211,50 +215,56 @@ public class ChooseRecordings extends AbstractController{
 		
 		return shouldBeAdded;
 	}
+
+	
+	private void setFilterList() {
+		//code retrieved from https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
+		filteredList = new FilteredList<>(selectionList, e -> true);
+		selectionListView.setItems(filteredList);
+		_searchText.textProperty().addListener((observable, oldValue, newValue) -> {
+		    filteredList.setPredicate(element -> {
+		        if (newValue == null || newValue.isEmpty()) {
+		            return true;
+		        }
+
+		        if (element.toLowerCase().startsWith(newValue.toLowerCase())) {
+		            return true; // Filter matches
+		        }
+
+		        return false; // Does not match
+		    });
+		  
+		    selectionListView.setItems(filteredList);
+		    
+		});
+	}
+	
+
 	@Override
 	public void customInit() {
 		addName = null;
 		//Add the files into the list view
-				_selected.clear(); // clear any previous items
-				selectionList=FXCollections.observableArrayList(Main._names);
+		_selected.clear(); // clear any previous items
+		selectionList=FXCollections.observableArrayList(Main._names);
 				
-				selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-				confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-				//Initially disable the next button
-				nextButton.setDisable(true);
+		selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		
+		//Initially disable the next button
+		nextButton.setDisable(true);
 				
-				//code retrieved from https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
-				filteredList = new FilteredList<>(selectionList, e -> true);
-				selectionListView.setItems(filteredList);
-				_searchText.textProperty().addListener((observable, oldValue, newValue) -> {
-				    filteredList.setPredicate(element -> {
-				        if (newValue == null || newValue.isEmpty()) {
-				            return true;
-				        }
-
-				        if (element.toLowerCase().startsWith(newValue.toLowerCase())) {
-				            return true; // Filter matches
-				        }
-				        //Add your filtering conditions here
-
-				        return false; // Does not match
-				    });
-				  
-				    selectionListView.setItems(filteredList);
-				    
-				});
-				
-				confirmListView.getItems().addListener(new ListChangeListener<String>() {
-				    @Override
-				    public void onChanged(ListChangeListener.Change<? extends String> change) {
-				    	if(confirmListView.getItems().size() == 0) {
-							nextButton.setDisable(true);
-						} else if(nextButton.isDisabled()){
-							nextButton.setDisable(false); //un-disable the next button
-						}
-				    	Collections.sort(selectionList);
-				    }
-				});
-				
+		confirmListView.getItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(ListChangeListener.Change<? extends String> change) {
+				    if(confirmListView.getItems().size() == 0) {
+						nextButton.setDisable(true);
+					} else if(nextButton.isDisabled()){
+						nextButton.setDisable(false); //un-disable the next button
+					}
+				   	Collections.sort(selectionList);
+				}
+			});
+		
+		setFilterList();
 	}
 }

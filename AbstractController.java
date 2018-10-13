@@ -99,7 +99,7 @@ public abstract class AbstractController {
 	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main._workDir + System.getProperty("file.separator") + "theme.txt");
+		 File theme = new File(Main._workDir + Main.SEP + "theme.txt");
 			
 			if(theme.length() == 5) {
 				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
