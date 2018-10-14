@@ -3,9 +3,13 @@ package application;
 import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 /**
  * Controller class for the main menu.
@@ -34,6 +38,15 @@ public class MainMenu extends AbstractController{
 		switchScenes("HelpScreen.fxml", _rootPane);
 	}
 
+	@FXML public void rewardsButton() throws IOException {
+		//Open rewards screen
+		// open a new window
+    	Parent pane = FXMLLoader.load(getClass().getResource("RewardScreen.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Rewards");
+        stage.setScene(new Scene(pane));
+        stage.showAndWait();
+	}
 	@Override
 	public void customInit() {
 		File checkNewUser = new File(Main._workDir + Main.SEP + "isNewUser.txt");
