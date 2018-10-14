@@ -51,6 +51,9 @@ public class PlayRecordings extends AbstractController{
 			_fileFolder = Main._workDir + Main.SEP + 
 				"name_database" + Main.SEP + name;
 			_filePath = getRecording(_fileFolder).toURI().toString();
+			
+			// Make the toggle quality button visible
+			toggle.setVisible(true);
 		
 			// Getting saved file quality
 			File quality = new File(_fileFolder + Main.SEP + "info.txt");
