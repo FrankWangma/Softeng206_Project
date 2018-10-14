@@ -3,10 +3,15 @@ package application;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
-
 /**
  * This class is used as the controller for the help screen in the GUI
  * @author frank
@@ -73,23 +77,26 @@ public class HelpScreen extends AbstractController {
 	 }
 	
 	private void selectTheme(String theme) {
-		if(theme == "Light") {
+		String origin = Main._workDir + Main.SEP + "CSS";
+		
+		if(theme.equals("Light")) {
 			// de-select the dark theme
 			if (_darkTheme.isSelected()) {
 				switchSelection(_darkTheme);
 			} else if(_coldDarkTheme.isSelected()) {
 				switchSelection(_coldDarkTheme);
 			}
+			
 			// disable the light theme checkbox
 			_lightTheme.setDisable(true);
-		} else if (theme == "Dark") {
+		} else if (theme.equals("Dark")) {
 			if(_lightTheme.isSelected()) {
 				switchSelection(_lightTheme);
 			} else if(_coldDarkTheme.isSelected()) {
 				switchSelection(_coldDarkTheme);
 			}
 			_darkTheme.setDisable(true);
-		} else if (theme == "ColdDark") {
+		} else if (theme.equals("ColdDark")) {
 			if (_lightTheme.isSelected()) {
 				switchSelection(_lightTheme);
 			} else if(_darkTheme.isSelected()) {
@@ -164,6 +171,19 @@ public class HelpScreen extends AbstractController {
 		}
 		
 	}
+	
+	//Code retrieved from https://blog-en.openalfa.com/how-to-rename-move-or-copy-a-file-in-java
+	 public static void copyFile(String origin, String destination) throws IOException {
+	        Path FROM = Paths.get(origin);
+	        Path TO = Paths.get(destination);
+	        //overwrite the destination file if it exists, and copy
+	        // the file attributes, including the rwx permissions
+	        CopyOption[] options = new CopyOption[]{
+	          StandardCopyOption.REPLACE_EXISTING,
+	          StandardCopyOption.COPY_ATTRIBUTES
+	        }; 
+	        Files.copy(FROM, TO, options);
+	    }
 	
 	/**
 	 * This method writes the inputed string into a text file
