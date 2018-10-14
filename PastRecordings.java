@@ -2,9 +2,6 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
@@ -23,7 +20,7 @@ public class PastRecordings extends AbstractController {
 	String _name;
 	private Boolean isUser = true;
 	
-	@FXML private ListView<String> viewPastRecordings;
+	@FXML private ListView<AudioFile> viewPastRecordings;
 	@FXML private Button buttonPlaySelected;
 	@FXML private Button buttonPlayDatabase;
 	@FXML private Button buttonBack;
@@ -42,11 +39,14 @@ public class PastRecordings extends AbstractController {
 			// Play the database file
 			String cmd;
 			if (isUser) {
-				cmd = "ffplay -nodisp -autoexit "  + PlayRecordings._fileFolder + "/user/" + 
-						viewPastRecordings.getSelectionModel().getSelectedItem()+".wav &> recordingUser.txt";
+				cmd = "ffplay -nodisp -autoexit "  + 
+						PlayRecordings._fileFolder + Main.SEP + "user" + Main.SEP + 
+						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
+						" &> recordingUser.txt";
 			} else {
-				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + "/" + 
-			viewPastRecordings.getSelectionModel().getSelectedItem() +".wav &> /dev/null";
+				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + Main.SEP  + 
+						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() + 
+						" &> /dev/null";
 			}
 			Background background = new Background();
 			background.setcmd(cmd);
@@ -101,16 +101,16 @@ public class PastRecordings extends AbstractController {
 	
 	/**
 	 * Looks at the user folder for recordings.
-	 * @return A String list of the user recording files
+	 * @return A list of the user recording files
 	 */
-	private List<String> getUserRecordings() {
+	private List<AudioFile> getUserRecordings() {
 		File userFolder = new File(PlayRecordings._fileFolder + Main.SEP + "user");
 		File[] userArray = userFolder.listFiles(Main._filter);
-		List<String> userList = new ArrayList<String>();
+		List<AudioFile> userList = new ArrayList<AudioFile>();
 		if(userArray != null) {
 			for (int i=0;i<userArray.length;i++) {
-				String name = userArray[i].getName();
-				userList.add(getDispName(name));
+				AudioFile file = new AudioFile(userArray[i].getName());
+				userList.add(file);
 			}
 		}
 		return userList;
@@ -118,45 +118,19 @@ public class PastRecordings extends AbstractController {
 	
 	/**
 	 * Looks at the name folder for database recordings.
-	 * @return A String list of the database recording files
+	 * @return A list of the database recording files
 	 */
-	private List<String> getDatabaseRecordings() {
+	private List<AudioFile> getDatabaseRecordings() {
 		File dbFolder = new File(PlayRecordings._fileFolder);
 		File[] dbArray = dbFolder.listFiles(Main._filter);
-		List<String> dbList = new ArrayList<String>();
+		List<AudioFile> dbList = new ArrayList<AudioFile>();
 		if(dbArray != null) {
 			for (int i=0;i<dbArray.length;i++) {
-				String name = dbArray[i].getName();
-				if(!name.contains("cleaned")) {
-					dbList.add(getDispName(name));
-				}
+				AudioFile file = new AudioFile(dbArray[i].getName());
+				dbList.add(file);
 			}
 		}
 		return dbList;
-	}
-	
-	/**
-	 * Given a file name of a recording, returns the
-	 * display name.
-	 * @param name
-	 * @return the name and date to display
-	 */
-	private String getDispName(String name) {
-		name = name.substring(name.indexOf("_")+1, name.length()-4);
-		String date = name.substring(0, name.lastIndexOf('_'));
-		
-		// file date format
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d-M-yyyy_H-m-s");
-		LocalDateTime localDate = LocalDateTime.parse(date, dtf);
-		
-		// new date format
-		DateTimeFormatter newFormat = 
-				DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
-		String dispDate = 
-				newFormat.format(localDate);
-		String dispName = name.substring(name.lastIndexOf('_')+1) +" "+ dispDate;
-		
-		return dispName;
 	}
 	
 	@Override
