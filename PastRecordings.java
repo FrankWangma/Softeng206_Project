@@ -43,7 +43,7 @@ public class PastRecordings extends AbstractController {
 			String cmd;
 			if (isUser) {
 				cmd = "ffplay -nodisp -autoexit "  + PlayRecordings._fileFolder + "/user/" + 
-						viewPastRecordings.getSelectionModel().getSelectedItem()+".wav &> /dev/null";
+						viewPastRecordings.getSelectionModel().getSelectedItem()+".wav &> recordingUser.txt";
 			} else {
 				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + "/" + 
 			viewPastRecordings.getSelectionModel().getSelectedItem() +".wav &> /dev/null";
@@ -127,7 +127,9 @@ public class PastRecordings extends AbstractController {
 		if(dbArray != null) {
 			for (int i=0;i<dbArray.length;i++) {
 				String name = dbArray[i].getName();
-				dbList.add(getDispName(name));
+				if(!name.contains("cleaned")) {
+					dbList.add(getDispName(name));
+				}
 			}
 		}
 		return dbList;
