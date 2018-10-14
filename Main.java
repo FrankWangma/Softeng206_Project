@@ -116,7 +116,7 @@ public class Main extends Application {
 	/**
 	 * Removes redundant names in _names list.
 	 */
-	public List<String> removeRedundant(List<String> list) {
+	public static List<String> removeRedundant(List<String> list) {
 		List<String> newList = new ArrayList<String>(new HashSet<String>(list));
 		return newList;
 	}
