@@ -144,7 +144,7 @@ public class PastRecordings extends AbstractController {
 		String date = name.substring(0, name.lastIndexOf('_'));
 		
 		// file date format
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d-MM-yyyy_HH-mm-ss");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d-M-yyyy_H-m-s");
 		LocalDateTime localDate = LocalDateTime.parse(date, dtf);
 		
 		// new date format
