@@ -133,10 +133,17 @@ public class ChooseRecordings extends AbstractController{
 		if (selectedFile != null) {
 			BufferedReader br = new BufferedReader(new FileReader(selectedFile));
 			String currentLine;
+			List<String> names = new ArrayList<String>();
 			// read the text file
 		 	while ((currentLine = br.readLine()) != null) {
 		 		if (checkIfNameExists(currentLine)) {
-		 			_selected.add(currentLine);
+		 			String[] splitted = currentLine.split("\\s+");
+		 			String capitalizedName = "";
+		 	        for(String name: splitted) {
+		 	        	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
+		 	    				name.substring(1);
+		 	        }
+		 			names.add(capitalizedName);
 		 		} else {
 		 			inexistantNames.add(currentLine);
 		 		}
@@ -144,16 +151,19 @@ public class ChooseRecordings extends AbstractController{
 		 	br.close();
 		 	
 		 	if(inexistantNames != null || inexistantNames.size() != 0) {
-		 		Alert alert = new Alert(AlertType.ERROR, "Some names did not exist and will not be displayed", ButtonType.OK);
+		 		Alert alert = new Alert(AlertType.ERROR, "Some names did not exist (or were repeated) \nand will not be displayed", ButtonType.OK);
 		 		alert.showAndWait();
 		 	}
-		  // if the file is empty, tell the user
-		 	if(_selected.isEmpty()) {
+		 	
+		 	 // if the file is empty, tell the user
+		 	if(names.isEmpty()) {
 		 		Alert alert = new Alert(AlertType.ERROR, "Text file was empty or names didn't exist", ButtonType.OK);
 		 		alert.showAndWait();
 		 	} else {
-		 		pressedNextButton();
+		 		
+		 		confirmListView.getItems().addAll(Main.removeRedundant(names));
 		 	}
+		 
 		} else {
 			// some error message?
 			Alert alert = new Alert(AlertType.ERROR , "No text file was selected", ButtonType.OK);
@@ -174,9 +184,11 @@ public class ChooseRecordings extends AbstractController{
 	            stage.showAndWait();
 	            
 	            // if the user inputed any name
-	            if(AddCustomName.nameExists) {
-			           confirmListView.getItems().add(AddCustomName._name);
-			           nextButton.setDisable(false);
+	            if(AddCustomName.nameExists && AddCustomName._name != null) {
+	            	if(AddCustomName._name.trim() != "") {
+	            	     confirmListView.getItems().add(AddCustomName._name);
+				           nextButton.setDisable(false);
+	            	}
 	            }
 	            
 	        }
