@@ -77,8 +77,6 @@ public class HelpScreen extends AbstractController {
 	 }
 	
 	private void selectTheme(String theme) {
-		String origin = Main._workDir + Main.SEP + "CSS";
-		
 		if(theme.equals("Light")) {
 			// de-select the dark theme
 			if (_darkTheme.isSelected()) {
@@ -171,19 +169,6 @@ public class HelpScreen extends AbstractController {
 		}
 		
 	}
-	
-	//Code retrieved from https://blog-en.openalfa.com/how-to-rename-move-or-copy-a-file-in-java
-	 public static void copyFile(String origin, String destination) throws IOException {
-	        Path FROM = Paths.get(origin);
-	        Path TO = Paths.get(destination);
-	        //overwrite the destination file if it exists, and copy
-	        // the file attributes, including the rwx permissions
-	        CopyOption[] options = new CopyOption[]{
-	          StandardCopyOption.REPLACE_EXISTING,
-	          StandardCopyOption.COPY_ATTRIBUTES
-	        }; 
-	        Files.copy(FROM, TO, options);
-	    }
 	
 	/**
 	 * This method writes the inputed string into a text file
