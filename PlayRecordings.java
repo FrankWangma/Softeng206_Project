@@ -22,6 +22,8 @@ public class PlayRecordings extends AbstractController{
 	static String _filePath; //URI path to the audio file
 	static String _name;
 	static String _fileFolder; //path to the name folder
+	
+	private File _quality;
 	boolean _isBad; // is it marked as bad quality
 	boolean _isConcat; // is it a combined file
 	int _index; // index of the list we are on
@@ -37,83 +39,6 @@ public class PlayRecordings extends AbstractController{
 	@FXML private Label toggleYes; // Bad quality
 	@FXML private Label toggleNo; // Not bad quality (default)
 	@FXML private ListView<String> nameList;
-	
-	/**
-	 * Sets the name that is playing.
-	 * @param name
-	 */
-	public void setName(String name) throws IOException {
-		_name = name;
-		currentName.setText(name); //set the title
-		
-		if (!name.contains(" ")) {
-			_isConcat = false;
-			_fileFolder = Main._workDir + Main.SEP + 
-				"name_database" + Main.SEP + name;
-			_filePath = getRecording(_fileFolder).toURI().toString();
-			
-			// Make the toggle quality button visible
-			toggle.setVisible(true);
-		
-			// Getting saved file quality
-			File quality = new File(_fileFolder + Main.SEP + "info.txt");
-			quality.createNewFile(); // create info file if doesn't exist
-			if (quality.length() == 0) {
-				_isBad = false;
-				toggleYes.setVisible(false);
-				toggleNo.setVisible(true);
-			} else {
-				_isBad = true;
-				toggleYes.setVisible(true);
-				toggleNo.setVisible(false);
-			}
-		} else {
-			_isConcat = true;
-			
-			// make rating not possible by making buttons invisible
-			toggle.setVisible(false); // the button
-			toggleYes.setVisible(false); // the text
-			toggleNo.setVisible(false); // the text
-			
-			Task<Void> concatTask = new Task<Void>() {
-    		    @Override
-    		    public Void call() throws Exception {
-    		    	// get the individual names
-    		    	List<File> files = new ArrayList<>();
-					String[] split = name.trim().split("\\s+");
-					for (int i=0; i<split.length; i++) {
-						File file = getRecording(Main._workDir + Main.SEP + 
-								"name_database" + Main.SEP + split[i]);
-						files.add(file);
-					}
-			
-					// concatenate
-					AudioProcess concat = new AudioProcess();
-					File audioFile = concat.concatenate(files);
-			
-					// set the path to this file as the recording file
-					_filePath = audioFile.toURI().toString();
-					_fileFolder = audioFile.getParentFile().getAbsolutePath();
-			
-					return null;
-    		    }
-    		};
-    		new Thread(concatTask).start();
-		}
-	}
-	
-	/**
-	 * Looks at the available wav files and returns the latest as
-	 * the database recording, given a File representing the folder.
-	 * @param filePath the directory where the audio files are
-	 * @return the database .wav file
-	 */
-	public static File getRecording(String filePath) {
-		File nameDir = new File(filePath);
-		File[] files = nameDir.listFiles(Main._filter);
-		Arrays.sort(files);
-		return files[files.length-1];
-	}
 	
 	/**
 	 * This method handles the event of the play button being pressed
@@ -186,9 +111,8 @@ public class PlayRecordings extends AbstractController{
 			toggleYes.setVisible(false);
 			toggleNo.setVisible(true);
 			_isBad = false;
-			File quality = new File(_fileFolder + Main.SEP + "info.txt");
-			quality.delete();
-			try {quality.createNewFile();}
+			_quality.delete();
+			try {_quality.createNewFile();}
 			catch (IOException e) {}
 			
 		} else {
@@ -222,6 +146,126 @@ public class PlayRecordings extends AbstractController{
 		//Do nothing
 		}
 	}
+	
+	/**
+	 * Sets the name that is playing.
+	 * @param name
+	 */
+	public void setName(String name) throws IOException {
+		_name = name;
+		currentName.setText(name); //set the title
+		
+		if (!name.contains(" ")) {
+			_isConcat = false;
+			_fileFolder = Main._workDir + Main.SEP + 
+				"name_database" + Main.SEP + name;
+			File nameFile = getRecording(_fileFolder);
+			_filePath = nameFile.toURI().toString();
+			
+			// Make the toggle quality button visible
+			toggle.setVisible(true);
+		
+			// Getting saved file quality
+			_quality = getQualityFile(nameFile);
+			
+			if (!isBad(nameFile)) {
+				_isBad = false;
+				toggleYes.setVisible(false);
+				toggleNo.setVisible(true);
+			} else {
+				_isBad = true;
+				toggleYes.setVisible(true);
+				toggleNo.setVisible(false);
+			}
+		} else {
+			_isConcat = true;
+			
+			// make rating not possible by making buttons invisible
+			toggle.setVisible(false); // the button
+			toggleYes.setVisible(false); // the text
+			toggleNo.setVisible(false); // the text
+			
+			Task<Void> concatTask = new Task<Void>() {
+    		    @Override
+    		    public Void call() throws Exception {
+    		    	// get the individual names
+    		    	List<File> files = new ArrayList<>();
+					String[] split = name.trim().split("\\s+");
+					for (int i=0; i<split.length; i++) {
+						File file = getRecording(Main._workDir + Main.SEP + 
+								"name_database" + Main.SEP + split[i]);
+						files.add(file);
+					}
+			
+					// concatenate
+					AudioProcess concat = new AudioProcess();
+					File audioFile = concat.concatenate(files);
+			
+					// set the path to this file as the recording file
+					_filePath = audioFile.toURI().toString();
+					_fileFolder = audioFile.getParentFile().getAbsolutePath();
+			
+					return null;
+    		    }
+    		};
+    		new Thread(concatTask).start();
+		}
+	}
+	
+	/**
+	 * Looks at the available wav files and returns the 
+	 * database recording, given a File representing the folder.
+	 * @param filePath the directory where the audio files are
+	 * @return the database .wav file
+	 */
+	public static File getRecording(String filePath) {
+		File nameDir = new File(filePath);
+		File[] files = nameDir.listFiles(Main._filter);
+		
+		// sorts in alphabetical order
+		Arrays.sort(files);
+		
+		// find the good quality file
+		for (int i=0; i<files.length; i++) {
+			File candidate = files[i];
+			if (!isBad(candidate)) {
+				return candidate;
+			}
+		}
+		// they are all bad, return any
+		return files[0];
+	}
+	
+	/**
+	 * Gets the quality file for a wav file
+	 * @param file the recording file
+	 * @return the quality file
+	 */
+	private static File getQualityFile(File file) {
+		File quality = new File(_fileFolder + Main.SEP + file.getName() + 
+				".txt");
+		return quality;
+	}
+	
+	/**
+	 * Checks if the file is bad quality
+	 * @param candidate the recording file to check
+	 * @return true if it is bad quality
+	 */
+	private static boolean isBad(File candidate) {
+		File quality = getQualityFile(candidate);
+		try {
+			// create info file if doesn't exist
+			quality.createNewFile();
+		} catch (IOException e) {e.printStackTrace();} 
+
+		if (quality.length() != 0) {
+			// bad quality
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Writes a "1" to the text file, meaning the recording is 
 	 * tagged as bad quality
@@ -232,7 +276,7 @@ public class PlayRecordings extends AbstractController{
 		FileWriter fw = null;
 
 		try {
-			fw = new FileWriter(_fileFolder + Main.SEP + "info.txt", true);
+			fw = new FileWriter(_quality, true);
 			bw = new BufferedWriter(fw);
 			bw.write("1");
 
