@@ -9,10 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Controller class for Play Recordings screen.
@@ -335,8 +338,13 @@ public class PlayRecordings extends AbstractController{
 		String name = nameList.getItems().get(_index); //get the first name
 		try {setName(name);} 
 		catch (IOException e){}
-		nameList.setMouseTransparent(true); //makes the list unselectable
-		nameList.setFocusTraversable(false);
+		// disable selection (but allows wheel scrolling)
+		nameList.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mouseEvent.consume();
+            }
+        });
 		
 	}
 	
