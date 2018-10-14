@@ -7,12 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -84,7 +78,6 @@ public class HelpScreen extends AbstractController {
 			} else if(_coldDarkTheme.isSelected()) {
 				switchSelection(_coldDarkTheme);
 			}
-			
 			// disable the light theme checkbox
 			_lightTheme.setDisable(true);
 		} else if (theme.equals("Dark")) {
