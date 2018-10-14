@@ -134,14 +134,11 @@ public class HelpScreen extends AbstractController {
 			br1 = new BufferedReader(new FileReader(theme));
 			String st; 
 			 while ((st = br1.readLine()) != null)  {
-			  if(st == "Dark") {
-				  _darkTheme.setSelected(true);
+			  if(st.equals("Dark")) {
 				  _darkTheme.fire();
-			  } else if(st == "Light") {
-				  _lightTheme.setSelected(true);
+			  } else if(st.equals("Light")) {
 				  _lightTheme.fire();
-			  } else if(st == "ColdDark") {
-				  _coldDarkTheme.setSelected(true);
+			  } else if(st.equals("ColdDark")) {
 				  _coldDarkTheme.fire();
 			  }
 			 } 

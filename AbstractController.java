@@ -1,6 +1,8 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -100,12 +102,24 @@ public abstract class AbstractController {
 		//load css file
 		 _rootPane.getStylesheets().clear();
 		 File theme = new File(Main._workDir + Main.SEP + "theme.txt");
-			
-			if(theme.length() == 5) {
-				  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
-			} else {
-				  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			}
+			BufferedReader br1;
+			try {
+				br1 = new BufferedReader(new FileReader(theme));
+				String st; 
+				 while ((st = br1.readLine()) != null)  {
+				  if(st.equals("Dark")) {
+					  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				  } else if(st.equals("Light")) {
+					  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
+				  } else if(st.equals("ColdDark")) {
+					  _rootPane.getStylesheets().add(getClass().getResource("ColdDark.css").toExternalForm());
+				  }
+				 } 
+				 br1.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
 			customInit();
 	}
 	
