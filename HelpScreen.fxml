@@ -30,8 +30,17 @@
                   <Separator prefHeight="3.0" prefWidth="685.0" styleClass="my-separator" />
                   <VBox spacing="10.0">
                      <children>
-                        <CheckBox fx:id="_lightTheme" mnemonicParsing="false" onAction="#lightThemeListener" styleClass="label-textsmall" text="Light theme" />
-                        <CheckBox fx:id="_darkTheme" mnemonicParsing="false" onAction="#darkThemeListener" styleClass="label-textsmall" text="Dark theme" />
+                        <HBox spacing="20.0">
+                           <children>
+                              <CheckBox fx:id="_lightTheme" mnemonicParsing="false" onAction="#lightThemeListener" styleClass="label-textsmall" text="Light theme" />
+                              <CheckBox fx:id="_coldDarkTheme" mnemonicParsing="false" onAction="#coldDarkThemeListener" styleClass="label-textsmall" text="Cold Dark" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <CheckBox fx:id="_darkTheme" mnemonicParsing="false" onAction="#darkThemeListener" styleClass="label-textsmall" text="Dark theme" />
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets left="20.0" top="20.0" />

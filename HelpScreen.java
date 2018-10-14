@@ -3,6 +3,7 @@ package application;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 /**
@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 public class HelpScreen extends AbstractController {
 	@FXML private CheckBox _lightTheme;
 	@FXML private CheckBox _darkTheme;
+	@FXML private CheckBox _coldDarkTheme;
 	@FXML private Slider _volumeSlider;
 	@FXML private Button _backButton;
 	@FXML private Button _howToUseButton;
@@ -39,16 +40,10 @@ public class HelpScreen extends AbstractController {
 	/**
 	 * This method listens for when the light Theme checkbox is pressed
 	 */
-	@FXML void lightThemeListener() {
+	@FXML public void lightThemeListener() {
 		writeToText("Light", true);
 		// enable the dark theme checkbox
-		_darkTheme.setDisable(false);
-		// de-select the dark theme
-		if (_darkTheme.isSelected()) {
-			_darkTheme.setSelected(false);
-		}
-		// disable the light theme checkbox
-		_lightTheme.setDisable(true);
+		selectTheme("Light");
 		loadStyle(_rootPane, "LightTheme.css");
 		
 	}
@@ -56,16 +51,17 @@ public class HelpScreen extends AbstractController {
 	/**
 	 * This method listens for when the dark theme checkbox is pressed
 	 */
-	@FXML void darkThemeListener() {
+	@FXML public void darkThemeListener() {
 		writeToText("Dark", true);
-		_lightTheme.setDisable(false);
-		if(_lightTheme.isSelected()) {
-			_lightTheme.setSelected(false);
-		}
-		_darkTheme.setDisable(true);
+		selectTheme("Dark");
 		loadStyle(_rootPane, "application.css");
 	}
 	
+	@FXML public void coldDarkThemeListener() {
+		writeToText("ColdDark", true);
+		selectTheme("ColdDark");
+		loadStyle(_rootPane, "ColdDark.css");
+	}
 	/**
 	 * This method loads the style of the css file that is inputed
 	 * @param node
@@ -76,6 +72,37 @@ public class HelpScreen extends AbstractController {
 	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
 	
+	private void selectTheme(String theme) {
+		if(theme == "Light") {
+			// de-select the dark theme
+			if (_darkTheme.isSelected()) {
+				switchSelection(_darkTheme);
+			} else if(_coldDarkTheme.isSelected()) {
+				switchSelection(_coldDarkTheme);
+			}
+			// disable the light theme checkbox
+			_lightTheme.setDisable(true);
+		} else if (theme == "Dark") {
+			if(_lightTheme.isSelected()) {
+				switchSelection(_lightTheme);
+			} else if(_coldDarkTheme.isSelected()) {
+				switchSelection(_coldDarkTheme);
+			}
+			_darkTheme.setDisable(true);
+		} else if (theme == "ColdDark") {
+			if (_lightTheme.isSelected()) {
+				switchSelection(_lightTheme);
+			} else if(_darkTheme.isSelected()) {
+				switchSelection(_darkTheme);
+			}
+			_coldDarkTheme.setDisable(true);
+		}
+	}
+	
+	private void switchSelection(CheckBox theme) {
+		theme.setDisable(false);
+		theme.setSelected(false);
+	}
 	/**
 	 * This method listens for when the volume slider is changed
 	 */
@@ -102,22 +129,39 @@ public class HelpScreen extends AbstractController {
 	public void customInit() {
 		//Check the theme using a file, and select whichever theme was previously selected
 		File theme = new File(Main._workDir + Main.SEP + "theme.txt");
-		if(theme.length() == 5) {
-			_lightTheme.fire();
-		} else {
-			_darkTheme.fire();
-		}
+		BufferedReader br1;
+		try {
+			br1 = new BufferedReader(new FileReader(theme));
+			String st; 
+			 while ((st = br1.readLine()) != null)  {
+			  if(st == "Dark") {
+				  _darkTheme.setSelected(true);
+				  _darkTheme.fire();
+			  } else if(st == "Light") {
+				  _lightTheme.setSelected(true);
+				  _lightTheme.fire();
+			  } else if(st == "ColdDark") {
+				  _coldDarkTheme.setSelected(true);
+				  _coldDarkTheme.fire();
+			  }
+			 } 
+			 br1.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+	
 		
 		// Check the previous volume selected (memory)
 		File volume = new File(Main._workDir + Main.SEP + "volume.txt");
-		BufferedReader br;
+		BufferedReader br2;
 		try {
 			String currentLine;
-			br = new BufferedReader(new FileReader(volume));
-		 	while ((currentLine = br.readLine()) != null) {
+			br2 = new BufferedReader(new FileReader(volume));
+		 	while ((currentLine = br2.readLine()) != null) {
 		 		_volumeSlider.setValue(Double.parseDouble(currentLine));
 		 	} 
-		 	br.close();
+		 	br2.close();
 		} catch (IOException e) {
 			
 		}

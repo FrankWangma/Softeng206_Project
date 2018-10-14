@@ -152,6 +152,20 @@ public class Main extends Application {
 		}
 	}
 	
+	public static void setUnlockRewardFile() {
+		// Write name to file
+				BufferedWriter bw = null;
+				FileWriter fw = null;
+		try {
+			fw = new FileWriter(_namesFile.getPath(), true);
+			bw = new BufferedWriter(fw);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	/**
 	 * Reads the names from the names.txt file.
 	 * @return A string list of the existing names found in the names.txt file
