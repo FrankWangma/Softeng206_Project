@@ -36,6 +36,7 @@
                   <Font size="7.0" />
                </font></Button>
             <Label fx:id="recordLabel" styleClass="label-textsmall" text="The recording is 5 seconds long" />
+            <Button fx:id="buttonRecordCompare" mnemonicParsing="false" onAction="#handleRecordCompare" text="Compare" />
          </children>
       </VBox>
    </center>

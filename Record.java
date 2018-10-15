@@ -33,6 +33,7 @@ public class Record extends AbstractController{
 	@FXML private Button buttonRecordPlay;
 	@FXML private Button buttonRecordSave;
 	@FXML private Button buttonRecordBack;
+	@FXML private Button buttonRecordCompare;
 	
 	/**
 	 * This method will handle the record button if the user has recorded another file for the same name 
@@ -132,6 +133,29 @@ public class Record extends AbstractController{
 	}
 	
 	/**
+	 * This method handles the event when the user presses the compare button, and 
+	 * plays the database recording + current user recording one after the other.
+	 * @param event
+	 */
+	@FXML protected void handleRecordCompare(ActionEvent event) {
+		// Set all buttons to disabled
+		disableButtons();
+		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";;
+		// Play both recordings
+		if (_saved) {
+			// Play the saved file; path = _recordedFileName
+			cmd = cmd + "; ffplay -nodisp -autoexit " + _recordedFileName +" &> /dev/null";
+		} else {
+			// Play the temp file = _tempFile
+			cmd = cmd + "; ffplay -nodisp -autoexit " + _tempFile +" &> /dev/null";
+		}
+		Background background = new Background();
+		background.setcmd(cmd);
+		Thread thread = new Thread(background);
+		thread.start();
+	}
+	
+	/**
 	 * Records the user's input.
 	 */
 	private void record() {
@@ -212,6 +236,7 @@ public class Record extends AbstractController{
 		buttonRecordPlayDatabase.setDisable(true);
 		buttonRecordBack.setDisable(true);
 		buttonRecordSave.setDisable(true);
+		buttonRecordCompare.setDisable(true);
 	}
 	/**
 	 * This method enables all the buttons in the current pane
@@ -224,6 +249,7 @@ public class Record extends AbstractController{
 		// Don't re-enable play if user hasn't recorded yet
 		if (_firstRecord) {
 			buttonRecordPlay.setDisable(false);
+			buttonRecordCompare.setDisable(false);
 		}
 		
 		// Disable save button if already saved (or haven't recorded yet)
@@ -241,6 +267,7 @@ public class Record extends AbstractController{
 		_saved = true;
 		buttonRecordPlay.setDisable(true);
 		buttonRecordSave.setDisable(true);
+		buttonRecordCompare.setDisable(true);
 	}
         
 }

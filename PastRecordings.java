@@ -24,6 +24,7 @@ public class PastRecordings extends AbstractController {
 	@FXML private Button buttonPlaySelected;
 	@FXML private Button buttonPlayDatabase;
 	@FXML private Button buttonBack;
+	@FXML private Button buttonCompare;
 	@FXML private Button toggleDatabase;
 	@FXML private Button toggleUser;
 	@FXML private Label toggleLabel;
@@ -42,7 +43,7 @@ public class PastRecordings extends AbstractController {
 				cmd = "ffplay -nodisp -autoexit "  + 
 						PlayRecordings._fileFolder + Main.SEP + "user" + Main.SEP + 
 						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
-						" &> recordingUser.txt";
+						" &> /dev/null";
 			} else {
 				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + Main.SEP  + 
 						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() + 
@@ -67,8 +68,7 @@ public class PastRecordings extends AbstractController {
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
-		thread.start();
-				
+		thread.start();	
 	}
 	
 	/**
@@ -80,6 +80,30 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
+	 * User presses compare
+	 */
+	@FXML protected void handleCompare() {
+		int selectedIndex = viewPastRecordings.getSelectionModel().getSelectedIndex();
+		if (selectedIndex != -1) {
+			disableButtons();
+		
+			// Play both files
+			String database = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";
+			String user = "";
+			if (isUser) {
+				user = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + Main.SEP + "user" + 
+						Main.SEP + viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
+						" &> /dev/null";
+			}
+			String cmd = database + ";" + user;
+			Background background = new Background();
+			background.setcmd(cmd);
+			Thread thread = new Thread(background);
+			thread.start();	
+		}
+	}
+	
+	/**
 	 * User switches to database list.
 	 */
 	@FXML protected void handleToggleDatabase() {
@@ -87,6 +111,9 @@ public class PastRecordings extends AbstractController {
 		viewPastRecordings.getItems().addAll(getDatabaseRecordings());
 		isUser = false;
 		toggleLabel.setText("Database Recordings");
+		
+		// Disable compare button
+		buttonCompare.setDisable(true);
 	}
 	
 	/**
@@ -97,6 +124,9 @@ public class PastRecordings extends AbstractController {
 		viewPastRecordings.getItems().addAll(getUserRecordings());
 		isUser = true;
 		toggleLabel.setText("User Recordings");
+		
+		// enable compare button
+		buttonCompare.setDisable(false);
 	}
 	
 	/**
@@ -143,6 +173,7 @@ public class PastRecordings extends AbstractController {
 		buttonPlaySelected.setDisable(true);
 		buttonPlayDatabase.setDisable(true);
 		buttonBack.setDisable(true);
+		buttonCompare.setDisable(true);
 	    toggleDatabase.setDisable(true);
 		toggleUser.setDisable(true);
 	}
@@ -154,5 +185,10 @@ public class PastRecordings extends AbstractController {
 		buttonBack.setDisable(false);
 		toggleDatabase.setDisable(false);
 		toggleUser.setDisable(false);
+		
+		// Check if the user list is shown
+		if (isUser) {
+			buttonCompare.setDisable(false);
+		}
 	}
 }
