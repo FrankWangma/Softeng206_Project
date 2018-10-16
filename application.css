@@ -139,4 +139,8 @@
 .text-area .content{
       -fx-background-color: #890000;
   }
+  
+.progress-bar .bar {
+    -fx-background-color: #890000;
+}
 
