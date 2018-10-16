@@ -1,6 +1,10 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -104,6 +108,8 @@ public class Record extends AbstractController{
 	 * @param event
 	 */
 	@FXML protected void handleRecordSave(ActionEvent event) {
+		//Add a point to the reward system
+		writeRewardText();
 		//save the file
 		_saved = true;
 		buttonRecordSave.setDisable(true);
@@ -255,6 +261,56 @@ public class Record extends AbstractController{
 		// Disable save button if already saved (or haven't recorded yet)
 		if (!_saved) {
 			buttonRecordSave.setDisable(false);
+		}
+	}
+	
+	private void writeRewardText(){
+		BufferedReader br1;
+		File reward = new File(Main._workDir + Main.SEP + "Reward.txt");
+		if(!reward.exists()) {
+			try {
+				reward.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		int progress = 0;
+		 try {
+			br1 = new BufferedReader(new FileReader(reward));
+			String st;
+			while ((st = br1.readLine()) != null)  {
+				if(!st.isEmpty()) {
+					progress = Integer.parseInt(st);
+				}
+			}
+			} catch (NumberFormatException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter(reward, false);
+			bw = new BufferedWriter(fw);
+			progress++;
+			bw.write(Integer.toString(progress));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bw != null) {bw.close();}
+				if (fw != null) {fw.close();}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		if(progress%5 == 0 && progress != 0 && progress < 41) {
+			Alert alert = new Alert(AlertType.INFORMATION,
+					"Congratulations, you've unlocked a new theme!");
+			alert.showAndWait();
 		}
 	}
 	

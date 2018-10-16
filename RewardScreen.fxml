@@ -9,7 +9,7 @@
    <center>
       <VBox alignment="CENTER" spacing="10.0">
          <children>
-            <Label fx:id="_progressLabel" styleClass="label-text" text="Progress: 0/50" />
+            <Label fx:id="_progressLabel" styleClass="label-text" text="Progress: 0/40" />
             <ProgressBar fx:id="_rewardBar" prefHeight="20.0" prefWidth="440.0" progress="0.0" BorderPane.alignment="CENTER" />
          </children>
       </VBox>
