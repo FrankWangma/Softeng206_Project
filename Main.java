@@ -53,7 +53,7 @@ public class Main extends Application {
 		try {
 			File theme = new File(_workDir + SEP + "theme.txt");
 			if (!theme.exists()) {
-				HelpScreen.writeToText("Dark", true);
+				HelpScreen.writeToText("application.css", true);
 			}
 			primaryStage.setTitle("Name Sayer");
 			FXMLLoader loader = new FXMLLoader();
