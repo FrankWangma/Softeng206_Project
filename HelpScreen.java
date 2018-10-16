@@ -26,9 +26,15 @@ public class HelpScreen extends AbstractController {
 	@FXML private CheckBox _lightTheme;
 	@FXML private CheckBox _darkTheme;
 	@FXML private CheckBox _coldDarkTheme;
+	@FXML private CheckBox _blueSkyTheme;
+	@FXML private CheckBox _greyOrangeTheme;
+	@FXML private CheckBox _paperGreyTheme;
+	@FXML private CheckBox _pinkBlueTheme;
+	@FXML private CheckBox _forestGreenTheme;
 	@FXML private Slider _volumeSlider;
 	@FXML private Button _backButton;
 	@FXML private Button _howToUseButton;
+	
 	private List<CheckBox> checkboxList = new ArrayList<CheckBox>();
 	/**
 	 * This method listens for when the back button is pressed
@@ -42,7 +48,7 @@ public class HelpScreen extends AbstractController {
 	 * This method listens for when the light Theme checkbox is pressed
 	 */
 	@FXML public void lightThemeListener() {
-		writeToText("Light", true);
+		writeToText("LightTheme.css", true);
 		// enable the dark theme checkbox
 		selectTheme(_lightTheme);
 		loadStyle(_rootPane, "LightTheme.css");
@@ -53,7 +59,7 @@ public class HelpScreen extends AbstractController {
 	 * This method listens for when the dark theme checkbox is pressed
 	 */
 	@FXML public void darkThemeListener() {
-		writeToText("Dark", true);
+		writeToText("application.css", true);
 		selectTheme(_darkTheme);
 		loadStyle(_rootPane, "application.css");
 	}
@@ -62,10 +68,56 @@ public class HelpScreen extends AbstractController {
 	 * This method listens for when the cold dark theme checkbox is pressed
 	 */
 	@FXML public void coldDarkThemeListener() {
-		writeToText("ColdDark", true);
+		writeToText("ColdDark.css", true);
 		selectTheme(_coldDarkTheme);
 		loadStyle(_rootPane, "ColdDark.css");
 	}
+	
+	/**
+	 * This method listens for when the blue sky theme checkbox is ticked
+	 */
+	@FXML public void blueSkyThemeListener() {
+		writeToText("BlueSky.css", true);
+		selectTheme(_blueSkyTheme);
+		loadStyle(_rootPane, "BlueSky.css");
+	}
+	
+	/**
+	 * This method listens for when the grey orange theme checkbox is ticked
+	 */
+	@FXML public void greyOrangeThemeListener() {
+		writeToText("GreyOrange.css", true);
+		selectTheme(_greyOrangeTheme);
+		loadStyle(_rootPane, "GreyOrange.css");
+	}
+	
+	/**
+	 * This method listens for when the paper grey theme checkbox is ticked
+	 */
+	@FXML public void paperGreyThemeListener() {
+		writeToText("PaperGrey.css", true);
+		selectTheme(_paperGreyTheme);
+		loadStyle(_rootPane, "PaperGrey.css");
+	}
+	
+	/**
+	 * This method listens for when the pink blue theme checkbox is ticked
+	 */
+	@FXML public void pinkBlueThemeListener() {
+		writeToText("PinkBlue.css", true);
+		selectTheme(_pinkBlueTheme);
+		loadStyle(_rootPane, "PinkBlue.css");
+	}
+	
+	/**
+	 * This method listens for when the forest green theme checkbox is ticked
+	 */
+	@FXML public void forestGreenThemeListener() {
+		writeToText("ForestGreen.css", true);
+		selectTheme(_forestGreenTheme);
+		loadStyle(_rootPane, "ForestGreen.css");
+	}
+	
 	/**
 	 * This method loads the style of the css file that is inputed
 	 * @param node
@@ -85,10 +137,11 @@ public class HelpScreen extends AbstractController {
 			// enable and de-select the previously selected theme
 			switchSelection(_darkTheme);
 			switchSelection(_lightTheme);
-			if(!_coldDarkTheme.isDisabled() || _coldDarkTheme.isSelected()) {
-				switchSelection(_coldDarkTheme);
+			for(CheckBox cb: checkboxList) {
+				if(!cb.isDisabled() || cb.isSelected()) {
+					switchSelection(cb);
+				}
 			}
-			
 			//select and enable the selected theme
 			selected.setSelected(true);
 			selected.setDisable(true);
@@ -135,6 +188,12 @@ public class HelpScreen extends AbstractController {
 	public void customInit() {
 		//Make a list of the themes that are unlockable
 		checkboxList.add(_coldDarkTheme);
+		checkboxList.add(_paperGreyTheme);
+		checkboxList.add(_greyOrangeTheme);
+		checkboxList.add(_pinkBlueTheme);
+		checkboxList.add(_blueSkyTheme);
+		checkboxList.add(_forestGreenTheme);
+		
 		//Disable those themes
 		for(CheckBox cb: checkboxList) {
 			cb.setVisible(false);
@@ -149,12 +208,22 @@ public class HelpScreen extends AbstractController {
 			br1 = new BufferedReader(new FileReader(theme));
 			String st; 
 			 while ((st = br1.readLine()) != null)  {
-				  if(st.equals("Dark")) {
+				  if(st.equals("application.css")) {
 					  _darkTheme.fire();
-				  } else if(st.equals("Light")) {
+				  } else if(st.equals("LightTheme.css")) {
 					  _lightTheme.fire();
-				  } else if(st.equals("ColdDark")) {
+				  } else if(st.equals("ColdDark.css")) {
 					  _coldDarkTheme.fire();
+				  } else if(st.equals("BlueSky.css")) {
+					  _blueSkyTheme.fire();
+				  } else if(st.equals("GreyOrange.css")) {
+					  _greyOrangeTheme.fire();
+				  } else if(st.equals("PaperGrey.css")) {
+					  _paperGreyTheme.fire();
+				  } else if(st.equals("PinkBlue.css")) {
+					  _pinkBlueTheme.fire();
+				  } else if(st.equals("ForestGreen.css")) {
+					  _forestGreenTheme.fire();
 				  }
 				 } 
 	
