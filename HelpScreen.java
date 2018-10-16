@@ -31,6 +31,8 @@ public class HelpScreen extends AbstractController {
 	@FXML private CheckBox _paperGreyTheme;
 	@FXML private CheckBox _pinkBlueTheme;
 	@FXML private CheckBox _forestGreenTheme;
+	@FXML private CheckBox _bumbleBeeTheme;
+	@FXML private CheckBox _butterflyTheme;
 	@FXML private Slider _volumeSlider;
 	@FXML private Button _backButton;
 	@FXML private Button _howToUseButton;
@@ -119,6 +121,24 @@ public class HelpScreen extends AbstractController {
 	}
 	
 	/**
+	 * This method listens for when the bumblebee theme checkbox is ticked
+	 */
+	@FXML public void bumbleBeeThemeListener() {
+		writeToText("BumbleBee.css", true);
+		selectTheme(_bumbleBeeTheme);
+		loadStyle(_rootPane, "BumbleBee.css");
+	}
+	
+	/**
+	 * This method listens for when the yellow purple theme checkbox is ticked
+	 */
+	@FXML public void butterflyThemeListener() {
+		writeToText("Butterfly.css", true);
+		selectTheme(_butterflyTheme);
+		loadStyle(_rootPane, "Butterfly.css");
+	}
+	
+	/**
 	 * This method loads the style of the css file that is inputed
 	 * @param node
 	 * @param css
@@ -187,12 +207,14 @@ public class HelpScreen extends AbstractController {
 	@Override
 	public void customInit() {
 		//Make a list of the themes that are unlockable
+		checkboxList.add(_butterflyTheme);
 		checkboxList.add(_coldDarkTheme);
 		checkboxList.add(_paperGreyTheme);
 		checkboxList.add(_greyOrangeTheme);
 		checkboxList.add(_pinkBlueTheme);
 		checkboxList.add(_blueSkyTheme);
 		checkboxList.add(_forestGreenTheme);
+		checkboxList.add(_bumbleBeeTheme);
 		
 		//Disable those themes
 		for(CheckBox cb: checkboxList) {
@@ -224,6 +246,10 @@ public class HelpScreen extends AbstractController {
 					  _pinkBlueTheme.fire();
 				  } else if(st.equals("ForestGreen.css")) {
 					  _forestGreenTheme.fire();
+				  } else if(st.equals("BumbleBee.css")) {
+					  _bumbleBeeTheme.fire();
+				  } else if(st.equals("Butterfly.css")) {
+					  _butterflyTheme.fire();
 				  }
 				 } 
 	
