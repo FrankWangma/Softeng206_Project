@@ -112,7 +112,7 @@
 }
 
 .scroll-pane {
-	-fx-background-color: #212121;
+	-fx-background-color: #303338;
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
@@ -177,7 +177,7 @@
 }
 
 .text-area .content{
-      -fx-background-color: #212121;
+      -fx-background-color: #B34E00;
 }
 
 .progress-bar .bar {

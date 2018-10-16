@@ -111,7 +111,7 @@
 }
 
 .scroll-pane {
-	-fx-background-color: #005443;
+	-fx-background-color: #FFFFFF;
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
@@ -172,11 +172,11 @@
    	-fx-padding: 1,1,1,1;
    	-fx-border-width: 0;
    	-fx-border-radius: 0;
-  	-fx-text-fill: white;
+  	-fx-text-fill: black;
 }
 
 .text-area .content{
-      -fx-background-color: #005443;
+      -fx-background-color: #5DBCD2;
 }
 
 .progress-bar .bar {
