@@ -107,14 +107,8 @@ public abstract class AbstractController {
 				br1 = new BufferedReader(new FileReader(theme));
 				String st; 
 				 while ((st = br1.readLine()) != null)  {
-				  if(st.equals("Dark")) {
-					  _rootPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				  } else if(st.equals("Light")) {
-					  _rootPane.getStylesheets().add(getClass().getResource("LightTheme.css").toExternalForm());
-				  } else if(st.equals("ColdDark")) {
-					  _rootPane.getStylesheets().add(getClass().getResource("ColdDark.css").toExternalForm());
-				  }
-				 } 
+					  _rootPane.getStylesheets().add(getClass().getResource(st).toExternalForm());
+				} 
 				 br1.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
