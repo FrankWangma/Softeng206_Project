@@ -41,6 +41,9 @@ public class RewardsSystem extends AbstractController
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+			 if(progress > 40) {
+				 progress = 40;
+			 }
 				_progressLabel.setText("Progress: " + Integer.toString(progress) + "/40");
 				_rewardBar.setProgress(progress*0.025);
 		} else {

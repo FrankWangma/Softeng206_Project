@@ -165,6 +165,9 @@ public class HelpScreen extends AbstractController {
 					 while((st = br1.readLine()) != null) {
 						 progress = Integer.parseInt(st);
 					 }
+					 if(progress > 40) {
+						 progress = 40;
+					 }
 					 unlockRewards(progress/5);
 				 }
 				 

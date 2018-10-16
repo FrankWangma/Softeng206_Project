@@ -264,9 +264,13 @@ public class Record extends AbstractController{
 		}
 	}
 	
+	/**
+	 * This method adds a point to the reward for the user
+	 */
 	private void writeRewardText(){
 		BufferedReader br1;
 		File reward = new File(Main._workDir + Main.SEP + "Reward.txt");
+		//check if the reward text file exists
 		if(!reward.exists()) {
 			try {
 				reward.createNewFile();
@@ -279,6 +283,7 @@ public class Record extends AbstractController{
 		 try {
 			br1 = new BufferedReader(new FileReader(reward));
 			String st;
+			//read the number in the reward text
 			while ((st = br1.readLine()) != null)  {
 				if(!st.isEmpty()) {
 					progress = Integer.parseInt(st);
@@ -290,12 +295,14 @@ public class Record extends AbstractController{
 			}
 		BufferedWriter bw = null;
 		FileWriter fw = null;
+		// add 1 to the number in the reward text
 		try {
-			fw = new FileWriter(reward, false);
-			bw = new BufferedWriter(fw);
-			progress++;
-			bw.write(Integer.toString(progress));
-
+			if (progress < 41) {
+				fw = new FileWriter(reward, false);
+				bw = new BufferedWriter(fw);
+				progress++;
+				bw.write(Integer.toString(progress));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -307,6 +314,9 @@ public class Record extends AbstractController{
 			}
 		}
 		
+		/* every 5 saves (which means that the user has made 5 recordings"
+		 * tell the user that they've unlocked a new theme
+		*/
 		if(progress%5 == 0 && progress != 0 && progress < 41) {
 			Alert alert = new Alert(AlertType.INFORMATION,
 					"Congratulations, you've unlocked a new theme!");
