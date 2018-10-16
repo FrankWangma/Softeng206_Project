@@ -42,7 +42,7 @@ public class AddCustomName extends AbstractController{
         	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
     				name.substring(1);
         }
-		_name = capitalizedName;
+		_name = capitalizedName.trim();
 		cancelButtonListener();
 	}
 	
