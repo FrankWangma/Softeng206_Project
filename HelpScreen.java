@@ -58,6 +58,9 @@ public class HelpScreen extends AbstractController {
 		loadStyle(_rootPane, "application.css");
 	}
 	
+	/**
+	 * This method listens for when the cold dark theme checkbox is pressed
+	 */
 	@FXML public void coldDarkThemeListener() {
 		writeToText("ColdDark", true);
 		selectTheme(_coldDarkTheme);
@@ -73,13 +76,20 @@ public class HelpScreen extends AbstractController {
 	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
 	
+	/**
+	 * This method selects the selected theme and deselects the theme that was previously
+	 * selected
+	 * @param selected
+	 */
 	private void selectTheme(CheckBox selected) {
-			// de-select the dark theme
+			// enable and de-select the previously selected theme
 			switchSelection(_darkTheme);
 			switchSelection(_lightTheme);
 			if(!_coldDarkTheme.isDisabled() || _coldDarkTheme.isSelected()) {
 				switchSelection(_coldDarkTheme);
 			}
+			
+			//select and enable the selected theme
 			selected.setSelected(true);
 			selected.setDisable(true);
 	}
@@ -88,6 +98,7 @@ public class HelpScreen extends AbstractController {
 		theme.setDisable(false);
 		theme.setSelected(false);
 	}
+	
 	/**
 	 * This method listens for when the volume slider is changed
 	 */
@@ -110,17 +121,23 @@ public class HelpScreen extends AbstractController {
         stage.showAndWait();
 	}
 	
+	/**
+	 * This method un-disables the themes that have been unlocked
+	 * @param progress the number of points the user has
+	 */
 	private void unlockRewards(int progress) {
 		for(int i = 0; i < progress; i++) {
-			checkboxList.get(i).setDisable(false);
+			checkboxList.get(i).setVisible(true);
 		}
 	}
 	
 	@Override
 	public void customInit() {
+		//Make a list of the themes that are unlockable
 		checkboxList.add(_coldDarkTheme);
+		//Disable those themes
 		for(CheckBox cb: checkboxList) {
-			cb.setDisable(true);
+			cb.setVisible(false);
 		}
 		
 		File theme = new File(Main._workDir + Main.SEP + "theme.txt");
