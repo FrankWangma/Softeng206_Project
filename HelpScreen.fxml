@@ -33,12 +33,28 @@
                         <HBox spacing="20.0">
                            <children>
                               <CheckBox fx:id="_lightTheme" mnemonicParsing="false" onAction="#lightThemeListener" styleClass="label-textsmall" text="Light theme" />
-                              <CheckBox fx:id="_coldDarkTheme" mnemonicParsing="false" onAction="#coldDarkThemeListener" styleClass="label-textsmall" text="Cold Dark" />
+                              <CheckBox fx:id="_coldDarkTheme" mnemonicParsing="false" onAction="#coldDarkThemeListener" styleClass="label-textsmall" text="Cold Dark">
+                                 <padding>
+                                    <Insets right="8.0" />
+                                 </padding>
+                              </CheckBox>
+                              <CheckBox fx:id="_greyOrangeTheme" mnemonicParsing="false" onAction="#greyOrangeThemeListener" styleClass="label-textsmall" text="Grey Orange" />
+                              <CheckBox fx:id="_blueSkyTheme" mnemonicParsing="false" onAction="#blueSkyThemeListener" styleClass="label-textsmall" text="Blue Sky" />
                            </children>
                         </HBox>
-                        <HBox>
+                        <HBox spacing="17.0">
                            <children>
-                              <CheckBox fx:id="_darkTheme" mnemonicParsing="false" onAction="#darkThemeListener" styleClass="label-textsmall" text="Dark theme" />
+                              <CheckBox fx:id="_darkTheme" mnemonicParsing="false" onAction="#darkThemeListener" styleClass="label-textsmall" text="Dark theme " />
+                              <CheckBox fx:id="_paperGreyTheme" mnemonicParsing="false" onAction="#paperGreyThemeListener" styleClass="label-textsmall" text="Paper Grey" />
+                              <CheckBox fx:id="_pinkBlueTheme" mnemonicParsing="false" onAction="#pinkBlueThemeListener" styleClass="label-textsmall" text="Pink Blue">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets right="32.0" />
+                                 </padding>
+                              </CheckBox>
+                              <CheckBox fx:id="_forestGreenTheme" mnemonicParsing="false" onAction="#forestGreenThemeListener" styleClass="label-textsmall" text="Forest Green" />
                            </children>
                         </HBox>
                      </children>
