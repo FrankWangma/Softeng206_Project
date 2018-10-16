@@ -49,10 +49,12 @@ public class MainMenu extends AbstractController{
 	}
 	@Override
 	public void customInit() {
+		//Check if the user is a new user
 		File checkNewUser = new File(Main._workDir + Main.SEP + "isNewUser.txt");
 		if(checkNewUser.exists()) {
 			//Do Nothing
 		} else {
+			// warn the user to test microphone
 			Alert alert = new Alert(AlertType.WARNING , "New User Detected \nPlease test your microphone first", ButtonType.OK);
             alert.showAndWait();
             try {
