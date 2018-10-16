@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +29,7 @@ public class HelpScreen extends AbstractController {
 	@FXML private Slider _volumeSlider;
 	@FXML private Button _backButton;
 	@FXML private Button _howToUseButton;
+	private List<CheckBox> checkboxList = new ArrayList<CheckBox>();
 	/**
 	 * This method listens for when the back button is pressed
 	 * @throws IOException
@@ -41,7 +44,7 @@ public class HelpScreen extends AbstractController {
 	@FXML public void lightThemeListener() {
 		writeToText("Light", true);
 		// enable the dark theme checkbox
-		selectTheme("Light");
+		selectTheme(_lightTheme);
 		loadStyle(_rootPane, "LightTheme.css");
 		
 	}
@@ -51,13 +54,13 @@ public class HelpScreen extends AbstractController {
 	 */
 	@FXML public void darkThemeListener() {
 		writeToText("Dark", true);
-		selectTheme("Dark");
+		selectTheme(_darkTheme);
 		loadStyle(_rootPane, "application.css");
 	}
 	
 	@FXML public void coldDarkThemeListener() {
 		writeToText("ColdDark", true);
-		selectTheme("ColdDark");
+		selectTheme(_coldDarkTheme);
 		loadStyle(_rootPane, "ColdDark.css");
 	}
 	/**
@@ -70,31 +73,15 @@ public class HelpScreen extends AbstractController {
 	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
 	 }
 	
-	private void selectTheme(String theme) {
-		if(theme.equals("Light")) {
+	private void selectTheme(CheckBox selected) {
 			// de-select the dark theme
-			if (_darkTheme.isSelected()) {
-				switchSelection(_darkTheme);
-			} else if(_coldDarkTheme.isSelected()) {
+			switchSelection(_darkTheme);
+			switchSelection(_lightTheme);
+			if(!_coldDarkTheme.isDisabled() || _coldDarkTheme.isSelected()) {
 				switchSelection(_coldDarkTheme);
 			}
-			// disable the light theme checkbox
-			_lightTheme.setDisable(true);
-		} else if (theme.equals("Dark")) {
-			if(_lightTheme.isSelected()) {
-				switchSelection(_lightTheme);
-			} else if(_coldDarkTheme.isSelected()) {
-				switchSelection(_coldDarkTheme);
-			}
-			_darkTheme.setDisable(true);
-		} else if (theme.equals("ColdDark")) {
-			if (_lightTheme.isSelected()) {
-				switchSelection(_lightTheme);
-			} else if(_darkTheme.isSelected()) {
-				switchSelection(_darkTheme);
-			}
-			_coldDarkTheme.setDisable(true);
-		}
+			selected.setSelected(true);
+			selected.setDisable(true);
 	}
 	
 	private void switchSelection(CheckBox theme) {
@@ -123,44 +110,59 @@ public class HelpScreen extends AbstractController {
         stage.showAndWait();
 	}
 	
+	private void unlockRewards(int progress) {
+		for(int i = 0; i < progress; i++) {
+			checkboxList.get(i).setDisable(false);
+		}
+	}
+	
 	@Override
 	public void customInit() {
-		//Check the theme using a file, and select whichever theme was previously selected
+		checkboxList.add(_coldDarkTheme);
+		for(CheckBox cb: checkboxList) {
+			cb.setDisable(true);
+		}
+		
 		File theme = new File(Main._workDir + Main.SEP + "theme.txt");
+		File reward = new File(Main._workDir + Main.SEP + "Reward.txt");
+		File volume = new File(Main._workDir + Main.SEP + "volume.txt");
 		BufferedReader br1;
 		try {
+			//Check the theme using a file, and select whichever theme was previously selected
 			br1 = new BufferedReader(new FileReader(theme));
 			String st; 
 			 while ((st = br1.readLine()) != null)  {
-			  if(st.equals("Dark")) {
-				  _darkTheme.fire();
-			  } else if(st.equals("Light")) {
-				  _lightTheme.fire();
-			  } else if(st.equals("ColdDark")) {
-				  _coldDarkTheme.fire();
-			  }
-			 } 
-			 br1.close();
+				  if(st.equals("Dark")) {
+					  _darkTheme.fire();
+				  } else if(st.equals("Light")) {
+					  _lightTheme.fire();
+				  } else if(st.equals("ColdDark")) {
+					  _coldDarkTheme.fire();
+				  }
+				 } 
+	
+				 if(reward.exists()) {
+					 // Check the rewards that the user has unlocked
+					 br1 = new BufferedReader(new FileReader(reward));
+					 int progress = 0;
+					 while((st = br1.readLine()) != null) {
+						 progress = Integer.parseInt(st);
+					 }
+					 unlockRewards(progress/5);
+				 }
+				 
+				 if(volume.exists()) {
+					// Check the previous volume selected (memory)
+					br1 = new BufferedReader(new FileReader(volume));
+					while ((st = br1.readLine()) != null) {
+						_volumeSlider.setValue(Double.parseDouble(st));
+					} 
+				 }
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
 	
-		
-		// Check the previous volume selected (memory)
-		File volume = new File(Main._workDir + Main.SEP + "volume.txt");
-		BufferedReader br2;
-		try {
-			String currentLine;
-			br2 = new BufferedReader(new FileReader(volume));
-		 	while ((currentLine = br2.readLine()) != null) {
-		 		_volumeSlider.setValue(Double.parseDouble(currentLine));
-		 	} 
-		 	br2.close();
-		} catch (IOException e) {
-			
-		}
-		
 	}
 	
 	/**
@@ -168,7 +170,7 @@ public class HelpScreen extends AbstractController {
 	 * @param text
 	 * @param isTheme if it is meant to write to a theme
 	 */
-	protected void writeToText(String text, Boolean isTheme) {
+	protected static void writeToText(String text, Boolean isTheme) {
 		// Write settings to file
 		BufferedWriter bw = null;
 		FileWriter fw = null;

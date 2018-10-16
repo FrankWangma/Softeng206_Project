@@ -124,7 +124,7 @@ public abstract class AbstractController {
 	}
 	
 	/**
-	 * Check if the name exists in the inputted list
+	 * Check if the name exists in the inputed list
 	 * @param s
 	 * @param l
 	 * @return

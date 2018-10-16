@@ -51,6 +51,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		makeDatabase();
 		try {
+			File theme = new File(_workDir + SEP + "theme.txt");
+			if (!theme.exists()) {
+				HelpScreen.writeToText("Dark", true);
+			}
 			primaryStage.setTitle("Name Sayer");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getResource("MainMenu.fxml"));
@@ -58,8 +62,6 @@ public class Main extends Application {
 			Scene scene = new Scene(layout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-		
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
