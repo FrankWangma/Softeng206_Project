@@ -201,8 +201,10 @@ public class ChooseRecordings extends AbstractController{
 	
 	@FXML
 	public void onEnter(ActionEvent ae) {
-		confirmListView.getItems().add(filteredList.get(0));
-		selectionList.remove(filteredList.get(0));
+		if(!filteredList.isEmpty()) {
+			confirmListView.getItems().add(filteredList.get(0));
+			selectionList.remove(filteredList.get(0));
+		}
 	}
 	
 	/**
