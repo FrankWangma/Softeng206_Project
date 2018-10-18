@@ -52,7 +52,7 @@ public class PlayRecordings extends AbstractController{
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the audio
-		String cmd = "ffplay -nodisp -autoexit " + _filePath +" &> /dev/null";
+		String cmd = "ffplay -nodisp -autoexit " + _filePath +" &> play.txt";
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
