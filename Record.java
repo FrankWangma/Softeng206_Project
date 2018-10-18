@@ -71,7 +71,7 @@ public class Record extends AbstractController{
 	@FXML protected void handleRecordPlayDatabase(ActionEvent event) throws IOException {
 		// Set all buttons to disabled
 		disableButtons();
-		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";
+		String cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._filePath + "\" &> /dev/null";
 		// Play the database file
 		Background background = new Background();
 		background.setcmd(cmd);
@@ -92,10 +92,10 @@ public class Record extends AbstractController{
 		// Play the user recording
 		if (_saved) {
 			// Play the saved file; path = _recordedFileName
-			cmd = "ffplay -nodisp -autoexit " + _recordedFileName +" &> /dev/null";
+			cmd = "ffplay -nodisp -autoexit \"" + _recordedFileName + "\" &> /dev/null";
 		} else {
 			// Play the temp file = _tempFile
-			cmd = "ffplay -nodisp -autoexit " + _tempFile +" &> /dev/null";
+			cmd = "ffplay -nodisp -autoexit \"" + _tempFile + "\" &> /dev/null";
 		}
 		Background background = new Background();
 		background.setcmd(cmd);
@@ -146,14 +146,14 @@ public class Record extends AbstractController{
 	@FXML protected void handleRecordCompare(ActionEvent event) {
 		// Set all buttons to disabled
 		disableButtons();
-		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";;
+		String cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._filePath +"\" &> /dev/null";;
 		// Play both recordings
 		if (_saved) {
 			// Play the saved file; path = _recordedFileName
-			cmd = cmd + "; ffplay -nodisp -autoexit " + _recordedFileName +" &> /dev/null";
+			cmd = cmd + "; ffplay -nodisp -autoexit \"" + _recordedFileName +"\" &> /dev/null";
 		} else {
 			// Play the temp file = _tempFile
-			cmd = cmd + "; ffplay -nodisp -autoexit " + _tempFile +" &> /dev/null";
+			cmd = cmd + "; ffplay -nodisp -autoexit \"" + _tempFile +"\" &> /dev/null";
 		}
 		Background background = new Background();
 		background.setcmd(cmd);
@@ -180,7 +180,7 @@ public class Record extends AbstractController{
 		setRecordFile();
 				
 		// Record the thing
-		String cmd = "ffmpeg -y -f alsa -i default -t 20 " + _tempFile.getAbsolutePath() + "&> recording.txt";
+		String cmd = "ffmpeg -y -f alsa -i default -t 20 \"" + _tempFile.getAbsolutePath() + "\"";
 		Background background = new Background();
 		background.setcmd(cmd);
 		_recordThread = new Thread(background);
@@ -289,10 +289,8 @@ public class Record extends AbstractController{
 					progress = Integer.parseInt(st);
 				}
 			}
-			} catch (NumberFormatException | IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		} catch (NumberFormatException | IOException e1) {e1.printStackTrace();}
+		 
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		// add 1 to the number in the reward text

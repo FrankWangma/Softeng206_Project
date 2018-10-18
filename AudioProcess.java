@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,18 +23,14 @@ public class AudioProcess {
 		for (int i=0; i<files.size(); i++) {
 			//Build output file
 			File file = files.get(i);
-			fileName = fileName + file.getName().substring(0, file.getName().length()-4) + "_";
+			fileName = fileName + Main.getName(file.getName()) + ",";
 			
 			//Remove silence
 			newFiles.add(removeSilence(file));
 		}
 		fileName = fileName.substring(0,fileName.length()-1);
-		
-		//Folder to store concat files
-		String output = Main._workDir + Main.SEP + "combined" + Main.SEP + fileName;
-		File outputFolder = new File(output);
-		outputFolder.mkdirs();
-		
+
+		String output = makeFolders(fileName);
 		File concatFileTemp = new File(output + Main.SEP + fileName + "temp.wav");
 		File concatFile = new File(output + Main.SEP + fileName+ ".wav");
 		
@@ -41,14 +39,29 @@ public class AudioProcess {
 		buildList(newFiles, textFile);
 		
 		// Concatenate and normalise loudness
-		String concat = "ffmpeg -y -f concat -safe 0 -i " + textFile.getAbsolutePath() + " -c copy " +
-				concatFileTemp.getAbsolutePath();
-		String norm = "ffmpeg -y -i " + concatFileTemp.getAbsolutePath() +
-				" -filter:a loudnorm " + concatFile.getAbsolutePath();
+		String concat = "ffmpeg -y -f concat -safe 0 -i \"" + textFile.getAbsolutePath() + "\" -c copy \"" +
+				concatFileTemp.getAbsolutePath() + "\"";
+		String norm = "ffmpeg -y -i \"" + concatFileTemp.getAbsolutePath() +
+				"\" -filter:a loudnorm \"" + concatFile.getAbsolutePath() + "\"";
 		bash(concat + ";" + norm);
 		concatFileTemp.delete();
 		
 		return concatFile;
+	}
+	
+	/**
+	 * Makes the folder to store the concatenated files.
+	 * @param fileName the name of the concatenated file
+	 * @return the name of the folder
+	 */
+	private String makeFolders(String fileName) {
+		//Folder to store concatenated files (and user files)
+		String output = Main._workDir + Main.SEP + "combined" + Main.SEP + fileName;
+		String outputUser = output + Main.SEP + "user";
+		File outputFolderUser = new File(outputUser);
+		outputFolderUser.mkdirs();
+		
+		return output;
 	}
 	
 	/**
