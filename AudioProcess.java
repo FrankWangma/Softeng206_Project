@@ -40,10 +40,8 @@ public class AudioProcess {
 		
 		// Concatenate and normalise loudness
 		String concat = "ffmpeg -y -f concat -safe 0 -i \"" + textFile.getAbsolutePath() + "\" -c copy \"" +
-				concatFileTemp.getAbsolutePath() + "\"";
-		String norm = "ffmpeg -y -i \"" + concatFileTemp.getAbsolutePath() +
-				"\" -filter:a loudnorm \"" + concatFile.getAbsolutePath() + "\"";
-		bash(concat + ";" + norm);
+				concatFile.getAbsolutePath() + "\"";
+		bash(concat);
 		concatFileTemp.delete();
 		
 		return concatFile;

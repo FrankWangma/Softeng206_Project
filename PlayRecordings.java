@@ -14,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -28,7 +27,7 @@ public class PlayRecordings extends AbstractController{
 	
 	private File _quality;
 	boolean _isBad; // is it marked as bad quality
-	boolean _isConcat; // is it a combined file
+	static boolean _isConcat; // is it a combined file
 	int _index; // index of the list we are on
 	
 	@FXML private Label currentName;
@@ -227,11 +226,13 @@ public class PlayRecordings extends AbstractController{
 		// sorts in alphabetical order
 		Arrays.sort(files);
 		
-		// find the good quality file
-		for (int i=0; i<files.length; i++) {
-			File candidate = files[i];
-			if (!isBad(candidate)) {
-				return candidate;
+		if(!_isConcat) {
+			// find the good quality file
+			for (int i=0; i<files.length; i++) {
+				File candidate = files[i];
+				if (!isBad(candidate)) {
+					return candidate;
+				}
 			}
 		}
 		// they are all bad, return any
@@ -244,8 +245,7 @@ public class PlayRecordings extends AbstractController{
 	 * @return the quality file
 	 */
 	private static File getQualityFile(File file) {
-		File quality = new File(_fileFolder + Main.SEP + file.getName() + 
-				".txt");
+		File quality = new File(file + ".txt");
 		return quality;
 	}
 	
