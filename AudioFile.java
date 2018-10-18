@@ -29,20 +29,24 @@ public class AudioFile {
 	 * @return the name and date to display
 	 */
 	private String getDispName(String name) {
-		name = name.substring(name.indexOf("_")+1, name.length()-4);
-		String date = name.substring(0, name.lastIndexOf('_'));
-		
-		// file date format
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d-M-yyyy_H-m-s");
-		LocalDateTime localDate = LocalDateTime.parse(date, dtf);
-		
-		// new date format
-		DateTimeFormatter newFormat = 
-				DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
-		String dispDate = 
-				newFormat.format(localDate);
-		String dispName = name.substring(name.lastIndexOf('_')+1) +" "+ dispDate;
-		
+		String dispName;
+		if (name.contains(",")) { // is concatenated file
+			dispName = name.replace(",", " ");
+		} else {
+			name = name.substring(name.indexOf("_")+1, name.length()-4);
+			String date = name.substring(0, name.lastIndexOf('_'));
+			
+			// file date format
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d-M-yyyy_H-m-s");
+			LocalDateTime localDate = LocalDateTime.parse(date, dtf);
+			
+			// new date format
+			DateTimeFormatter newFormat = 
+					DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+			String dispDate = 
+					newFormat.format(localDate);
+			dispName = name.substring(name.lastIndexOf('_')+1) +" "+ dispDate;
+		}
 		return dispName;
 	}
 	

@@ -83,30 +83,19 @@ public class Main extends Application {
 		List<String> tempNamesList = new ArrayList<String>();
 		
 		for (int file = 0; file < listOfFiles.length; file++) {
-			int underscores = 0;
+			
 			if (listOfFiles[file].isFile()) {
 			    fileName = listOfFiles[file].getName();
-			    for (int c=0; c < fileName.length(  ); c++) {
-			        if (fileName.charAt(c) == '_') {
-			        	underscores++;
-			        }
-			        if (underscores == 3) {
-			        	
-			        	// Get the name from the file
-			        	int cut = c+1;
-			        	String name = fileName.substring(cut,fileName.length()-4).toLowerCase();
-			        	name = name.substring(0, 1).toUpperCase() + name.substring(1);
-			        	tempNamesList.add(name);
-			        	
-			        	// Make the name folder
-			        	File nameFolder = new File(destination + SEP + name);
-			        	File userFolder = new File(nameFolder + SEP + "user");
-					    nameFolder.mkdirs();
-					    userFolder.mkdirs();
-					    listOfFiles[file].renameTo(new File(nameFolder + SEP + fileName));
-					    
-			        	break;
-			        }
+			    String name = getName(fileName);
+			    if (name != null) {
+			    	tempNamesList.add(name);
+			    
+			    	// Make the name folder
+			    	File nameFolder = new File(destination + SEP + name);
+			    	File userFolder = new File(nameFolder + SEP + "user");
+			    	nameFolder.mkdirs();
+			    	userFolder.mkdirs();
+			    	listOfFiles[file].renameTo(new File(nameFolder + SEP + fileName));
 			    }
 			}
 		}
@@ -114,6 +103,17 @@ public class Main extends Application {
 		_names = removeRedundant(_names);
 		Collections.sort(_names, String.CASE_INSENSITIVE_ORDER);
 		writeNamesToFile();
+	}
+	
+	/**
+	 * Gets the name from the audio file (or the final
+	 * segment of the file name after the last underscore
+	 * @param fileName
+	 * @return String of the name
+	 */
+	public static String getName(String fileName) {
+		String name = fileName.substring(fileName.lastIndexOf("_")+1, fileName.length()-4);
+		return name.toLowerCase().substring(0, 1).toUpperCase() + name.substring(1);
 	}
 	
 	/**

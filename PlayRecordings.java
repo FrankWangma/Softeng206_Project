@@ -52,7 +52,7 @@ public class PlayRecordings extends AbstractController{
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the audio
-		String cmd = "ffplay -nodisp -autoexit " + _filePath +" &> /dev/null";
+		String cmd = "ffplay -nodisp -autoexit \"" + _filePath + "\" &> /dev/null";
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
@@ -160,8 +160,7 @@ public class PlayRecordings extends AbstractController{
 		
 		if (!name.contains(" ")) {
 			_isConcat = false;
-			_fileFolder = Main._workDir + Main.SEP + 
-				"name_database" + Main.SEP + name;
+			_fileFolder = Main._workDir + Main.SEP + "name_database" + Main.SEP + name;
 			File nameFile = getRecording(_fileFolder);
 			_filePath = nameFile.toURI().toString();
 			

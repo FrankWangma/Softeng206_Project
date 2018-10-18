@@ -40,14 +40,14 @@ public class PastRecordings extends AbstractController {
 			// Play the database file
 			String cmd;
 			if (isUser) {
-				cmd = "ffplay -nodisp -autoexit "  + 
+				cmd = "ffplay -nodisp -autoexit \""  + 
 						PlayRecordings._fileFolder + Main.SEP + "user" + Main.SEP + 
 						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
-						" &> /dev/null";
+						"\" &> /dev/null";
 			} else {
-				cmd = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + Main.SEP  + 
+				cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._fileFolder + Main.SEP  + 
 						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() + 
-						" &> /dev/null";
+						"\" &> /dev/null";
 			}
 			Background background = new Background();
 			background.setcmd(cmd);
@@ -64,7 +64,7 @@ public class PastRecordings extends AbstractController {
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the database file
-		String cmd = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";
+		String cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._filePath + "\" &> /dev/null";
 		Background background = new Background();
 		background.setcmd(cmd);
 		Thread thread = new Thread(background);
@@ -88,12 +88,12 @@ public class PastRecordings extends AbstractController {
 			disableButtons();
 		
 			// Play both files
-			String database = "ffplay -nodisp -autoexit " + PlayRecordings._filePath +" &> /dev/null";
+			String database = "ffplay -nodisp -autoexit \"" + PlayRecordings._filePath + "\" &> /dev/null";
 			String user = "";
 			if (isUser) {
-				user = "ffplay -nodisp -autoexit " + PlayRecordings._fileFolder + Main.SEP + "user" + 
+				user = "ffplay -nodisp -autoexit \"" + PlayRecordings._fileFolder + Main.SEP + "user" + 
 						Main.SEP + viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
-						" &> /dev/null";
+						"\" &> /dev/null";
 			}
 			String cmd = database + ";" + user;
 			Background background = new Background();
