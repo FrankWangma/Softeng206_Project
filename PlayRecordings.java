@@ -244,8 +244,7 @@ public class PlayRecordings extends AbstractController{
 	 * @return the quality file
 	 */
 	private static File getQualityFile(File file) {
-		File quality = new File(_fileFolder + Main.SEP + file.getName() + 
-				".txt");
+		File quality = new File(file + ".txt");
 		return quality;
 	}
 	
