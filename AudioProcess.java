@@ -4,10 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class AudioProcess {
 	
@@ -26,12 +25,11 @@ public class AudioProcess {
 			fileName = fileName + Main.getName(file.getName()) + ",";
 			
 			//Remove silence
-			newFiles.add(removeSilence(file));
+			newFiles.add(normalize(removeSilence(file)));
 		}
 		fileName = fileName.substring(0,fileName.length()-1);
 
 		String output = makeFolders(fileName);
-		File concatFileTemp = new File(output + Main.SEP + fileName + "temp.wav");
 		File concatFile = new File(output + Main.SEP + fileName+ ".wav");
 		
 		// Make text file list from list of files
@@ -40,11 +38,8 @@ public class AudioProcess {
 		
 		// Concatenate and normalise loudness
 		String concat = "ffmpeg -y -f concat -safe 0 -i \"" + textFile.getAbsolutePath() + "\" -c copy \"" +
-				concatFileTemp.getAbsolutePath() + "\"";
-		String norm = "ffmpeg -y -i \"" + concatFileTemp.getAbsolutePath() +
-				"\" -filter:a loudnorm \"" + concatFile.getAbsolutePath() + "\"";
-		bash(concat + ";" + norm);
-		concatFileTemp.delete();
+				concatFile.getAbsolutePath() + "\"";
+		bash(concat);
 		
 		return concatFile;
 	}
@@ -113,6 +108,59 @@ public class AudioProcess {
 		return null;
 	}
 	
+	/**
+	 * Makes the volume of the file -19 dB
+	 * @param file
+	 * @return the adjusted file
+	 */
+	private File normalize(File file) {
+		if (file != null && file.getName().endsWith(".wav")) {
+			float volume = detectVolume(file);
+			float toAdjust = -19 - volume;
+			
+			File newFile = new File(file.getParent() + Main.SEP + "norm" + 
+					Main.SEP + file.getName());
+			newFile.getParentFile().mkdirs();
+			String norm = "ffmpeg -y -i " + file + " -filter:a \"volume="+ toAdjust + 
+					"dB\" " + newFile.getAbsolutePath();
+			bash(norm);
+
+			return newFile;
+		}
+		return null;
+	}
+	
+	/**
+	 * Looks at a .wav file and returns the mean volume
+	 * @param file
+	 * @return the mean volume of the file, otherwise 0 if the file is invalid
+	 */
+	private float detectVolume(File file) {
+		if (file != null && file.getName().endsWith(".wav")) {
+			
+			File volume = new File(file.getParent() + Main.SEP + "norm.txt");
+			String detect = "ffmpeg -i "+ file.getAbsolutePath() +
+					" -filter:a volumedetect -f null nul &> " + volume.getAbsolutePath();
+			bash(detect);
+			
+			String line = null;
+			try {
+				Scanner s = new Scanner(volume);
+			    while (s.hasNextLine()) {
+			        line = s.nextLine();
+			        if (line.contains("mean_volume:")) { 
+			        	s.close();
+			            break;
+			        }
+			    }
+			} catch (IOException e) {e.printStackTrace();}
+			
+			line = line.substring(line.lastIndexOf(": ")+2, line.length()-3);
+			float meanVolume = Float.valueOf(line);
+			return meanVolume;
+		}
+		return 0;
+	}
 	
 	private void bash(String cmd) {
 		ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
