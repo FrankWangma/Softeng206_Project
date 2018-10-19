@@ -141,16 +141,21 @@ public class ChooseRecordings extends AbstractController{
 		 			String capitalizedName = "";
 		 	        for(String name: splitted) {
 		 	        	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
-		 	    				name.substring(1);
+		 	    				name.substring(1).toLowerCase();
 		 	        }
-		 			names.add(capitalizedName);
+		 	        capitalizedName = capitalizedName.trim();
+		 	        if(!names.contains(capitalizedName)) {
+		 	        	names.add(capitalizedName);
+		 	        } else {
+		 	        	inexistantNames.add(capitalizedName);
+		 	        }
 		 		} else {
 		 			inexistantNames.add(currentLine);
 		 		}
 		 	} 
 		 	br.close();
 		 	
-		 	if(inexistantNames != null || inexistantNames.size() != 0) {
+		 	if(inexistantNames != null && inexistantNames.size() != 0) {
 		 		Alert alert = new Alert(AlertType.ERROR, "Some names did not exist (or were repeated) \nand will not be displayed", ButtonType.OK);
 		 		alert.showAndWait();
 		 	}
