@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -59,7 +60,7 @@ public class AddCustomName extends AbstractController{
 		String[] splitted = name.split("\\s+");
 		for (String partOfName : splitted) {
 			// If the names list contains the name
-			if (!containsCaseInsensitive(partOfName, Main._names)) {
+			if (!containsCaseInsensitive(partOfName, Main.getNames())) {
 				partOfName = "\"" + partOfName + "\"";
 				nameExists = false;
 			}

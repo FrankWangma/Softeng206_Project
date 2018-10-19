@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -221,9 +222,9 @@ public class HelpScreen extends AbstractController {
 			cb.setVisible(false);
 		}
 		
-		File theme = new File(Main.getWorkDir() + Main.SEP + "theme.txt");
-		File reward = new File(Main.getWorkDir() + Main.SEP + "Reward.txt");
-		File volume = new File(Main.getWorkDir() + Main.SEP + "volume.txt");
+		File theme = new File(Main.getWorkDir() + Main.getSEP() + "theme.txt");
+		File reward = new File(Main.getWorkDir() + Main.getSEP() + "Reward.txt");
+		File volume = new File(Main.getWorkDir() + Main.getSEP() + "volume.txt");
 		BufferedReader br1;
 		try {
 			//Check the theme using a file, and select whichever theme was previously selected
@@ -285,7 +286,7 @@ public class HelpScreen extends AbstractController {
 	 * @param text
 	 * @param isTheme if it is meant to write to a theme
 	 */
-	protected static void writeToText(String text, Boolean isTheme) {
+	public static void writeToText(String text, Boolean isTheme) {
 		// Write settings to file
 		BufferedWriter bw = null;
 		FileWriter fw = null;
@@ -296,7 +297,7 @@ public class HelpScreen extends AbstractController {
 			textName = "volume.txt";
 		}
 		try {
-			fw = new FileWriter(Main.getWorkDir() + Main.SEP + textName, false);
+			fw = new FileWriter(Main.getWorkDir() + Main.getSEP() + textName, false);
 			bw = new BufferedWriter(fw);
 			bw.write(text);
 

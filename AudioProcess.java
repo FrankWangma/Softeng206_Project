@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import application.controller.Main;
+import application.Main;
 
 public class AudioProcess {
 	private static final String SEP = System.getProperty("file.separator");

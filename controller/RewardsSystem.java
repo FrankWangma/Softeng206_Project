@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,7 +33,7 @@ public class RewardsSystem extends AbstractController {
 	@Override
 	protected void customInit() {
 		//Check if the reward.txt file exists
-		File reward = new File(Main.getWorkDir() + Main.SEP + "Reward.txt");
+		File reward = new File(Main.getWorkDir() + Main.getSEP() + "Reward.txt");
 		if(reward.exists()) {
 			BufferedReader br;
 			int progress = 0;

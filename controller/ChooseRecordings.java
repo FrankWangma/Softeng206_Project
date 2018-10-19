@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -238,7 +239,7 @@ public class ChooseRecordings extends AbstractController{
 		String[] splitted = name.split("\\s+");
 		for (String partOfName : splitted) {
 			// If the names list contains the name
-			if (!containsCaseInsensitive(partOfName, Main._names)) {
+			if (!containsCaseInsensitive(partOfName, Main.getNames())) {
 				shouldBeAdded = false;
 			}
 		}
@@ -275,7 +276,7 @@ public class ChooseRecordings extends AbstractController{
 		addName = null;
 		//Add the files into the list view
 		_selected.clear(); // clear any previous items
-		selectionList=FXCollections.observableArrayList(Main._names);
+		selectionList=FXCollections.observableArrayList(Main.getNames());
 				
 		selectionListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		confirmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

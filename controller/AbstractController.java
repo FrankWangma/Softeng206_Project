@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import application.Main;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -108,7 +109,7 @@ public abstract class AbstractController {
 	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main.getWorkDir() + Main.SEP + "theme.txt");
+		 File theme = new File(Main.getWorkDir() + Main.getSEP() + "theme.txt");
 			BufferedReader br1;
 			try {
 				br1 = new BufferedReader(new FileReader(theme));
