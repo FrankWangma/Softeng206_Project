@@ -220,7 +220,7 @@ public class PlayRecordings extends AbstractController{
 	 * @param filePath the directory where the audio files are
 	 * @return the database .wav file
 	 */
-	public static File getRecording(String filePath) {
+	public File getRecording(String filePath) {
 		File nameDir = new File(filePath);
 		File[] files = nameDir.listFiles(Main._filter);
 		
@@ -228,10 +228,12 @@ public class PlayRecordings extends AbstractController{
 		Arrays.sort(files);
 		
 		// find the good quality file
-		for (int i=0; i<files.length; i++) {
-			File candidate = files[i];
-			if (!isBad(candidate)) {
-				return candidate;
+		if (!_isConcat) {
+			for (int i=0; i<files.length; i++) {
+				File candidate = files[i];
+				if (!isBad(candidate)) {
+					return candidate;
+				}
 			}
 		}
 		// they are all bad, return any
