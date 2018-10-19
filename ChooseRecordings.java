@@ -199,6 +199,7 @@ public class ChooseRecordings extends AbstractController{
 	            // if the user inputed any name
 	            if(AddCustomName.nameExists && AddCustomName._name != null) {
 	            	if(AddCustomName._name.trim() != "") {
+	            		
 	            	     confirmListView.getItems().add(AddCustomName._name);
 				           nextButton.setDisable(false);
 	            	}

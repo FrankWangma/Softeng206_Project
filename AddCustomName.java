@@ -40,7 +40,7 @@ public class AddCustomName extends AbstractController{
         String capitalizedName = "";
         for(String name: splitted) {
         	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
-    				name.substring(1);
+    				name.substring(1).toLowerCase();
         }
 		_name = capitalizedName.trim();
 		cancelButtonListener();
@@ -63,7 +63,6 @@ public class AddCustomName extends AbstractController{
 				partOfName = "\"" + partOfName + "\"";
 				nameExists = false;
 			}
-			newName = newName + partOfName + " ";
 		}
 		
 		return newName;
