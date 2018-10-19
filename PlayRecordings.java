@@ -188,6 +188,7 @@ public class PlayRecordings extends AbstractController{
 			toggleYes.setVisible(false); // the text
 			toggleNo.setVisible(false); // the text
 			
+			//Set the file paths
 			List<File> files = getIndividual(name);
 			AudioProcess concat = new AudioProcess();
 			File concatFile = new File(concat.getConcatFile(files));
@@ -277,6 +278,12 @@ public class PlayRecordings extends AbstractController{
 		}
 	}
 	
+	/**
+	 * Turns a combined name into a list of files with each
+	 * discrete name as a separate file
+	 * @param name a combined name
+	 * @return List of files containing all parts of a combined name
+	 */
 	public List<File> getIndividual(String name) {
 		// get the individual names
     	List<File> files = new ArrayList<>();
