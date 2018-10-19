@@ -11,13 +11,10 @@ import java.util.List;
 
 import application.Main;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
-import javafx.stage.Stage;
 /**
  * This class is used as the controller for the help screen in the GUI
  * @author frank
@@ -188,11 +185,7 @@ public class HelpScreen extends AbstractController {
 	
 	@FXML private void howToUseButtonListener() throws IOException {
 		// open a new window
-    	Parent pane = FXMLLoader.load(getClass().getResource(_resourceFolder + "HowToUse.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("How To Use");
-        stage.setScene(new Scene(pane));
-        stage.showAndWait();
+        openWindow("HowToUse.fxml", "How To Use");
 	}
 	
 	/**

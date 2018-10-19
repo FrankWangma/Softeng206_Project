@@ -40,6 +40,21 @@ public abstract class AbstractController {
 	}
 	
 	/**
+	 * Opens a new window given an fxml file
+	 * @param fxml the fxml to load
+	 * @param title the title of the new window
+	 * @throws IOException
+	 */
+	public void openWindow(String fxml, String title) throws IOException {
+		// open a new window
+    	Parent pane = FXMLLoader.load(getClass().getResource(_resourceFolder + fxml));
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.setScene(new Scene(pane));
+        stage.showAndWait();
+	}
+	
+	/**
 	 * Background worker to create the ffmpeg files and stop any freezing of the GUI
 	 * 
 	 */
