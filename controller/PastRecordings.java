@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.AudioFile;
 import application.Main;
+import application.audio.AudioFile;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,11 +44,11 @@ public class PastRecordings extends AbstractController {
 			String cmd;
 			if (isUser) {
 				cmd = "ffplay -nodisp -autoexit \""  + 
-						PlayRecordings._fileFolder + Main.getSEP() + "user" + Main.getSEP() + 
+						PlayRecordings._fileFolder + Main.SEP + "user" + Main.SEP + 
 						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
 						"\" &> /dev/null";
 			} else {
-				cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._fileFolder + Main.getSEP()  + 
+				cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._fileFolder + Main.SEP  + 
 						viewPastRecordings.getSelectionModel().getSelectedItem().getFile() + 
 						"\" &> /dev/null";
 			}
@@ -94,8 +94,8 @@ public class PastRecordings extends AbstractController {
 			String database = "ffplay -nodisp -autoexit \"" + PlayRecordings._filePath + "\" &> /dev/null";
 			String user = "";
 			if (isUser) {
-				user = "ffplay -nodisp -autoexit \"" + PlayRecordings._fileFolder + Main.getSEP() + "user" + 
-						Main.getSEP() + viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
+				user = "ffplay -nodisp -autoexit \"" + PlayRecordings._fileFolder + Main.SEP + "user" + 
+						Main.SEP + viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
 						"\" &> /dev/null";
 			}
 			String cmd = database + ";" + user;
@@ -137,7 +137,7 @@ public class PastRecordings extends AbstractController {
 	 * @return A list of the user recording files
 	 */
 	private List<AudioFile> getUserRecordings() {
-		File userFolder = new File(PlayRecordings._fileFolder + Main.getSEP() + "user");
+		File userFolder = new File(PlayRecordings._fileFolder + Main.SEP + "user");
 		File[] userArray = userFolder.listFiles(Main.getFilter());
 		List<AudioFile> userList = new ArrayList<AudioFile>();
 		if(userArray != null) {

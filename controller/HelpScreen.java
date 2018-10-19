@@ -222,9 +222,9 @@ public class HelpScreen extends AbstractController {
 			cb.setVisible(false);
 		}
 		
-		File theme = new File(Main.getWorkDir() + Main.getSEP() + "theme.txt");
-		File reward = new File(Main.getWorkDir() + Main.getSEP() + "Reward.txt");
-		File volume = new File(Main.getWorkDir() + Main.getSEP() + "volume.txt");
+		File theme = new File(Main.WORK_DIR + Main.SEP + "theme.txt");
+		File reward = new File(Main.WORK_DIR + Main.SEP + "Reward.txt");
+		File volume = new File(Main.WORK_DIR + Main.SEP + "volume.txt");
 		BufferedReader br1;
 		try {
 			//Check the theme using a file, and select whichever theme was previously selected
@@ -297,7 +297,7 @@ public class HelpScreen extends AbstractController {
 			textName = "volume.txt";
 		}
 		try {
-			fw = new FileWriter(Main.getWorkDir() + Main.getSEP() + textName, false);
+			fw = new FileWriter(Main.WORK_DIR + Main.SEP + textName, false);
 			bw = new BufferedWriter(fw);
 			bw.write(text);
 

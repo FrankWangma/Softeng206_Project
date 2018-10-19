@@ -22,8 +22,8 @@ import javafx.scene.control.Label;
  * Controller class for the recording screen.
  */
 public class Record extends AbstractController{
-	private File _tempFile = new File(PlayRecordings._fileFolder + Main.getSEP() + 
-			"user" + Main.getSEP() + "temp.wav");
+	private File _tempFile = new File(PlayRecordings._fileFolder + Main.SEP + 
+			"user" + Main.SEP + "temp.wav");
 	private String _recordedFileName; //File path of the latest user recording
 	private boolean _firstRecord;
 	private boolean _saved;
@@ -217,8 +217,8 @@ public class Record extends AbstractController{
 		String date = dtf.format(now); 
 						
 		// Set the wav file name
-		_recordedFileName = PlayRecordings._fileFolder + Main.getSEP() + "user" + 
-				Main.getSEP() + "user_" + date + "_" + PlayRecordings._name + ".wav";
+		_recordedFileName = PlayRecordings._fileFolder + Main.SEP + "user" + 
+				Main.SEP + "user_" + date + "_" + PlayRecordings._name + ".wav";
 	}
 	
 	/**
@@ -256,7 +256,7 @@ public class Record extends AbstractController{
 	 */
 	private void writeRewardText(){
 		BufferedReader br1;
-		File reward = new File(Main.getWorkDir() + Main.getSEP() + "Reward.txt");
+		File reward = new File(Main.WORK_DIR + Main.SEP + "Reward.txt");
 		//check if the reward text file exists
 		if(!reward.exists()) {
 			try {

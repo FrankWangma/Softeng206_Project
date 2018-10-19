@@ -56,7 +56,7 @@ public class MainMenu extends AbstractController{
 	@Override
 	public void customInit() {
 		//Check if the user is a new user
-		File checkNewUser = new File(Main.getWorkDir() + Main.getSEP() + "isNewUser.txt");
+		File checkNewUser = new File(Main.WORK_DIR + Main.SEP + "isNewUser.txt");
 		if(checkNewUser.exists()) {
 			//Do Nothing
 		} else {

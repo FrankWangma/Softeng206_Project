@@ -33,7 +33,7 @@ public class RewardsSystem extends AbstractController {
 	@Override
 	protected void customInit() {
 		//Check if the reward.txt file exists
-		File reward = new File(Main.getWorkDir() + Main.getSEP() + "Reward.txt");
+		File reward = new File(Main.WORK_DIR + Main.SEP + "Reward.txt");
 		if(reward.exists()) {
 			BufferedReader br;
 			int progress = 0;
