@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,17 +56,34 @@ public class Main extends Application {
 			if (!theme.exists()) {
 				HelpScreen.writeToText("application.css", true);
 			}
+			//getResources();
+			
 			primaryStage.setTitle("Name Sayer");
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(this.getClass().getResource("controller" + SEP + "MainMenu.fxml"));
+			loader.setLocation(this.getClass().getResource("controller" + SEP + 
+					"resources" + SEP + "MainMenu.fxml"));
 			Parent layout = loader.load();
 			Scene scene = new Scene(layout);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
+		
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void getResources() {
+		InputStream res = Main.class.getResourceAsStream("/resources.txt");
+		BufferedReader r = new BufferedReader(new InputStreamReader(res));
+		String line = null;
+		try {
+			while ((line = r.readLine()) != null) {
+				System.out.println(line);
+			}
+		} catch (IOException e) {e.printStackTrace();}
+		try {r.close();}
+		catch (IOException e) {e.printStackTrace();}
 	}
 	
 	/**

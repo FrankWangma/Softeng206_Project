@@ -18,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public abstract class AbstractController {
+	static final String _resourceFolder = "resources" + Main.SEP;
+	
 	@FXML Pane _rootPane;
 	
 	/**
@@ -27,7 +29,7 @@ public abstract class AbstractController {
 	 */
 	public void switchScenes(String fxml, Pane Pane) throws IOException {
 		//use fxmlloader to change the fxml file
-		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+		Parent pane = FXMLLoader.load(getClass().getResource(_resourceFolder + fxml));
 		Stage stage = (Stage) Pane.getScene().getWindow();
 		Scene scene = stage.getScene();
 		
@@ -115,7 +117,8 @@ public abstract class AbstractController {
 				br1 = new BufferedReader(new FileReader(theme));
 				String st; 
 				 while ((st = br1.readLine()) != null)  {
-					  _rootPane.getStylesheets().add(getClass().getResource(st).toExternalForm());
+					  _rootPane.getStylesheets().add(getClass().getResource(_resourceFolder + 
+							  st).toExternalForm());
 				} 
 				 br1.close();
 			} catch (IOException e1) {

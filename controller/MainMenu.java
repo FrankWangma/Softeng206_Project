@@ -47,7 +47,7 @@ public class MainMenu extends AbstractController{
 	@FXML public void rewardsButton() throws IOException {
 		//Open rewards screen
 		// open a new window
-    	Parent pane = FXMLLoader.load(getClass().getResource("RewardScreen.fxml"));
+    	Parent pane = FXMLLoader.load(getClass().getResource(_resourceFolder + "RewardScreen.fxml"));
         Stage stage = new Stage();
         stage.setTitle("Rewards");
         stage.setScene(new Scene(pane));

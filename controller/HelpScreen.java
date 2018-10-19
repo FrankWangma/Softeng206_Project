@@ -146,7 +146,7 @@ public class HelpScreen extends AbstractController {
 	 */
 	private void loadStyle(Parent node, String css) {
 		_rootPane.getStylesheets().clear();
-	     _rootPane.getStylesheets().add(getClass().getResource(css).toExternalForm());
+	     _rootPane.getStylesheets().add(getClass().getResource(_resourceFolder + css).toExternalForm());
 	 }
 	
 	/**
@@ -188,7 +188,7 @@ public class HelpScreen extends AbstractController {
 	
 	@FXML private void howToUseButtonListener() throws IOException {
 		// open a new window
-    	Parent pane = FXMLLoader.load(getClass().getResource("HowToUse.fxml"));
+    	Parent pane = FXMLLoader.load(getClass().getResource(_resourceFolder + "HowToUse.fxml"));
         Stage stage = new Stage();
         stage.setTitle("How To Use");
         stage.setScene(new Scene(pane));
@@ -274,10 +274,7 @@ public class HelpScreen extends AbstractController {
 						_volumeSlider.setValue(Double.parseDouble(st));
 					} 
 				 }
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} 
+		} catch (IOException e1) {e1.printStackTrace();} 
 	
 	}
 	
