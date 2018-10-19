@@ -25,6 +25,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -136,22 +137,34 @@ public class ChooseRecordings extends AbstractController{
 			List<String> names = new ArrayList<String>();
 			// read the text file
 		 	while ((currentLine = br.readLine()) != null) {
+		 		//check if the name is actually in the database
 		 		if (checkIfNameExists(currentLine)) {
 		 			String[] splitted = currentLine.split("\\s+");
 		 			String capitalizedName = "";
+		 			//Capitalize the name
 		 	        for(String name: splitted) {
 		 	        	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
-		 	    				name.substring(1);
+		 	    				name.substring(1).toLowerCase();
 		 	        }
-		 			names.add(capitalizedName);
+		 	        //trim any space
+		 	        capitalizedName = capitalizedName.trim();
+		 	        //check if the name is repeated or not
+		 	        if(!names.contains(capitalizedName)) {
+		 	        	names.add(capitalizedName);
+		 	        } else {
+		 	        	inexistantNames.add(capitalizedName);
+		 	        }
 		 		} else {
 		 			inexistantNames.add(currentLine);
 		 		}
 		 	} 
 		 	br.close();
 		 	
-		 	if(inexistantNames != null || inexistantNames.size() != 0) {
-		 		Alert alert = new Alert(AlertType.ERROR, "Some names did not exist (or were repeated) \nand will not be displayed", ButtonType.OK);
+		 	//show an error if there are some names that did not exist
+		 	if(inexistantNames != null && inexistantNames.size() != 0) {
+		 		Alert alert = new Alert(AlertType.ERROR, "The following names did not exist (or were repeated) and will not be displayed: \n"
+		 				+ inexistantNames, ButtonType.OK);
+		 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		 		alert.showAndWait();
 		 	}
 		 	
@@ -165,7 +178,7 @@ public class ChooseRecordings extends AbstractController{
 		 	}
 		 
 		} else {
-			// some error message?
+			// Error message
 			Alert alert = new Alert(AlertType.ERROR , "No text file was selected", ButtonType.OK);
 			 alert.showAndWait();
 		}
@@ -199,6 +212,10 @@ public class ChooseRecordings extends AbstractController{
 	        
 	}
 	
+	/**
+	 * This is a listener for when the enter button is pressed in the search bar
+	 * @param ae
+	 */
 	@FXML
 	public void onEnter(ActionEvent ae) {
 		if(!filteredList.isEmpty()) {
