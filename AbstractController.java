@@ -59,6 +59,10 @@ public abstract class AbstractController {
 			});
 		}
 		
+		/**
+		 * Sets the command to pass to the bash process
+		 * @param cmd the command
+		 */
 		public void setcmd(String cmd) {
 			_cmd = cmd;
 		}
@@ -98,6 +102,9 @@ public abstract class AbstractController {
 	 */
 	protected void enableButtons() {}
 	
+	/**
+	 * Initialisation of the screen.
+	 */
 	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
@@ -111,7 +118,6 @@ public abstract class AbstractController {
 				} 
 				 br1.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
 			customInit();

@@ -80,7 +80,7 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
-	 * User presses compare
+	 * User presses compare.
 	 */
 	@FXML protected void handleCompare() {
 		int selectedIndex = viewPastRecordings.getSelectionModel().getSelectedIndex();

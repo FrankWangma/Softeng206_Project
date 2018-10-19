@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -40,11 +39,11 @@ public class Record extends AbstractController{
 	@FXML private Button buttonRecordCompare;
 	
 	/**
-	 * This method will handle the record button if the user has recorded another file for the same name 
-	 * and hasn't saved it. This will prompt them to make sure if they want to override the recording
-	 * @param event
+	 * This method will handle the record button if the user has recorded another file 
+	 * for the same name and hasn't saved it. This will prompt them to make sure 
+	 * if they want to override the recording.
 	 */
-	@FXML protected void handleRecordRecord(ActionEvent event) {
+	@FXML protected void handleRecordRecord() {
 		if (!_isRecording) {
 			if (!_saved) {
 				//If the recording has not been saved, then prompt the user for confirmation
@@ -64,11 +63,10 @@ public class Record extends AbstractController{
     }
 	
 	/**
-	 * Play the file that is from the database when the play button is pressed by the user
-	 * @param event
+	 * Play the file that is from the database when the play button is pressed by the user.
 	 * @throws IOException
 	 */
-	@FXML protected void handleRecordPlayDatabase(ActionEvent event) throws IOException {
+	@FXML protected void handleRecordPlayDatabase() throws IOException {
 		// Set all buttons to disabled
 		disableButtons();
 		String cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._filePath + "\" &> /dev/null";
@@ -82,10 +80,9 @@ public class Record extends AbstractController{
 	/**
 	 * This method will handle the playing of the recording that the user has just created when the
 	 * play record button is pressed
-	 * @param event
 	 * @throws IOException
 	 */
-	@FXML protected void handleRecordPlay(ActionEvent event) throws IOException {
+	@FXML protected void handleRecordPlay() throws IOException {
 		// Set all buttons to disabled
 		disableButtons();
 		String cmd;
@@ -104,10 +101,9 @@ public class Record extends AbstractController{
 	}
 	
 	/**
-	 * This saves the recording that the user has recorded when the save button is pressed
-	 * @param event
+	 * This saves the recording that the user has recorded when the save button is pressed.
 	 */
-	@FXML protected void handleRecordSave(ActionEvent event) {
+	@FXML protected void handleRecordSave() {
 		//Add a point to the reward system
 		writeRewardText();
 		//save the file
@@ -120,10 +116,9 @@ public class Record extends AbstractController{
 	/**
 	 * This method handles the event when the user presses the back button, and 
 	 * calls the goBack method to take the user back to the previous screen
-	 * @param event
 	 * @throws IOException
 	 */
-	@FXML protected void handleRecordBack(ActionEvent event) throws IOException {
+	@FXML protected void handleRecordBack() throws IOException {
 		if (!_saved) {
 			// Confirmation: "Go back without saving?"
 			Alert nameConfirm = new Alert(AlertType.CONFIRMATION, 
@@ -131,19 +126,18 @@ public class Record extends AbstractController{
 			Optional<ButtonType> result = nameConfirm.showAndWait();
 			if (result.isPresent() && result.get() == ButtonType.OK) {
 				_tempFile.delete();
-				goBack();
+				switchScenes("PlayRecordings.fxml", _rootPane);
 			}
 		} else {
-			goBack();
+			switchScenes("PlayRecordings.fxml", _rootPane);
 		}
 	}
 	
 	/**
 	 * This method handles the event when the user presses the compare button, and 
 	 * plays the database recording + current user recording one after the other.
-	 * @param event
 	 */
-	@FXML protected void handleRecordCompare(ActionEvent event) {
+	@FXML protected void handleRecordCompare() {
 		// Set all buttons to disabled
 		disableButtons();
 		String cmd = "ffplay -nodisp -autoexit \"" + PlayRecordings._filePath +"\" &> /dev/null";;
@@ -227,14 +221,6 @@ public class Record extends AbstractController{
 	}
 	
 	/**
-	 * Goes back to the PlayRecordings Screen
-	 * @throws IOException
-	 */
-	private void goBack() throws IOException {
-		switchScenes("PlayRecordings.fxml", _rootPane);
-	}
-	
-	/**
 	 * This method disables all the buttons in the current pane
 	 */
 	protected void disableButtons() {
@@ -265,7 +251,7 @@ public class Record extends AbstractController{
 	}
 	
 	/**
-	 * This method adds a point to the reward for the user
+	 * This method adds a point to the reward for the user.
 	 */
 	private void writeRewardText(){
 		BufferedReader br1;
@@ -274,10 +260,7 @@ public class Record extends AbstractController{
 		if(!reward.exists()) {
 			try {
 				reward.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (IOException e) {e.printStackTrace();}
 		}
 		int progress = 0;
 		 try {

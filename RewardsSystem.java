@@ -13,12 +13,9 @@ import javafx.stage.Stage;
 
 /**
  * This class handles the reward system window
- * @author fwan175
  *
  */
-public class RewardsSystem extends AbstractController
-{
-	
+public class RewardsSystem extends AbstractController {
 	@FXML private Button _closeButton;
 	@FXML private ProgressBar _rewardBar;
 	@FXML private Label _progressLabel;
@@ -49,7 +46,6 @@ public class RewardsSystem extends AbstractController
 						}
 					}
 					} catch (NumberFormatException | IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 			 // If it is more than 40 (over the limit), set it to 40

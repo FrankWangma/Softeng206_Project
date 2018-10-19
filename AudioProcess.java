@@ -110,8 +110,8 @@ public class AudioProcess {
 	
 	/**
 	 * Makes the volume of the file -19 dB
-	 * @param file
-	 * @return the adjusted file
+	 * @param file the file object to process
+	 * @return the file with adjusted audio
 	 */
 	private File normalize(File file) {
 		if (file != null && file.getName().endsWith(".wav")) {

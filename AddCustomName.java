@@ -47,8 +47,8 @@ public class AddCustomName extends AbstractController{
 	}
 	
 	/**
-	 * Check if the name inputted exists (checks the _name list in Main)
-	 * @param name the name that is inputted
+	 * Check if the name inputed exists (checks the _name list in Main)
+	 * @param name the name that is inputed
 	 * @return
 	 */
 	public String checkIfNameExists(String name) {

@@ -8,13 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -46,9 +44,8 @@ public class PlayRecordings extends AbstractController{
 	/**
 	 * This method handles the event of the play button being pressed
 	 * and plays the database recording of the name
-	 * @param event
 	 */
-	@FXML protected void handlePlay(ActionEvent event) {
+	@FXML protected void handlePlay() {
 		// Set all buttons to disabled
 		disableButtons();
 		// Play the audio
@@ -63,32 +60,29 @@ public class PlayRecordings extends AbstractController{
 	/**
 	 * This method handles the event of the record button getting pressed and goes
 	 * to the record view
-	 * @param event
 	 * @throws IOException
 	 */
-	@FXML protected void handleRecord(ActionEvent event) throws IOException {
-        // GO TO RECORD VIEW
+	@FXML protected void handleRecord() throws IOException {
+        // Go To Record View
 		switchScenes("Record.fxml", _rootPane); 
 	}
 	
 	/**
 	 * This method handles the event of the Past Recordings button getting pressed, and 
 	 * goes to the past recordings view
-	 * @param event
 	 * @throws IOException
 	 */
-	@FXML protected void handlePast(ActionEvent event) throws IOException {
-        // GO TO PAST RECORDING VIEW
+	@FXML protected void handlePast() throws IOException {
+        // Go To Past Recording View
 		switchScenes("PastRecordings.fxml", _rootPane);
 	}
 	
 	/**
 	 * This method handles the event of the Next button being pressed, and goes to
 	 * the next name on the list
-	 * @param event
 	 * @throws IOException
 	 */
-	@FXML protected void handleNext(ActionEvent event) throws IOException {
+	@FXML protected void handleNext() throws IOException {
         // Get the next name in the list
 		_index++;
 		
@@ -106,9 +100,8 @@ public class PlayRecordings extends AbstractController{
 	/**
 	 * This method handles the event of the toggle button being pressed, and 
 	 * toggles the "bad quality" attribute of the recording
-	 * @param event
 	 */
-	@FXML protected void toggle(ActionEvent event) {
+	@FXML protected void toggle() {
 		// Toggle visible/invisible
 		if (_isBad) {
 			toggleYes.setVisible(false);
@@ -128,12 +121,11 @@ public class PlayRecordings extends AbstractController{
 	}
 	
 	/**
-	 *  This event handles the previous name button, and when its pressed, it
+	 *  This method handles the previous name button, and when its pressed, it
 	 *  will go the the previous name on the list
-	 * @param event
 	 * @throws IOException
 	 */
-	@FXML protected void handlepreviousName(ActionEvent event) throws IOException {
+	@FXML protected void handlePreviousName() throws IOException {
 		//Button will only work if the current index is not at 0
 		if(_index > 0) {
 			_index--;
@@ -148,6 +140,15 @@ public class PlayRecordings extends AbstractController{
 		catch (IndexOutOfBoundsException e) {
 		//Do nothing
 		}
+	}
+	
+	/**
+	 * Goes to the main menu upon a button press.
+	 * @throws IOException
+	 */
+	@FXML protected void backToMainMenu() throws IOException {
+		nameList.getItems().clear();
+		switchScenes("MainMenu.fxml", _rootPane);
 	}
 	
 	/**
@@ -321,12 +322,6 @@ public class PlayRecordings extends AbstractController{
 		toggle.setDisable(false);
 		previousButton.setDisable(false);
 		backMainMenuButton.setDisable(false);
-	}
-	
-	@FXML
-	protected void backToMainMenu() throws IOException {
-		nameList.getItems().clear();
-		switchScenes("MainMenu.fxml", _rootPane);
 	}
 	
 	@Override

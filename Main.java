@@ -107,8 +107,8 @@ public class Main extends Application {
 	
 	/**
 	 * Gets the name from the audio file (or the final
-	 * segment of the file name after the last underscore
-	 * @param fileName
+	 * segment of the file name after the last underscore.
+	 * @param fileName the name of the file to process
 	 * @return String of the name
 	 */
 	public static String getName(String fileName) {
@@ -117,7 +117,9 @@ public class Main extends Application {
 	}
 	
 	/**
-	 * Removes redundant names in _names list.
+	 * Removes redundant names in a list.
+	 * @param list The list of names to process
+	 * @return the new list of names without repeats.
 	 */
 	public static List<String> removeRedundant(List<String> list) {
 		List<String> newList = new ArrayList<String>(new HashSet<String>(list));
@@ -126,7 +128,7 @@ public class Main extends Application {
 	
 	/**
 	 * Writes the names in _names, to a text file names.txt. This deletes the existing
-	 * text file and makes a new one!
+	 * text file and makes a new one.
 	 */
 	public void writeNamesToFile() {
 		// Write name to file
@@ -157,15 +159,12 @@ public class Main extends Application {
 	
 	public static void setUnlockRewardFile() {
 		// Write name to file
-				BufferedWriter bw = null;
-				FileWriter fw = null;
+		BufferedWriter bw = null;
+		FileWriter fw = null;
 		try {
 			fw = new FileWriter(_namesFile.getPath(), true);
 			bw = new BufferedWriter(fw);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace();}
 		
 	}
 	
