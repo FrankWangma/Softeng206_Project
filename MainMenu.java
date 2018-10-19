@@ -30,7 +30,7 @@ public class MainMenu extends AbstractController{
 	 */
 	@FXML public void practiceButton() throws IOException {
 		//Change to practice pane
-		switchScenes("chooseRecordings.fxml", _rootPane); 
+		switchScenes("ChooseRecordings.fxml", _rootPane); 
 	}
 	
 	@FXML public void helpButton() throws IOException {
