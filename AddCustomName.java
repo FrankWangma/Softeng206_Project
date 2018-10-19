@@ -82,7 +82,7 @@ public class AddCustomName extends AbstractController{
 	protected void customInit() {
 		_name = null;
 		_addButton.setDisable(true);
-		
+		nameExists = true;
 		// Listener code retrieved from : https://stackoverflow.com/questions/29594746/how-to-determine-if-the-text-has-changed-or-no-in-the-textfield-with-javafx
 		_customName.textProperty().addListener(new ChangeListener<String>(){
             @Override
