@@ -25,18 +25,19 @@ public class AddCustomName extends AbstractController{
 	 * This method handles the event when the add button is pressed
 	 */
 	@FXML public void addButtonListener() {
-		_name = _customName.getText();
-		// if the user inputted any name
+		_name = _customName.getText().trim();
+		// if the user inputed any name
         if(_name != null && !_name.isEmpty()) {
         	String newName = checkIfNameExists(_name);
         	//Check if the name exists
 			if(!nameExists) {
 				_name = "";
-				Alert alert = new Alert(AlertType.ERROR , newName + " does not exist", ButtonType.OK);
+				Alert alert = new Alert(AlertType.ERROR , "\"" + newName + "\" does not exist", 
+						ButtonType.OK);
 	            alert.showAndWait();
 			} 
         }
-        String[] splitted = _customName.getText().split("\\s+");
+        String[] splitted = _customName.getText().trim().split("\\s+");
         String capitalizedName = "";
         for(String name: splitted) {
         	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
@@ -52,8 +53,7 @@ public class AddCustomName extends AbstractController{
 	 * @return
 	 */
 	public String checkIfNameExists(String name) {
-	
-		
+		name = name.trim();
 		String newName = "";
 		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");

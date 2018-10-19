@@ -138,6 +138,7 @@ public class ChooseRecordings extends AbstractController{
 			// read the text file
 		 	while ((currentLine = br.readLine()) != null) {
 		 		//check if the name is actually in the database
+		 		currentLine = currentLine.trim();
 		 		if (checkIfNameExists(currentLine)) {
 		 			String[] splitted = currentLine.split("\\s+");
 		 			String capitalizedName = "";
