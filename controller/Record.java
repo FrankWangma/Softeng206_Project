@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -255,7 +255,7 @@ public class Record extends AbstractController{
 	 */
 	private void writeRewardText(){
 		BufferedReader br1;
-		File reward = new File(Main._workDir + Main.SEP + "Reward.txt");
+		File reward = new File(Main.getWorkDir() + Main.SEP + "Reward.txt");
 		//check if the reward text file exists
 		if(!reward.exists()) {
 			try {

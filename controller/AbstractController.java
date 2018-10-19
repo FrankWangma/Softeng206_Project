@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -108,7 +108,7 @@ public abstract class AbstractController {
 	public void initialize() {
 		//load css file
 		 _rootPane.getStylesheets().clear();
-		 File theme = new File(Main._workDir + Main.SEP + "theme.txt");
+		 File theme = new File(Main.getWorkDir() + Main.SEP + "theme.txt");
 			BufferedReader br1;
 			try {
 				br1 = new BufferedReader(new FileReader(theme));

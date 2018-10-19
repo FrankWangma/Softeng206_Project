@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import application.AudioProcess;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -161,7 +163,7 @@ public class PlayRecordings extends AbstractController{
 		
 		if (!name.contains(" ")) {
 			_isConcat = false;
-			_fileFolder = Main._workDir + Main.SEP + "name_database" + Main.SEP + name;
+			_fileFolder = Main.getWorkDir() + Main.SEP + "name_database" + Main.SEP + name;
 			File nameFile = getRecording(_fileFolder);
 			_filePath = nameFile.toURI().toString();
 			
@@ -289,7 +291,7 @@ public class PlayRecordings extends AbstractController{
     	List<File> files = new ArrayList<>();
 		String[] split = name.trim().split("\\s+");
 		for (int i=0; i<split.length; i++) {
-			File file = getRecording(Main._workDir + Main.SEP + 
+			File file = getRecording(Main.getWorkDir() + Main.SEP + 
 					"name_database" + Main.SEP + split[i]);
 			files.add(file);
 		}

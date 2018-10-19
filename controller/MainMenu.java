@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class MainMenu extends AbstractController{
 	@Override
 	public void customInit() {
 		//Check if the user is a new user
-		File checkNewUser = new File(Main._workDir + Main.SEP + "isNewUser.txt");
+		File checkNewUser = new File(Main.getWorkDir() + Main.SEP + "isNewUser.txt");
 		if(checkNewUser.exists()) {
 			//Do Nothing
 		} else {

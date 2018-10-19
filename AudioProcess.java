@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import application.controller.Main;
+
 public class AudioProcess {
+	private static final String SEP = System.getProperty("file.separator");
 	
 	/**
 	 * Takes in a(n Array)List of files and combines them
@@ -45,8 +48,8 @@ public class AudioProcess {
 	 */
 	private String makeFolders(String fileName) {
 		//Folder to store concatenated files (and user files)
-		String output = Main._workDir + Main.SEP + "combined" + Main.SEP + fileName;
-		String outputUser = output + Main.SEP + "user";
+		String output = Main.getWorkDir() + SEP + "combined" + SEP + fileName;
+		String outputUser = output + SEP + "user";
 		File outputFolderUser = new File(outputUser);
 		outputFolderUser.mkdirs();
 		
@@ -90,8 +93,8 @@ public class AudioProcess {
 	 */
 	File removeSilence(File file) {
 		if (file != null && file.getName().endsWith(".wav")) {
-			File newFile = new File(file.getParent() + Main.SEP + "cleaned" + 
-					Main.SEP + file.getName());
+			File newFile = new File(file.getParent() + SEP + "cleaned" + 
+					SEP + file.getName());
 			newFile.getParentFile().mkdirs();
 			String silence = "ffmpeg -y -hide_banner -i "+ file.getAbsolutePath() +" -af " + 
 				"silenceremove=1:0:-50dB:1:2:-50dB " + newFile.getAbsolutePath();
@@ -112,8 +115,8 @@ public class AudioProcess {
 			float volume = detectVolume(file);
 			float toAdjust = -19 - volume;
 			
-			File newFile = new File(file.getParent() + Main.SEP + "norm" + 
-					Main.SEP + file.getName());
+			File newFile = new File(file.getParent() + SEP + "norm" + 
+					SEP + file.getName());
 			newFile.getParentFile().mkdirs();
 			String norm = "ffmpeg -y -i " + file + " -filter:a \"volume="+ toAdjust + 
 					"dB\" " + newFile.getAbsolutePath();
@@ -132,7 +135,7 @@ public class AudioProcess {
 	private float detectVolume(File file) {
 		if (file != null && file.getName().endsWith(".wav")) {
 			
-			File volume = new File(file.getParent() + Main.SEP + "norm.txt");
+			File volume = new File(file.getParent() + SEP + "norm.txt");
 			String detect = "ffmpeg -i "+ file.getAbsolutePath() +
 					" -filter:a volumedetect -f null nul &> " + volume.getAbsolutePath();
 			bash(detect);
@@ -187,7 +190,7 @@ public class AudioProcess {
 		}
 		fileName = fileName.substring(0,fileName.length()-1);
 		String output = makeFolders(fileName);
-		String concatFile = output + Main.SEP + fileName+ ".wav";
+		String concatFile = output + SEP + fileName+ ".wav";
 		return concatFile;
 	}
 

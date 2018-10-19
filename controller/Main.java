@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 	
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,8 +27,8 @@ import javafx.scene.Scene;
 public class Main extends Application {
 	static final String SEP = System.getProperty("file.separator");
 	static Path relativePath = Paths.get("");
-	static String _workDir = relativePath.toAbsolutePath().toString();
-	static File _namesFile = new File(_workDir + SEP + "names.txt");
+	private static String _workDir = relativePath.toAbsolutePath().toString();
+	static File _namesFile = new File(getWorkDir() + SEP + "names.txt");
 	static List<String> _names = new ArrayList<String>();
 	
 	// File filter for .wav files
@@ -51,7 +51,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		makeDatabase();
 		try {
-			File theme = new File(_workDir + SEP + "theme.txt");
+			File theme = new File(getWorkDir() + SEP + "theme.txt");
 			if (!theme.exists()) {
 				HelpScreen.writeToText("application.css", true);
 			}
@@ -74,9 +74,9 @@ public class Main extends Application {
 	 * to the _names list.
 	 */
 	public void makeDatabase() {
-		File input = new File(_workDir + SEP + "input");
+		File input = new File(getWorkDir() + SEP + "input");
 		input.mkdirs(); // Make the input folder if it doesn't exist
-		File destination = new File(_workDir + SEP + "name_database");
+		File destination = new File(getWorkDir() + SEP + "name_database");
 		File[] listOfFiles = input.listFiles(_filter);
 		String fileName;
 		_names = readNamesFromFile(); // existing list
@@ -191,6 +191,10 @@ public class Main extends Application {
 		return existingNames;
 	}
 	
+	public static String getWorkDir() {
+		return _workDir;
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}

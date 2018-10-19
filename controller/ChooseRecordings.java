@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -126,7 +126,7 @@ public class ChooseRecordings extends AbstractController{
 		// add a filter (only text files)
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
 		fc.getExtensionFilters().add(extFilter);
-		fc.setInitialDirectory(new File(Main._workDir));
+		fc.setInitialDirectory(new File(Main.getWorkDir()));
 		File selectedFile = fc.showOpenDialog(null);
 		
 		ArrayList<String> inexistantNames = new ArrayList<String>();

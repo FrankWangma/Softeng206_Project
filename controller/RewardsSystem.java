@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,7 +32,7 @@ public class RewardsSystem extends AbstractController {
 	@Override
 	protected void customInit() {
 		//Check if the reward.txt file exists
-		File reward = new File(Main._workDir + Main.SEP + "Reward.txt");
+		File reward = new File(Main.getWorkDir() + Main.SEP + "Reward.txt");
 		if(reward.exists()) {
 			BufferedReader br;
 			int progress = 0;
