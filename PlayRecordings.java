@@ -188,30 +188,11 @@ public class PlayRecordings extends AbstractController{
 			toggleYes.setVisible(false); // the text
 			toggleNo.setVisible(false); // the text
 			
-			Task<Void> concatTask = new Task<Void>() {
-    		    @Override
-    		    public Void call() throws Exception {
-    		    	// get the individual names
-    		    	List<File> files = new ArrayList<>();
-					String[] split = name.trim().split("\\s+");
-					for (int i=0; i<split.length; i++) {
-						File file = getRecording(Main._workDir + Main.SEP + 
-								"name_database" + Main.SEP + split[i]);
-						files.add(file);
-					}
-			
-					// concatenate
-					AudioProcess concat = new AudioProcess();
-					File audioFile = concat.concatenate(files);
-			
-					// set the path to this file as the recording file
-					_filePath = audioFile.toURI().toString();
-					_fileFolder = audioFile.getParentFile().getAbsolutePath();
-			
-					return null;
-    		    }
-    		};
-    		new Thread(concatTask).start();
+			List<File> files = getIndividual(name);
+			AudioProcess concat = new AudioProcess();
+			File concatFile = new File(concat.getConcatFile(files));
+			_filePath = concatFile.toURI().toString();
+			_fileFolder = concatFile.getParentFile().getAbsolutePath();
 		}
 	}
 	
@@ -296,6 +277,18 @@ public class PlayRecordings extends AbstractController{
 		}
 	}
 	
+	public List<File> getIndividual(String name) {
+		// get the individual names
+    	List<File> files = new ArrayList<>();
+		String[] split = name.trim().split("\\s+");
+		for (int i=0; i<split.length; i++) {
+			File file = getRecording(Main._workDir + Main.SEP + 
+					"name_database" + Main.SEP + split[i]);
+			files.add(file);
+		}
+		return files;
+	}
+	
 	
 	/**
 	 * Helper method to disable the buttons
@@ -329,6 +322,26 @@ public class PlayRecordings extends AbstractController{
 		nameList.getItems().addAll(ChooseRecordings._selected);
 		_index = 0;
 		nameList.getSelectionModel().select(_index);
+		
+		//concatenate any combined files
+		for (int i=0; i< nameList.getItems().size();i++) {
+			String name = nameList.getItems().get(i);
+			if (name.contains(" ")) {
+				Task<Void> concatTask = new Task<Void>() {
+	    		    @Override
+	    		    public Void call() throws Exception {
+	    		    	List<File> files = getIndividual(name);
+	    		    	
+						// concatenate
+						AudioProcess concat = new AudioProcess();
+						concat.concatenate(files);
+				
+						return null;
+	    		    }
+	    		};
+	    		new Thread(concatTask).start();
+			}
+		}
 		
 		String name = nameList.getItems().get(_index); //get the first name
 		try {setName(name);} 

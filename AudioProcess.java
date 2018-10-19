@@ -17,23 +17,17 @@ public class AudioProcess {
 	 */
 	public File concatenate(List<File> files) {
 		// process the files
-		String fileName = "";
 		List<File> newFiles = new ArrayList<>();
 		for (int i=0; i<files.size(); i++) {
-			//Build output file
-			File file = files.get(i);
-			fileName = fileName + Main.getName(file.getName()) + ",";
-			
 			//Remove silence
-			newFiles.add(normalize(removeSilence(file)));
+			newFiles.add(normalize(removeSilence(files.get(i))));
 		}
-		fileName = fileName.substring(0,fileName.length()-1);
-
-		String output = makeFolders(fileName);
-		File concatFile = new File(output + Main.SEP + fileName+ ".wav");
+		String fileName = getConcatFile(files);
+		String textName = fileName.substring(0, fileName.length()-1) + ".txt";
+		File concatFile = new File(fileName);
 		
 		// Make text file list from list of files
-		File textFile = new File(output + Main.SEP + fileName + ".txt");
+		File textFile = new File(textName);
 		buildList(newFiles, textFile);
 		
 		// Concatenate and normalise loudness
@@ -177,6 +171,24 @@ public class AudioProcess {
 		} catch (InterruptedException e) {
 			System.out.println("Error: Interrupted");
 		}
+	}
+	
+	/**
+	 * Gets the concatenated file path given a list of files
+	 * @param files
+	 * @return the file path to the concatenated file
+	 */
+	public String getConcatFile(List<File> files) {
+		String fileName = "";
+		for (int i=0; i<files.size(); i++) {
+			//Build output file
+			File file = files.get(i);
+			fileName = fileName + Main.getName(file.getName()) + ",";
+		}
+		fileName = fileName.substring(0,fileName.length()-1);
+		String output = makeFolders(fileName);
+		String concatFile = output + Main.SEP + fileName+ ".wav";
+		return concatFile;
 	}
 
 }
