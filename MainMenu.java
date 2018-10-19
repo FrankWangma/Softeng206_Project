@@ -38,6 +38,10 @@ public class MainMenu extends AbstractController{
 		switchScenes("HelpScreen.fxml", _rootPane);
 	}
 
+	/**
+	 * This method handles the rewards button when its pressed
+	 * @throws IOException
+	 */
 	@FXML public void rewardsButton() throws IOException {
 		//Open rewards screen
 		// open a new window
