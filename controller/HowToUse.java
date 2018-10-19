@@ -26,7 +26,7 @@ public class HowToUse extends AbstractController{
 	
 	@Override
 	protected void customInit() {
-		
+		//Empty (don't need anything here)
 	}
 	
 	

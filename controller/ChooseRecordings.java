@@ -92,6 +92,7 @@ public class ChooseRecordings extends AbstractController{
 	 * @throws IOException
 	 */
 	@FXML public void pressedNextButton() throws IOException {
+		// Get the items from the list view and check if the names exist
 		ObservableList<String> listOfNames = confirmListView.getItems();
 		for (String name: listOfNames) {
 			Boolean shouldBeAdded = checkIfNameExists(name);
@@ -105,6 +106,7 @@ public class ChooseRecordings extends AbstractController{
 					"Would you like to randomize recordings?");
 			Optional<ButtonType> result = randomizeConfirm.showAndWait();
 			
+			//Shuffle the list if the user wanted to
 			if (result.isPresent() && result.get() == ButtonType.OK) {
 				Collections.shuffle(_selected);
 			}
@@ -132,20 +134,24 @@ public class ChooseRecordings extends AbstractController{
 			BufferedReader br = new BufferedReader(new FileReader(selectedFile));
 			String currentLine;
 			List<String> names = new ArrayList<String>();
+			
 			// read the text file
 		 	while ((currentLine = br.readLine()) != null) {
 		 		//check if the name is actually in the database
 		 		currentLine = currentLine.trim();
 		 		if (checkIfNameExists(currentLine)) {
 		 			String[] splitted = currentLine.split("\\s+");
-		 			String capitalizedName = "";
+		 			
 		 			//Capitalize the name
+		 			String capitalizedName = "";
 		 	        for(String name: splitted) {
 		 	        	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
 		 	    				name.substring(1).toLowerCase();
 		 	        }
+		 	        
 		 	        //trim any space
 		 	        capitalizedName = capitalizedName.trim();
+		 	        
 		 	        //check if the name is repeated or not
 		 	        if(!names.contains(capitalizedName)) {
 		 	        	names.add(capitalizedName);
@@ -160,7 +166,8 @@ public class ChooseRecordings extends AbstractController{
 		 	
 		 	//show an error if there are some names that did not exist
 		 	if(inexistantNames != null && inexistantNames.size() != 0) {
-		 		Alert alert = new Alert(AlertType.ERROR, "The following names did not exist (or were repeated) and will not be displayed: \n"
+		 		Alert alert = new Alert(AlertType.ERROR, "The following names did not exist "
+		 				+ "(or were repeated) and will not be displayed: \n"
 		 				+ inexistantNames, ButtonType.OK);
 		 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		 		alert.showAndWait();
@@ -171,7 +178,6 @@ public class ChooseRecordings extends AbstractController{
 		 		Alert alert = new Alert(AlertType.ERROR, "Text file was empty or names didn't exist", ButtonType.OK);
 		 		alert.showAndWait();
 		 	} else {
-		 		
 		 		confirmListView.getItems().addAll(Main.removeRedundant(names));
 		 	}
 		 
@@ -193,12 +199,10 @@ public class ChooseRecordings extends AbstractController{
 	            // if the user inputed any name
 	            if(AddCustomName.nameExists && AddCustomName._name != null) {
 	            	if(AddCustomName._name.trim() != "") {
-	            		
 	            	     confirmListView.getItems().add(AddCustomName._name);
-				           nextButton.setDisable(false);
+				         nextButton.setDisable(false);
 	            	}
 	            }
-	            
 	        }
 	        catch (IOException e) {
 	            e.printStackTrace();
@@ -235,7 +239,6 @@ public class ChooseRecordings extends AbstractController{
 				shouldBeAdded = false;
 			}
 		}
-		
 		return shouldBeAdded;
 	}
 
@@ -249,11 +252,9 @@ public class ChooseRecordings extends AbstractController{
 		        if (newValue == null || newValue.isEmpty()) {
 		            return true;
 		        }
-
 		        if (element.toLowerCase().startsWith(newValue.toLowerCase())) {
 		            return true; // Filter matches
 		        }
-
 		        return false; // Does not match
 		    });
 		  

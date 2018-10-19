@@ -287,6 +287,7 @@ public class HelpScreen extends AbstractController {
 			textName = "volume.txt";
 		}
 		try {
+			
 			fw = new FileWriter(Main.WORK_DIR + Main.SEP + textName, false);
 			bw = new BufferedWriter(fw);
 			bw.write(text);

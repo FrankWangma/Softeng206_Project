@@ -13,11 +13,19 @@ public class AudioFile {
 	private String _fileName; // what is the file called
 	private String _dispName; // what is the name to be displayed
 	
+	/**
+	 * Constructor for the AudioFile class
+	 * @param fileName
+	 */
 	public AudioFile(String fileName) {
 		_fileName = fileName;
 		_dispName = getDispName(fileName);
 	}
 	
+	/**
+	 * Getter method for the file name
+	 * @return
+	 */
 	public String getFile() {
 		return _fileName;
 	}

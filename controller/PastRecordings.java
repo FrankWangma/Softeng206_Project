@@ -33,7 +33,7 @@ public class PastRecordings extends AbstractController {
 	@FXML private Label toggleLabel;
 	
 	/**
-	 * User presses play.
+	 * This method handles the event for when the user pressed the Play button
 	 */
 	@FXML protected void handlePlaySelected() {
 		int selectedIndex = viewPastRecordings.getSelectionModel().getSelectedIndex();
@@ -61,7 +61,7 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
-	 * User presses play from the database.
+	 * This method handles the event for when the user presses the Play Database button
 	 */
 	@FXML protected void handlePlayDatabase() {
 		// Set all buttons to disabled
@@ -75,15 +75,16 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
-	 * User presses Back; go back to PlayRecordings screen.
+	 * This method handles the event for when the user presses the back button
 	 * @throws IOException
 	 */
 	@FXML protected void handleBack() throws IOException {
+		//Go back to the play recordings screen
 		switchScenes("PlayRecordings.fxml", _rootPane);
 	}
 	
 	/**
-	 * User presses compare.
+	 * This method handles the event for when the user presses the Compare Button
 	 */
 	@FXML protected void handleCompare() {
 		int selectedIndex = viewPastRecordings.getSelectionModel().getSelectedIndex();
@@ -98,6 +99,7 @@ public class PastRecordings extends AbstractController {
 						Main.SEP + viewPastRecordings.getSelectionModel().getSelectedItem().getFile() +
 						"\" &> /dev/null";
 			}
+			// Run the command in a background thread
 			String cmd = database + ";" + user;
 			Background background = new Background();
 			background.setcmd(cmd);
@@ -107,9 +109,10 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
-	 * User switches to database list.
+	 * This method handles the event for when the user presses the Database Button
 	 */
 	@FXML protected void handleToggleDatabase() {
+		//Change to the database list
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getDatabaseRecordings());
 		isUser = false;
@@ -120,9 +123,10 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
-	 * User switches to user list.
+	 * This method handles the event for when the user presses the User button
 	 */
 	@FXML protected void handleToggleUser() {
+		//Change to the user list
 		viewPastRecordings.getItems().clear();
 		viewPastRecordings.getItems().addAll(getUserRecordings());
 		isUser = true;
@@ -133,7 +137,7 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
-	 * Looks at the user folder for recordings.
+	 * This method looks at the user folder of the current name for recordings.
 	 * @return A list of the user recording files
 	 */
 	private List<AudioFile> getUserRecordings() {
@@ -150,7 +154,7 @@ public class PastRecordings extends AbstractController {
 	}
 	
 	/**
-	 * Looks at the name folder for database recordings.
+	 * This method looks at the name folder for database recordings.
 	 * @return A list of the database recording files
 	 */
 	private List<AudioFile> getDatabaseRecordings() {
@@ -168,6 +172,7 @@ public class PastRecordings extends AbstractController {
 	
 	@Override
 	public void customInit() {
+		// add the names list to the list view
 	 	viewPastRecordings.getItems().addAll(getUserRecordings());
 		viewPastRecordings.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}

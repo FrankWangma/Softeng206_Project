@@ -60,12 +60,18 @@ public abstract class AbstractController {
 	 */
 	public class Background extends Task<Void>{
 		private String _cmd;
+		/**
+		 * This method uses the background thread to prevent the freezing of the GUI
+		 */
 		@Override
 		protected Void call() throws Exception {
 			bash(_cmd);
 			return null;
 		}
 		
+		/**
+		 * This method is run after call() is done running
+		 */
 		@Override
 		protected void done() {
 			Platform.runLater(new Runnable() {
@@ -73,7 +79,6 @@ public abstract class AbstractController {
 				public void run() {
 					enableButtons();
 				}
-				
 			});
 		}
 		
@@ -100,6 +105,7 @@ public abstract class AbstractController {
 				if(exitStatus!=0) {
 					return;
 				}
+				
 			} catch (IOException e) {
 				System.out.println("Error: Invalid command");
 			} catch (InterruptedException e) {
@@ -127,6 +133,7 @@ public abstract class AbstractController {
 		//load css file
 		 _rootPane.getStylesheets().clear();
 		 File theme = new File(Main.WORK_DIR + Main.SEP + "theme.txt");
+		 
 			BufferedReader br1;
 			try {
 				br1 = new BufferedReader(new FileReader(theme));
@@ -139,6 +146,7 @@ public abstract class AbstractController {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} 
+			// Call the custom intialise of the class
 			customInit();
 	}
 	

@@ -27,6 +27,7 @@ public class AddCustomName extends AbstractController{
 	 */
 	@FXML public void addButtonListener() {
 		_name = _customName.getText().trim();
+		
 		// if the user inputed any name
         if(_name != null && !_name.isEmpty()) {
         	String newName = checkIfNameExists(_name);
@@ -38,13 +39,18 @@ public class AddCustomName extends AbstractController{
 	            alert.showAndWait();
 			} 
         }
+        
+        // trim and capitalize the name that the user has added
         String[] splitted = _customName.getText().trim().split("\\s+");
         String capitalizedName = "";
         for(String name: splitted) {
         	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
     				name.substring(1).toLowerCase();
         }
+        // trim it again just to make sure it has no spaces at the ends
 		_name = capitalizedName.trim();
+		
+		// close the window
 		cancelButtonListener();
 	}
 	
@@ -56,8 +62,10 @@ public class AddCustomName extends AbstractController{
 	public String checkIfNameExists(String name) {
 		name = name.trim();
 		String newName = "";
+		
 		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");
+		
 		for (String partOfName : splitted) {
 			// If the names list contains the name
 			if (!containsCaseInsensitive(partOfName, Main.getNames())) {
@@ -73,6 +81,7 @@ public class AddCustomName extends AbstractController{
 	 * This method handles the event for when the cancel button is pressed
 	 */
 	@FXML public void cancelButtonListener() {
+		// clear the textfield and close the window
 		_customName.clear();
 		Stage stage = (Stage) _cancelButton.getScene().getWindow();
 		stage.close();

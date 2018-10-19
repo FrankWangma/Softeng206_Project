@@ -47,7 +47,9 @@ public class Main extends Application {
         }
      };
 	
-	
+	/**
+	 * This method executes when the application is launched
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		makeDatabase();
@@ -56,7 +58,6 @@ public class Main extends Application {
 			if (!theme.exists()) {
 				HelpScreen.writeToText("application.css", true);
 			}
-			//getResources();
 			
 			primaryStage.setTitle("Name Sayer");
 			FXMLLoader loader = new FXMLLoader();
@@ -71,19 +72,6 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void getResources() {
-		InputStream res = Main.class.getResourceAsStream("/resources.txt");
-		BufferedReader r = new BufferedReader(new InputStreamReader(res));
-		String line = null;
-		try {
-			while ((line = r.readLine()) != null) {
-				System.out.println(line);
-			}
-		} catch (IOException e) {e.printStackTrace();}
-		try {r.close();}
-		catch (IOException e) {e.printStackTrace();}
 	}
 	
 	/**
@@ -175,6 +163,9 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * This method creates the unlock reward file
+	 */
 	public static void setUnlockRewardFile() {
 		// Write name to file
 		BufferedWriter bw = null;
@@ -209,14 +200,26 @@ public class Main extends Application {
 		return existingNames;
 	}
 
+	/**
+	 * Getter method for the names list
+	 * @return
+	 */
 	public static List<String> getNames() {
 		return _names;
 	}
 
+	/**
+	 * Getter method for the File Name Filter
+	 * @return
+	 */
 	public static FilenameFilter getFilter() {
 		return _filter;
 	}
 
+	/**
+	 * Start the application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
