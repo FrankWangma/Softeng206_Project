@@ -16,9 +16,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -28,7 +25,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class ChooseRecordings extends AbstractController{
 	static List<String> _selected = new ArrayList<String>();
@@ -192,11 +188,7 @@ public class ChooseRecordings extends AbstractController{
 	@FXML public void addNameButtonListener() {
 	        try {
 	        	// open a new window
-	        	Parent pane = FXMLLoader.load(getClass().getResource("AddCustomName.fxml"));
-	            Stage stage = new Stage();
-	            stage.setTitle("Add Custom Name");
-	            stage.setScene(new Scene(pane));
-	            stage.showAndWait();
+	        	openWindow("AddCustomName.fxml", "Add Custom Name");
 	            
 	            // if the user inputed any name
 	            if(AddCustomName.nameExists && AddCustomName._name != null) {
