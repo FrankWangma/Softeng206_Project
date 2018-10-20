@@ -8,4 +8,7 @@ Unpack the contents of the .zip file to an empty directory.
 
 To add recordings to the database, place the name files into the "input" folder. These should be .wav files.
 
-Double click the NameSayer.bat file to run the program.
+Open a command window in the same place as "NameSayer.jar". Type "./run.sh" (without quotes) in the command line 
+to run the program.
+
+For more information, refer to the user mannual.
