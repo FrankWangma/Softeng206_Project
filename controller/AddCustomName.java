@@ -96,7 +96,7 @@ public class AddCustomName extends AbstractController{
 		_customName.textProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(observable.getValue() == null  ||observable.getValue().isEmpty()) {
+                if(observable.getValue() == null  ||observable.getValue().isEmpty() || observable.getValue().matches("\\s*")) {
                 	_addButton.setDisable(true);
                 } else {
                 	_addButton.setDisable(false);
