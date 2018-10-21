@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 /**
@@ -33,10 +34,11 @@ public class AddCustomName extends AbstractController{
         	String newName = checkIfNameExists(_name);
         	//Check if the name exists
 			if(!nameExists) {
-				_name = "";
-				Alert alert = new Alert(AlertType.ERROR , "\"" + newName + "\" does not exist", 
+				Alert alert = new Alert(AlertType.ERROR , newName + "in " + _name + " does not exist", 
 						ButtonType.OK);
+				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 	            alert.showAndWait();
+	            _name = "";
 			} 
         }
         
@@ -64,16 +66,16 @@ public class AddCustomName extends AbstractController{
 		
 		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");
-		
+		String inexistantName = "";
 		for (String partOfName : splitted) {
 			// If the names list contains the name
 			if (!containsCaseInsensitive(partOfName, Main.getNames())) {
-				partOfName = "\"" + partOfName + "\"";
+				inexistantName += "\"" + partOfName + "\" ";
 				nameExists = false;
 			}
 		}
 		
-		return name;
+		return inexistantName;
 	}
 	
 	/**
