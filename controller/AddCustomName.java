@@ -61,7 +61,6 @@ public class AddCustomName extends AbstractController{
 	 */
 	public String checkIfNameExists(String name) {
 		name = name.trim();
-		String newName = "";
 		
 		//use regex to split the whitespace in the name 
 		String[] splitted = name.split("\\s+");
@@ -74,7 +73,7 @@ public class AddCustomName extends AbstractController{
 			}
 		}
 		
-		return newName;
+		return name;
 	}
 	
 	/**
