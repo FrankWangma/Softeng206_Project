@@ -43,19 +43,20 @@ public class AddCustomName extends AbstractController{
 				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 	            alert.showAndWait();
 	            _name = "";
-			} 
+			}  else {
+				   // trim and capitalize the name that the user has added
+		        String[] splitted = _customName.getText().trim().split("\\s+");
+		        String fullName = "";
+		        for(String name: splitted) {
+		        	//pull the name from the database
+		        	fullName += " " + Main.getNames().get(lowerCaseNames.indexOf(name.toLowerCase())) ;
+		        }
+		        // trim it again just to make sure it has no spaces at the ends
+				_name = fullName.trim();
+			}
         }
         
-        // trim and capitalize the name that the user has added
-        String[] splitted = _customName.getText().trim().split("\\s+");
-        String fullName = "";
-        for(String name: splitted) {
-        	//pull the name from the database
-        	fullName += " " + Main.getNames().get(lowerCaseNames.indexOf(name.toLowerCase())) ;
-        }
-        // trim it again just to make sure it has no spaces at the ends
-		_name = fullName.trim();
-		
+        
 		// close the window
 		cancelButtonListener();
 	}
