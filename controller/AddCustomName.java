@@ -1,5 +1,8 @@
 package application.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import application.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +25,7 @@ public class AddCustomName extends AbstractController{
 	@FXML private TextField _customName;
 	protected static Boolean nameExists = true;
 	protected static String _name;
+	private List<String> lowerCaseNames = new ArrayList<String>(Main.getNames());
 	
 	/**
 	 * This method handles the event when the add button is pressed
@@ -44,13 +48,13 @@ public class AddCustomName extends AbstractController{
         
         // trim and capitalize the name that the user has added
         String[] splitted = _customName.getText().trim().split("\\s+");
-        String capitalizedName = "";
+        String fullName = "";
         for(String name: splitted) {
-        	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
-    				name.substring(1).toLowerCase();
+        	//pull the name from the database
+        	fullName += " " + Main.getNames().get(lowerCaseNames.indexOf(name.toLowerCase())) ;
         }
         // trim it again just to make sure it has no spaces at the ends
-		_name = capitalizedName.trim();
+		_name = fullName.trim();
 		
 		// close the window
 		cancelButtonListener();
@@ -104,5 +108,7 @@ public class AddCustomName extends AbstractController{
                 }
             }
         });
+		
+		lowerCaseNames.replaceAll(String::toLowerCase);
 	}
 }
