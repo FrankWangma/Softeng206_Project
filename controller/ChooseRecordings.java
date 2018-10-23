@@ -41,6 +41,7 @@ public class ChooseRecordings extends AbstractController{
 	@FXML private Button selectFileButton;
 	@FXML private Button addCustomNameButton;
 	@FXML private static String addName;
+	private List<String> lowerCaseNames = new ArrayList<String>(Main.getNames());
 	private ObservableList<String> selectionList;
 	private FilteredList<String> filteredList;
 	
@@ -145,8 +146,7 @@ public class ChooseRecordings extends AbstractController{
 		 			//Capitalize the name
 		 			String capitalizedName = "";
 		 	        for(String name: splitted) {
-		 	        	capitalizedName = capitalizedName + " " + name.substring(0, 1).toUpperCase() + 
-		 	    				name.substring(1).toLowerCase();
+		 	        	capitalizedName += " " + Main.getNames().get(lowerCaseNames.indexOf(name.toLowerCase())) ;;
 		 	        }
 		 	        
 		 	        //trim any space
@@ -288,6 +288,8 @@ public class ChooseRecordings extends AbstractController{
 				   	Collections.sort(selectionList);
 				}
 			});
+		
+		lowerCaseNames.replaceAll(String::toLowerCase);
 		
 		setFilterList();
 	}
