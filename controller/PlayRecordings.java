@@ -30,7 +30,7 @@ public class PlayRecordings extends AbstractController{
 	private File _quality;
 	boolean _isBad; // is it marked as bad quality
 	boolean _isConcat; // is it a combined file
-	int _index; // index of the list we are on
+	static int _index = 0; // index of the list we are on
 	
 	@FXML private Label currentName;
 	@FXML private Button buttonPlay;
@@ -151,6 +151,7 @@ public class PlayRecordings extends AbstractController{
 	 */
 	@FXML protected void backToMainMenu() throws IOException {
 		nameList.getItems().clear();
+		_index = 0;
 		switchScenes("MainMenu.fxml", _rootPane);
 	}
 	
@@ -330,7 +331,6 @@ public class PlayRecordings extends AbstractController{
 	@Override
 	public void customInit() {
 		nameList.getItems().addAll(ChooseRecordings._selected);
-		_index = 0;
 		nameList.getSelectionModel().select(_index);
 		
 		//concatenate any combined files
